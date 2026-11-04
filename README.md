@@ -4,11 +4,15 @@
 
 Artrelo helps landlords and property managers turn unstructured tenant reports into coordinated maintenance work. Iris interprets reports, reviews itemized costs and helps explain or propose changes to operational Policy. The surrounding software owns identity, scope, safety, revision checks, spending approvals and visit consent.
 
-**Meta Global AI Developer Hackathon — October26–November4,2026.** This is an accepted source checkpoint, not a completed recording or production-readiness certificate. The project extends a pre-existing product; the contribution breakdown below explains the difference.
+**Meta Global AI Developer Hackathon — October26–November4,2026.** This is an accepted source checkpoint, not a production-readiness certificate. The project extends a pre-existing product; the contribution breakdown below explains the difference.
 
-## Watch the demo
+## Demo video
 
-**Video and hosted demo: pending a qualified owner-approved take and publication decisions.** No fabricated video link, screenshot, public judge account or deployment is supplied. Local synthetic exploration is documented in [the local setup guide](docs/PUBLIC_LOCAL_SETUP.md).
+[Watch the Artrelo demo on YouTube](https://youtu.be/EVId4MG_Aeg)
+
+Video URL: https://youtu.be/EVId4MG_Aeg
+
+**Hosted demo: pending.** Local synthetic exploration is documented in [the local setup guide](docs/PUBLIC_LOCAL_SETUP.md).
 
 ## Built during the hackathon
 
@@ -98,7 +102,7 @@ The backend's generic `npm test` is a signup integration helper, not the maintai
 
 ## Current limitations
 
-- **Hosted demo and final video pending.** Local instructions are synthetic/offline and are not proof of live Muse Spark output or authenticated hosted access.
+- **Hosted demo pending.** The owner-provided recording is linked above. Local instructions remain synthetic/offline and do not establish authenticated hosted access.
 - Vendors are simulated. Wallet values, including illustrative CAD240 `pending_manual` with null bank reference, are synthetic: no bank transfer, paid status or physical-repair proof is implied.
 - Human financial/scope decisions, Policy confirmation and vendor/tenant visit consent remain separate. A later default quota does not rewrite a previously submitted quote ceiling.
 - Historical browser/focus/large-text findings remain qualified; source/unit checks do not prove native zoom, touch, screen-reader or every current rendered flow.
