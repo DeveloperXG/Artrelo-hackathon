@@ -1,0 +1,102 @@
+/* D3 geometry follows the available page column when Iris is docked. */
+.lichen-d3 [data-slot='badge'] {
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+/* Root-text enlargement grows the text, while nested inset spacing stays at
+   its original pixel size so several card levels cannot squeeze labels out. */
+.lichen-d3 :is(.p-3, .px-3) { padding-inline: min(0.75rem, 12px); }
+.lichen-d3 .p-3 { padding-block: min(0.75rem, 12px); }
+.lichen-d3 :is(.p-4, .px-4) { padding-inline: min(1rem, 16px); }
+.lichen-d3 .p-4 { padding-block: min(1rem, 16px); }
+.lichen-d3 :is(.p-5, .px-5) { padding-inline: min(1.25rem, 20px); }
+.lichen-d3 .p-5 { padding-block: min(1.25rem, 20px); }
+.lichen-d3 .gap-2 { gap: min(0.5rem, 8px); }
+.lichen-d3 .gap-3 { gap: min(0.75rem, 12px); }
+.lichen-d3 .gap-4 { gap: min(1rem, 16px); }
+.lichen-d3 [data-slot='button'] { padding-inline: min(0.75rem, 12px); }
+.lichen-d3 [data-slot='button'] > svg { width: min(1rem, 16px); height: min(1rem, 16px); }
+.lichen-d3 .d3-decision-row {
+  grid-template-columns: minmax(0, 1fr);
+  overflow-wrap: anywhere;
+}
+.lichen-d3 .d3-decision-timing {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+.lichen-d3 .d3-decision-next {
+  border-left: 0;
+  padding-left: 0;
+}
+.lichen-d3 .d3-approval-row {
+  flex-direction: column;
+  overflow-wrap: anywhere;
+}
+.lichen-d3 .d3-section-card > div:first-child .h-10.w-10 {
+  border-radius: 6px;
+  background-color: var(--role-chip) !important;
+  color: var(--role-chip-icon) !important;
+}
+.lichen-d3 .d3-section-card > div:first-child .min-w-min {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.lichen-d3[data-testid='detail-manual-assignment-modal'],
+.lichen-d3[data-testid='detail-delete-modal'] {
+  padding: min(1rem, 16px);
+  overflow-wrap: anywhere;
+}
+.lichen-d3[data-testid='detail-manual-assignment-modal'] .px-6,
+.lichen-d3[data-testid='detail-delete-modal'] .px-6,
+.lichen-d3[data-slot='dialog-content'] .px-6 {
+  padding-inline: min(1.5rem, 24px);
+}
+.lichen-d3[data-slot='dialog-content']:not(.p-0),
+.lichen-d3[data-slot='alert-dialog-content'] {
+  padding: min(1.5rem, 24px);
+  overflow-wrap: anywhere;
+}
+/* One scroll surface keeps the form and its actions reachable when enlarged
+   text makes the header/footer taller than the viewport. */
+.lichen-d3[data-testid='detail-manual-assignment-modal'] > div,
+.lichen-d3[data-testid='detail-delete-modal'] > div {
+  display: block;
+  max-height: calc(100dvh - 2rem);
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.lichen-d3[data-testid='detail-manual-assignment-modal'] > div > div:last-child,
+.lichen-d3[data-testid='detail-delete-modal'] > div > div:last-child {
+  flex-wrap: wrap;
+}
+.lichen-d3[data-slot='dialog-content'].flex.p-0 {
+  display: block;
+  overflow-y: auto;
+}
+.lichen-d3 .decision-pulse {
+  animation: none !important;
+  box-shadow: none !important;
+  border-color: var(--role-lichen-icon) !important;
+  outline: 2px solid var(--role-lichen-icon);
+  outline-offset: 2px;
+}
+@container page (min-width: 68rem) {
+  .lichen-d3 .d3-decision-row {
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 0.55fr) minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .lichen-d3 .d3-decision-timing {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+  .lichen-d3 .d3-decision-next {
+    border-left: 1px solid var(--role-hairline);
+    padding-left: 1rem;
+  }
+  .lichen-d3 .d3-approval-row {
+    flex-direction: row;
+  }
+}

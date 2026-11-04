@@ -1,0 +1,18 @@
+const assert = require('assert/strict');
+const { activityActor } = require('../../../services/request/activityActor.service');
+const { auditEvent } = require('../../../services/request/irisActivityProjection.service');
+assert.equal(activityActor({ actor: 'ai_agent', actionType: 'legacy_freeform' }).actorKind, 'unknown');
+assert.equal(activityActor({ actor: 'ai_agent', actionType: 'vendor_recommendations_generated' }).actorKind, 'automation');
+assert.equal(activityActor({ actor: 'ai_agent', actionType: 'request_triaged', output: { triageSource: 'meta' } }).actorKind, 'unknown', 'unverified old source cannot establish a model actor');
+assert.equal(activityActor({ actor: 'ai_agent', actionType: 'request_triaged', output: { triageSource: 'meta', triageVerified: true } }).actorKind, 'ai_triage');
+assert.equal(activityActor({ actor: 'ai_agent', actionType: 'request_triaged', output: { triageSource: 'deterministic', triageVerified: true } }).provenance.kind, 'fallback');
+const human = activityActor({ actor: 'landlord', actionType: 'policy_changed', metadata: { origin: 'iris_confirmed', judgeSimulation: { version: 1, pairId: 'pair', vendorId: 'vendor' } } });
+assert.equal(human.actorKind, 'landlord');assert.equal(human.simulated, false);assert.equal(human.provenance.label, 'Human confirmed; Iris assisted');
+const simulated = activityActor({ actor: 'vendor', metadata: { judgeSimulation: { version: 1, pairId: 'pair', vendorId: 'vendor' } } });
+assert.equal(simulated.actorKind, 'simulated_vendor');assert.equal(simulated.provenance.kind, 'simulation');
+assert.equal(activityActor({ actor: 'vendor', metadata: { judgeSimulation: { version: 0 } } }).simulated, false);
+const event = auditEvent({ _id: 'fixture', requestId: 'request', actor: 'ai_agent', actionType: 'vendor_outreach_sent', createdAt: new Date(), output: { provider: 'judge_simulation' }, metadata: { arbitraryPrivate: 'do-not-forward' } });
+assert.equal(event.actor, 'Iris', 'legacy display field retained for compatibility');assert.equal(event.actorLabel, 'Automation');
+assert.equal(event.title, 'Simulated: Vendor outreach delivered to provider');assert.equal(event.summary.includes('No real message'), true);
+assert.equal(JSON.stringify(event).includes('do-not-forward'), false);
+console.log('PASS activity actors: known rules vs verified AI, historical gaps unknown, explicit simulation, human policy ownership and safe additive fields.');

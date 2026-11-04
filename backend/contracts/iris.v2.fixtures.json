@@ -1,0 +1,3970 @@
+{
+  "contractVersion": 2,
+  "qualification": "SYNTHETIC CONTRACT FIXTURES ONLY; no runtime/AI proof; token is intentionally fake",
+  "conversation": {
+    "conversationId": "conv_fixture",
+    "createdAt": "2026-10-29T18:00:00.000Z",
+    "idleExpiresAt": "2026-10-29T18:30:00.000Z",
+    "absoluteExpiresAt": "2026-10-29T20:00:00.000Z",
+    "limits": {
+      "maxMessageChars": 2000,
+      "maxTurns": 20
+    },
+    "serverTime": "2026-10-29T18:00:00.000Z"
+  },
+  "accepted": {
+    "turnId": "turn_history",
+    "status": "accepted",
+    "origin": {
+      "segmentId": "seg_fixture_request",
+      "contextGeneration": 0,
+      "requestContextId": "6ae2bfbed3d03df77beb5eee",
+      "contextKind": "request",
+      "contextLabel": "Synthetic maintenance request"
+    },
+    "serverTime": "2026-10-29T18:00:00.000Z"
+  },
+  "history": {
+    "schemaVersion": 2,
+    "turnId": "turn_history",
+    "conversationId": "conv_fixture",
+    "origin": {
+      "segmentId": "seg_fixture_request",
+      "contextGeneration": 0,
+      "requestContextId": "6ae2bfbed3d03df77beb5eee",
+      "contextKind": "request",
+      "contextLabel": "Synthetic maintenance request"
+    },
+    "trimmedSegmentIds": [],
+    "status": "completed",
+    "activities": [],
+    "answer": {
+      "blocks": [
+        {
+          "id": "b_cost",
+          "kind": "cost_table",
+          "sourceType": "account_record",
+          "caption": "Original quote and final charges",
+          "columns": [
+            "Original quote",
+            "Final charges"
+          ],
+          "rows": [
+            {
+              "label": "Itemized total",
+              "cells": [
+                {
+                  "text": "CAD177.49",
+                  "minor": 17749,
+                  "currency": "CAD",
+                  "factIds": [
+                    "f_quote"
+                  ],
+                  "evidenceRefs": [
+                    "ev_quote"
+                  ]
+                },
+                {
+                  "text": "CAD240.00",
+                  "minor": 24000,
+                  "currency": "CAD",
+                  "factIds": [
+                    "f_final"
+                  ],
+                  "evidenceRefs": [
+                    "ev_final"
+                  ]
+                }
+              ]
+            }
+          ],
+          "footerRows": [
+            {
+              "label": "Difference",
+              "cells": [
+                {
+                  "text": "CAD62.51",
+                  "minor": 6251,
+                  "currency": "CAD",
+                  "factIds": [
+                    "f_final"
+                  ],
+                  "evidenceRefs": [
+                    "ev_final"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "evidence": [
+        {
+          "ref": "ev_quote",
+          "kind": "quote_revision",
+          "recordId": "ev_quote",
+          "requestId": "6ae2bfbed3d03df77beb5eee",
+          "routeKind": "request_current",
+          "publicRouteKind": null,
+          "lastVerifiedAt": null,
+          "revision": 1,
+          "hash": null,
+          "occurredAt": "2026-10-29T18:00:00.000Z",
+          "label": "Original itemized quote"
+        },
+        {
+          "ref": "ev_final",
+          "kind": "final_statement",
+          "recordId": "ev_final",
+          "requestId": "6ae2bfbed3d03df77beb5eee",
+          "routeKind": "request_current",
+          "publicRouteKind": null,
+          "lastVerifiedAt": null,
+          "revision": 1,
+          "hash": null,
+          "occurredAt": "2026-10-29T18:00:00.000Z",
+          "label": "Final itemized charges"
+        }
+      ],
+      "coverage": "complete",
+      "source": "offline_stub",
+      "model": null,
+      "observedAt": "2026-10-29T18:00:00.000Z"
+    },
+    "preview": null,
+    "confirmationToken": null,
+    "error": null,
+    "serverTime": "2026-10-29T18:00:00.000Z"
+  },
+  "help": {
+    "schemaVersion": 2,
+    "turnId": "turn_help",
+    "conversationId": "conv_fixture",
+    "origin": {
+      "segmentId": "seg_fixture_account",
+      "contextGeneration": 1,
+      "requestContextId": null,
+      "contextKind": "account",
+      "contextLabel": "Your account policy"
+    },
+    "trimmedSegmentIds": [],
+    "status": "completed",
+    "activities": [],
+    "answer": {
+      "blocks": [
+        {
+          "id": "b_guide",
+          "kind": "paragraph",
+          "sourceType": "product_guide",
+          "text": "Auto-contact next vendor can advance after a decline or no response when your settings and the required reviews allow it.",
+          "factIds": [
+            "f_guide"
+          ],
+          "evidenceRefs": [
+            "ev_guide"
+          ]
+        },
+        {
+          "id": "b_setting",
+          "kind": "facts",
+          "sourceType": "account_record",
+          "title": "Your current setting",
+          "rows": [
+            {
+              "label": "Vendor auto-contact",
+              "value": "Your saved Auto-contact next vendor setting is On. Max vendors contacted per request: 3.",
+              "factIds": [
+                "f_setting"
+              ],
+              "evidenceRefs": [
+                "ev_policy"
+              ]
+            }
+          ]
+        }
+      ],
+      "evidence": [
+        {
+          "ref": "ev_guide",
+          "kind": "help_article",
+          "recordId": "policy-auto-next-vendor",
+          "requestId": null,
+          "routeKind": "help_context",
+          "publicRouteKind": "policy",
+          "lastVerifiedAt": "2026-10-29T18:00:00.000Z",
+          "revision": 1,
+          "hash": null,
+          "occurredAt": "2026-10-29T18:00:00.000Z",
+          "label": "Auto-contact next vendor"
+        },
+        {
+          "ref": "ev_policy",
+          "kind": "policy_revision",
+          "recordId": "ev_policy",
+          "requestId": null,
+          "routeKind": "policy_current",
+          "publicRouteKind": null,
+          "lastVerifiedAt": null,
+          "revision": 4,
+          "hash": null,
+          "occurredAt": "2026-10-29T18:00:00.000Z",
+          "label": "Your saved Policy revision 4"
+        }
+      ],
+      "coverage": "complete",
+      "source": "offline_stub",
+      "model": null,
+      "observedAt": "2026-10-29T18:00:00.000Z"
+    },
+    "preview": null,
+    "confirmationToken": null,
+    "error": null,
+    "serverTime": "2026-10-29T18:00:00.000Z"
+  },
+  "preview": {
+    "schemaVersion": 2,
+    "turnId": "turn_preview",
+    "conversationId": "conv_fixture",
+    "origin": {
+      "segmentId": "seg_fixture_account",
+      "contextGeneration": 1,
+      "requestContextId": null,
+      "contextKind": "account",
+      "contextLabel": "Your account policy"
+    },
+    "trimmedSegmentIds": [],
+    "status": "completed",
+    "activities": [],
+    "answer": null,
+    "preview": {
+      "id": "pc_fixture",
+      "origin": {
+        "segmentId": "seg_fixture_account",
+        "contextGeneration": 1,
+        "requestContextId": null,
+        "contextKind": "account",
+        "contextLabel": "Your account policy"
+      },
+      "state": "preview_ready",
+      "basePolicyRevision": 4,
+      "appliedRevision": null,
+      "asOf": "2026-10-29T18:00:00.000Z",
+      "expiresAt": "2026-10-29T18:05:00.000Z",
+      "changes": [
+        {
+          "field": "defaultQuota",
+          "before": "CAD300.00",
+          "after": "CAD250.00"
+        },
+        {
+          "field": "allowAutopilotForLowSeverity",
+          "before": "On",
+          "after": "Off"
+        },
+        {
+          "field": "allowAutopilotForMediumSeverity",
+          "before": "Off",
+          "after": "On"
+        }
+      ],
+      "patchHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "impactHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "impactCounts": {
+        "eligible": 1,
+        "passed": 0,
+        "shadowed": 0,
+        "notApplicable": 1,
+        "unknown": 1
+      },
+      "impactCursor": null,
+      "impactComplete": true,
+      "stages": [
+        {
+          "stage": "preview",
+          "state": "completed",
+          "at": "2026-10-29T18:00:00.000Z"
+        },
+        {
+          "stage": "validate",
+          "state": "completed",
+          "at": "2026-10-29T18:00:00.000Z"
+        },
+        {
+          "stage": "confirm",
+          "state": "not_started",
+          "at": null
+        },
+        {
+          "stage": "execute",
+          "state": "not_started",
+          "at": null
+        },
+        {
+          "stage": "verify",
+          "state": "not_started",
+          "at": null
+        },
+        {
+          "stage": "audit",
+          "state": "not_started",
+          "at": null
+        }
+      ],
+      "verifiedValues": null,
+      "auditRef": null,
+      "refreshState": "not_required",
+      "errorCode": null
+    },
+    "confirmationToken": "1111111111111111111111111111111111111111111111111111111111111111",
+    "error": null,
+    "serverTime": "2026-10-29T18:00:00.000Z"
+  },
+  "applied": {
+    "id": "pc_fixture",
+    "origin": {
+      "segmentId": "seg_fixture_account",
+      "contextGeneration": 1,
+      "requestContextId": null,
+      "contextKind": "account",
+      "contextLabel": "Your account policy"
+    },
+    "state": "applied",
+    "basePolicyRevision": 4,
+    "appliedRevision": 5,
+    "asOf": "2026-10-29T18:00:00.000Z",
+    "expiresAt": "2026-10-29T18:05:00.000Z",
+    "changes": [
+      {
+        "field": "defaultQuota",
+        "before": "CAD300.00",
+        "after": "CAD250.00"
+      },
+      {
+        "field": "allowAutopilotForLowSeverity",
+        "before": "On",
+        "after": "Off"
+      },
+      {
+        "field": "allowAutopilotForMediumSeverity",
+        "before": "Off",
+        "after": "On"
+      }
+    ],
+    "patchHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "impactHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "impactCounts": {
+      "eligible": 1,
+      "passed": 0,
+      "shadowed": 0,
+      "notApplicable": 1,
+      "unknown": 1
+    },
+    "impactCursor": null,
+    "impactComplete": true,
+    "stages": [
+      {
+        "stage": "preview",
+        "state": "completed",
+        "at": "2026-10-29T18:00:00.000Z"
+      },
+      {
+        "stage": "validate",
+        "state": "completed",
+        "at": "2026-10-29T18:00:00.000Z"
+      },
+      {
+        "stage": "confirm",
+        "state": "completed",
+        "at": "2026-10-29T18:00:00.000Z"
+      },
+      {
+        "stage": "execute",
+        "state": "completed",
+        "at": "2026-10-29T18:00:00.000Z"
+      },
+      {
+        "stage": "verify",
+        "state": "completed",
+        "at": "2026-10-29T18:00:00.000Z"
+      },
+      {
+        "stage": "audit",
+        "state": "completed",
+        "at": "2026-10-29T18:00:00.000Z"
+      }
+    ],
+    "verifiedValues": {
+      "defaultQuotaMinor": 25000,
+      "lowAutopilot": false,
+      "mediumAutopilot": true
+    },
+    "auditRef": "audit_fixture",
+    "refreshState": "pending",
+    "errorCode": null
+  },
+  "unavailable": {
+    "schemaVersion": 2,
+    "turnId": "turn_unavailable",
+    "conversationId": "conv_fixture",
+    "origin": {
+      "segmentId": "seg_fixture_account",
+      "contextGeneration": 1,
+      "requestContextId": null,
+      "contextKind": "account",
+      "contextLabel": "Your account policy"
+    },
+    "trimmedSegmentIds": [],
+    "status": "unavailable",
+    "activities": [],
+    "answer": {
+      "blocks": [
+        {
+          "id": "b_notice",
+          "kind": "notice",
+          "sourceType": "system_notice",
+          "code": "unavailable",
+          "text": "Iris cannot interpret that right now. Your recorded facts remain available.",
+          "evidenceRefs": []
+        }
+      ],
+      "evidence": [],
+      "coverage": "unknown",
+      "source": "deterministic_records",
+      "model": null,
+      "observedAt": "2026-10-29T18:00:00.000Z"
+    },
+    "preview": null,
+    "confirmationToken": null,
+    "error": {
+      "code": "model_unavailable",
+      "message": "Iris is unavailable.",
+      "retryAfterSeconds": null
+    },
+    "serverTime": "2026-10-29T18:00:00.000Z"
+  },
+  "readonlyRefusal": {
+    "schemaVersion": 2,
+    "turnId": "turn_readonly",
+    "conversationId": "conv_fixture",
+    "origin": {
+      "segmentId": "seg_fixture_account",
+      "contextGeneration": 1,
+      "requestContextId": null,
+      "contextKind": "account",
+      "contextLabel": "Your account policy"
+    },
+    "trimmedSegmentIds": [],
+    "status": "refused",
+    "activities": [],
+    "answer": {
+      "blocks": [
+        {
+          "id": "b_notice",
+          "kind": "notice",
+          "sourceType": "system_notice",
+          "code": "unsupported_setting",
+          "text": "Iris cannot change this setting. You can review it on the Policy page.",
+          "evidenceRefs": []
+        }
+      ],
+      "evidence": [],
+      "coverage": "complete",
+      "source": "deterministic_records",
+      "model": null,
+      "observedAt": "2026-10-29T18:00:00.000Z"
+    },
+    "preview": null,
+    "confirmationToken": null,
+    "error": null,
+    "serverTime": "2026-10-29T18:00:00.000Z"
+  },
+  "impact": {
+    "previewId": "pc_fixture",
+    "asOf": "2026-10-29T18:00:00.000Z",
+    "rows": [
+      {
+        "requestRef": "req_pending",
+        "requestId": "6ae2bfbed3d03df77beb5eef",
+        "requestTitle": "Synthetic demo: pending quote",
+        "requestEvidenceRef": "ev_pending",
+        "field": "defaultQuota",
+        "checkpoint": "vendor_quote",
+        "disposition": "eligible_next",
+        "reasonCode": "quote_not_submitted",
+        "reasonLabel": "The next submitted quote will use the default quota.",
+        "oldEffectiveMinor": 30000,
+        "newEffectiveMinor": 25000,
+        "quotaSource": "default",
+        "basisRef": null,
+        "policyRevisionAtPass": null,
+        "nextActor": "vendor",
+        "observedVersion": "observed_fixture",
+        "observedAt": "2026-10-29T18:00:00.000Z"
+      }
+    ],
+    "nextCursor": null,
+    "complete": true
+  },
+  "evidenceViews": [
+    {
+      "evidence": {
+        "ref": "ev_quote",
+        "kind": "quote_revision",
+        "recordId": "ev_quote",
+        "requestId": "6ae2bfbed3d03df77beb5eee",
+        "routeKind": "request_current",
+        "publicRouteKind": null,
+        "lastVerifiedAt": null,
+        "revision": 1,
+        "hash": null,
+        "occurredAt": "2026-10-29T18:00:00.000Z",
+        "label": "Original itemized quote"
+      },
+      "facts": [
+        {
+          "factId": "f_quote",
+          "code": "f_quote",
+          "text": "Original quote: CAD177.49.",
+          "evidenceRefs": [
+            "ev_quote"
+          ],
+          "observedAt": "2026-10-29T18:00:00.000Z"
+        }
+      ],
+      "observedAt": "2026-10-29T18:00:00.000Z"
+    },
+    {
+      "evidence": {
+        "ref": "ev_final",
+        "kind": "final_statement",
+        "recordId": "ev_final",
+        "requestId": "6ae2bfbed3d03df77beb5eee",
+        "routeKind": "request_current",
+        "publicRouteKind": null,
+        "lastVerifiedAt": null,
+        "revision": 1,
+        "hash": null,
+        "occurredAt": "2026-10-29T18:00:00.000Z",
+        "label": "Final itemized charges"
+      },
+      "facts": [
+        {
+          "factId": "f_final",
+          "code": "f_final",
+          "text": "Final charges: CAD240.00. Difference: CAD62.51.",
+          "evidenceRefs": [
+            "ev_final"
+          ],
+          "observedAt": "2026-10-29T18:00:00.000Z"
+        }
+      ],
+      "observedAt": "2026-10-29T18:00:00.000Z"
+    },
+    {
+      "evidence": {
+        "ref": "ev_guide",
+        "kind": "help_article",
+        "recordId": "policy-auto-next-vendor",
+        "requestId": null,
+        "routeKind": "help_context",
+        "publicRouteKind": "policy",
+        "lastVerifiedAt": "2026-10-29T18:00:00.000Z",
+        "revision": 1,
+        "hash": null,
+        "occurredAt": "2026-10-29T18:00:00.000Z",
+        "label": "Auto-contact next vendor"
+      },
+      "facts": [
+        {
+          "factId": "f_guide",
+          "code": "f_guide",
+          "text": "Auto-contact next vendor can advance after a decline or no response when your settings and the required reviews allow it.",
+          "evidenceRefs": [
+            "ev_guide"
+          ],
+          "observedAt": "2026-10-29T18:00:00.000Z"
+        }
+      ],
+      "observedAt": "2026-10-29T18:00:00.000Z"
+    },
+    {
+      "evidence": {
+        "ref": "ev_policy",
+        "kind": "policy_revision",
+        "recordId": "ev_policy",
+        "requestId": null,
+        "routeKind": "policy_current",
+        "publicRouteKind": null,
+        "lastVerifiedAt": null,
+        "revision": 4,
+        "hash": null,
+        "occurredAt": "2026-10-29T18:00:00.000Z",
+        "label": "Your saved Policy revision 4"
+      },
+      "facts": [
+        {
+          "factId": "f_setting",
+          "code": "f_setting",
+          "text": "Your saved Auto-contact next vendor setting is On. Max vendors contacted per request: 3.",
+          "evidenceRefs": [
+            "ev_policy"
+          ],
+          "observedAt": "2026-10-29T18:00:00.000Z"
+        }
+      ],
+      "observedAt": "2026-10-29T18:00:00.000Z"
+    },
+    {
+      "evidence": {
+        "ref": "ev_online_policy",
+        "kind": "policy_revision",
+        "recordId": "ev_online_policy",
+        "requestId": null,
+        "routeKind": "policy_current",
+        "publicRouteKind": null,
+        "lastVerifiedAt": null,
+        "revision": 4,
+        "hash": null,
+        "occurredAt": "2026-10-29T18:00:00.000Z",
+        "label": "Your saved default quota"
+      },
+      "facts": [
+        {
+          "factId": "f_default_quota",
+          "code": "policy_default_quota",
+          "text": "Current default quota: CAD300.00.",
+          "evidenceRefs": [
+            "ev_online_policy"
+          ],
+          "observedAt": "2026-10-29T18:00:00.000Z"
+        }
+      ],
+      "observedAt": "2026-10-29T18:00:00.000Z"
+    },
+    {
+      "evidence": {
+        "ref": "ev_actual_policy",
+        "kind": "policy_revision",
+        "recordId": "ev_actual_policy",
+        "requestId": null,
+        "routeKind": "policy_current",
+        "publicRouteKind": null,
+        "lastVerifiedAt": null,
+        "revision": 5,
+        "hash": null,
+        "occurredAt": "2026-10-29T18:00:00.000Z",
+        "label": "Your actual saved default quota"
+      },
+      "facts": [
+        {
+          "factId": "f_actual_default",
+          "code": "policy_default_quota",
+          "text": "Current default quota: CAD350.00.",
+          "evidenceRefs": [
+            "ev_actual_policy"
+          ],
+          "observedAt": "2026-10-29T18:00:00.000Z"
+        }
+      ],
+      "observedAt": "2026-10-29T18:00:00.000Z"
+    }
+  ],
+  "discarded": {
+    "id": "pc_fixture",
+    "origin": {
+      "segmentId": "seg_fixture_account",
+      "contextGeneration": 1,
+      "requestContextId": null,
+      "contextKind": "account",
+      "contextLabel": "Your account policy"
+    },
+    "state": "discarded",
+    "basePolicyRevision": 4,
+    "appliedRevision": null,
+    "asOf": "2026-10-29T18:00:00.000Z",
+    "expiresAt": "2026-10-29T18:05:00.000Z",
+    "changes": [
+      {
+        "field": "defaultQuota",
+        "before": "CAD300.00",
+        "after": "CAD250.00"
+      },
+      {
+        "field": "allowAutopilotForLowSeverity",
+        "before": "On",
+        "after": "Off"
+      },
+      {
+        "field": "allowAutopilotForMediumSeverity",
+        "before": "Off",
+        "after": "On"
+      }
+    ],
+    "patchHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "impactHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "impactCounts": {
+      "eligible": 1,
+      "passed": 0,
+      "shadowed": 0,
+      "notApplicable": 1,
+      "unknown": 1
+    },
+    "impactCursor": null,
+    "impactComplete": true,
+    "stages": [
+      {
+        "stage": "preview",
+        "state": "completed",
+        "at": "2026-10-29T18:00:00.000Z"
+      },
+      {
+        "stage": "validate",
+        "state": "completed",
+        "at": "2026-10-29T18:00:00.000Z"
+      },
+      {
+        "stage": "confirm",
+        "state": "not_started",
+        "at": null
+      },
+      {
+        "stage": "execute",
+        "state": "not_started",
+        "at": null
+      },
+      {
+        "stage": "verify",
+        "state": "not_started",
+        "at": null
+      },
+      {
+        "stage": "audit",
+        "state": "not_started",
+        "at": null
+      }
+    ],
+    "verifiedValues": null,
+    "auditRef": null,
+    "refreshState": "not_required",
+    "errorCode": null
+  },
+  "cancelled": {
+    "schemaVersion": 2,
+    "turnId": "turn_cancelled",
+    "conversationId": "conv_fixture",
+    "origin": {
+      "segmentId": "seg_fixture_request",
+      "contextGeneration": 0,
+      "requestContextId": "6ae2bfbed3d03df77beb5eee",
+      "contextKind": "request",
+      "contextLabel": "Synthetic maintenance request"
+    },
+    "trimmedSegmentIds": [],
+    "status": "cancelled",
+    "activities": [],
+    "answer": null,
+    "preview": null,
+    "confirmationToken": null,
+    "error": null,
+    "serverTime": "2026-10-29T18:00:00.000Z"
+  },
+  "trimmed": {
+    "schemaVersion": 2,
+    "turnId": "turn_trimmed",
+    "conversationId": "conv_fixture",
+    "origin": {
+      "segmentId": "seg_fixture_account",
+      "contextGeneration": 1,
+      "requestContextId": null,
+      "contextKind": "account",
+      "contextLabel": "Your account policy"
+    },
+    "trimmedSegmentIds": [
+      "seg_old_request"
+    ],
+    "status": "completed",
+    "activities": [],
+    "answer": {
+      "blocks": [
+        {
+          "id": "b_guide",
+          "kind": "paragraph",
+          "sourceType": "product_guide",
+          "text": "Auto-contact next vendor can advance after a decline or no response when your settings and the required reviews allow it.",
+          "factIds": [
+            "f_guide"
+          ],
+          "evidenceRefs": [
+            "ev_guide"
+          ]
+        },
+        {
+          "id": "b_setting",
+          "kind": "facts",
+          "sourceType": "account_record",
+          "title": "Your current setting",
+          "rows": [
+            {
+              "label": "Vendor auto-contact",
+              "value": "Your saved Auto-contact next vendor setting is On. Max vendors contacted per request: 3.",
+              "factIds": [
+                "f_setting"
+              ],
+              "evidenceRefs": [
+                "ev_policy"
+              ]
+            }
+          ]
+        }
+      ],
+      "evidence": [
+        {
+          "ref": "ev_guide",
+          "kind": "help_article",
+          "recordId": "policy-auto-next-vendor",
+          "requestId": null,
+          "routeKind": "help_context",
+          "publicRouteKind": "policy",
+          "lastVerifiedAt": "2026-10-29T18:00:00.000Z",
+          "revision": 1,
+          "hash": null,
+          "occurredAt": "2026-10-29T18:00:00.000Z",
+          "label": "Auto-contact next vendor"
+        },
+        {
+          "ref": "ev_policy",
+          "kind": "policy_revision",
+          "recordId": "ev_policy",
+          "requestId": null,
+          "routeKind": "policy_current",
+          "publicRouteKind": null,
+          "lastVerifiedAt": null,
+          "revision": 4,
+          "hash": null,
+          "occurredAt": "2026-10-29T18:00:00.000Z",
+          "label": "Your saved Policy revision 4"
+        }
+      ],
+      "coverage": "complete",
+      "source": "offline_stub",
+      "model": null,
+      "observedAt": "2026-10-29T18:00:00.000Z"
+    },
+    "preview": null,
+    "confirmationToken": null,
+    "error": null,
+    "serverTime": "2026-10-29T18:00:00.000Z"
+  },
+  "contextAccount": {
+    "segmentId": "seg_fixture_account",
+    "contextGeneration": 1,
+    "requestContextId": null,
+    "contextKind": "account",
+    "contextLabel": "Your account policy"
+  },
+  "policyCas": {
+    "getMetadata": {
+      "policyRevision": 4,
+      "policyChangeReceiptRef": null,
+      "auditRef": null
+    },
+    "saveMetadata": {
+      "policyRevision": 5,
+      "policyChangeReceiptRef": "policy_revision_fixture",
+      "auditRef": "audit_fixture"
+    }
+  },
+  "policyGet": {
+    "success": true,
+    "data": {
+      "_id": "6ae2bfbed3d03df77beb5ee1",
+      "landlordId": "6ae2bfbed3d03df77beb5ee2",
+      "defaultQuota": 300,
+      "categoryQuotas": {},
+      "propertyQuotas": {},
+      "unitQuotas": {},
+      "requireApprovalForExternalSearch": true,
+      "requireApprovalOverQuota": true,
+      "requireApprovalForFirstTimeVendor": true,
+      "allowQuoteClarification": false,
+      "allowAutopilotForLowSeverity": true,
+      "allowAutopilotForMediumSeverity": false,
+      "digestFrequency": "daily",
+      "emergencyNotificationChannels": [
+        "email",
+        "push"
+      ],
+      "lowFundsThreshold": 100,
+      "autoAdvanceOnVendorDecline": true,
+      "maxOutreachAttempts": 3,
+      "policyRevision": 4,
+      "policyChangeReceiptRef": null,
+      "auditRef": null,
+      "createdAt": "2026-10-29T18:00:00.000Z",
+      "updatedAt": "2026-10-29T18:00:00.000Z"
+    }
+  },
+  "policyPut": {
+    "expectedPolicyRevision": 4,
+    "defaultQuota": 250,
+    "allowAutopilotForLowSeverity": false,
+    "allowAutopilotForMediumSeverity": true
+  },
+  "policySaved": {
+    "success": true,
+    "data": {
+      "_id": "6ae2bfbed3d03df77beb5ee1",
+      "landlordId": "6ae2bfbed3d03df77beb5ee2",
+      "defaultQuota": 250,
+      "categoryQuotas": {},
+      "propertyQuotas": {},
+      "unitQuotas": {},
+      "requireApprovalForExternalSearch": true,
+      "requireApprovalOverQuota": true,
+      "requireApprovalForFirstTimeVendor": true,
+      "allowQuoteClarification": false,
+      "allowAutopilotForLowSeverity": false,
+      "allowAutopilotForMediumSeverity": true,
+      "digestFrequency": "daily",
+      "emergencyNotificationChannels": [
+        "email",
+        "push"
+      ],
+      "lowFundsThreshold": 100,
+      "autoAdvanceOnVendorDecline": true,
+      "maxOutreachAttempts": 3,
+      "policyRevision": 5,
+      "policyChangeReceiptRef": "policy_revision_fixture",
+      "auditRef": "audit_fixture",
+      "createdAt": "2026-10-29T18:00:00.000Z",
+      "updatedAt": "2026-10-29T18:00:00.000Z"
+    },
+    "reevaluating": true
+  },
+  "recall": {
+    "conversationId": "conv_fixture",
+    "currentRequestId": "6ae2bfbed3d03df77beb5eee",
+    "sequence": [
+      {
+        "requestId": "6ae2bfbed3d03df77beb5eee",
+        "userTurn": "Explain the original quote.",
+        "segment": "seg_a1"
+      },
+      {
+        "requestId": null,
+        "userTurn": "What is my current policy?",
+        "segment": "seg_account"
+      },
+      {
+        "requestId": "6ae2bfbed3d03df77beb5eef",
+        "userTurn": "Explain this other request.",
+        "segment": "seg_b"
+      },
+      {
+        "requestId": "6ae2bfbed3d03df77beb5eee",
+        "userTurn": "Which item did we discuss earlier?",
+        "segment": "seg_a2"
+      }
+    ],
+    "eligibleEarlierSegments": [
+      "seg_a1"
+    ],
+    "forbiddenEarlierSegments": [
+      "seg_account",
+      "seg_b"
+    ],
+    "authority": "fresh facts only; historical dialogue untrusted and not reused as current policy/approval/consent"
+  },
+  "httpErrors": [
+    {
+      "status": 400,
+      "body": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "invalid_input",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "status": 400,
+      "body": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "ambiguous_change",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "status": 401,
+      "body": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "auth_expired",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "status": 403,
+      "body": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "forbidden",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "status": 404,
+      "body": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "record_not_found",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "status": 410,
+      "body": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "conversation_expired",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "status": 429,
+      "body": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "conversation_limit",
+        "retryAfterSeconds": 60,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "status": 409,
+      "body": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "turn_limit",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "status": 409,
+      "body": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "transcript_limit",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "status": 409,
+      "body": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "stale_context",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "status": 409,
+      "body": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "context_mismatch",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "status": 409,
+      "body": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "stale_policy",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": 4,
+        "field": null
+      }
+    },
+    {
+      "status": 409,
+      "body": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "impact_changed",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "status": 409,
+      "body": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "preview_expired",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "status": 409,
+      "body": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "preview_consumed",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "status": 428,
+      "body": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "policy_revision_required",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": 4,
+        "field": "expectedPolicyRevision"
+      }
+    },
+    {
+      "status": 429,
+      "body": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "rate_limited",
+        "retryAfterSeconds": 60,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "status": 429,
+      "body": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "concurrent_turn_limit",
+        "retryAfterSeconds": 60,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "status": 409,
+      "body": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "impact_incomplete",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "status": 503,
+      "body": {
+        "success": false,
+        "message": "This confirmation was not applied. Please try a fresh preview when the service is available.",
+        "code": "audit_unavailable",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "status": 503,
+      "body": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "model_unavailable",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "status": 503,
+      "body": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "invalid_model_output",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "status": 503,
+      "body": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "tool_limit",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "status": 503,
+      "body": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "turn_interrupted",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "status": 503,
+      "body": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "service_unavailable",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "status": 400,
+      "body": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "unsupported_setting",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "status": 409,
+      "body": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "stale_evidence",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    }
+  ],
+  "cases": [
+    {
+      "name": "history",
+      "schema": "TurnView",
+      "valid": true,
+      "value": {
+        "schemaVersion": 2,
+        "turnId": "turn_history",
+        "conversationId": "conv_fixture",
+        "origin": {
+          "segmentId": "seg_fixture_request",
+          "contextGeneration": 0,
+          "requestContextId": "6ae2bfbed3d03df77beb5eee",
+          "contextKind": "request",
+          "contextLabel": "Synthetic maintenance request"
+        },
+        "trimmedSegmentIds": [],
+        "status": "completed",
+        "activities": [],
+        "answer": {
+          "blocks": [
+            {
+              "id": "b_cost",
+              "kind": "cost_table",
+              "sourceType": "account_record",
+              "caption": "Original quote and final charges",
+              "columns": [
+                "Original quote",
+                "Final charges"
+              ],
+              "rows": [
+                {
+                  "label": "Itemized total",
+                  "cells": [
+                    {
+                      "text": "CAD177.49",
+                      "minor": 17749,
+                      "currency": "CAD",
+                      "factIds": [
+                        "f_quote"
+                      ],
+                      "evidenceRefs": [
+                        "ev_quote"
+                      ]
+                    },
+                    {
+                      "text": "CAD240.00",
+                      "minor": 24000,
+                      "currency": "CAD",
+                      "factIds": [
+                        "f_final"
+                      ],
+                      "evidenceRefs": [
+                        "ev_final"
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "footerRows": [
+                {
+                  "label": "Difference",
+                  "cells": [
+                    {
+                      "text": "CAD62.51",
+                      "minor": 6251,
+                      "currency": "CAD",
+                      "factIds": [
+                        "f_final"
+                      ],
+                      "evidenceRefs": [
+                        "ev_final"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "evidence": [
+            {
+              "ref": "ev_quote",
+              "kind": "quote_revision",
+              "recordId": "ev_quote",
+              "requestId": "6ae2bfbed3d03df77beb5eee",
+              "routeKind": "request_current",
+              "publicRouteKind": null,
+              "lastVerifiedAt": null,
+              "revision": 1,
+              "hash": null,
+              "occurredAt": "2026-10-29T18:00:00.000Z",
+              "label": "Original itemized quote"
+            },
+            {
+              "ref": "ev_final",
+              "kind": "final_statement",
+              "recordId": "ev_final",
+              "requestId": "6ae2bfbed3d03df77beb5eee",
+              "routeKind": "request_current",
+              "publicRouteKind": null,
+              "lastVerifiedAt": null,
+              "revision": 1,
+              "hash": null,
+              "occurredAt": "2026-10-29T18:00:00.000Z",
+              "label": "Final itemized charges"
+            }
+          ],
+          "coverage": "complete",
+          "source": "offline_stub",
+          "model": null,
+          "observedAt": "2026-10-29T18:00:00.000Z"
+        },
+        "preview": null,
+        "confirmationToken": null,
+        "error": null,
+        "serverTime": "2026-10-29T18:00:00.000Z"
+      }
+    },
+    {
+      "name": "help",
+      "schema": "TurnView",
+      "valid": true,
+      "value": {
+        "schemaVersion": 2,
+        "turnId": "turn_help",
+        "conversationId": "conv_fixture",
+        "origin": {
+          "segmentId": "seg_fixture_account",
+          "contextGeneration": 1,
+          "requestContextId": null,
+          "contextKind": "account",
+          "contextLabel": "Your account policy"
+        },
+        "trimmedSegmentIds": [],
+        "status": "completed",
+        "activities": [],
+        "answer": {
+          "blocks": [
+            {
+              "id": "b_guide",
+              "kind": "paragraph",
+              "sourceType": "product_guide",
+              "text": "Auto-contact next vendor can advance after a decline or no response when your settings and the required reviews allow it.",
+              "factIds": [
+                "f_guide"
+              ],
+              "evidenceRefs": [
+                "ev_guide"
+              ]
+            },
+            {
+              "id": "b_setting",
+              "kind": "facts",
+              "sourceType": "account_record",
+              "title": "Your current setting",
+              "rows": [
+                {
+                  "label": "Vendor auto-contact",
+                  "value": "Your saved Auto-contact next vendor setting is On. Max vendors contacted per request: 3.",
+                  "factIds": [
+                    "f_setting"
+                  ],
+                  "evidenceRefs": [
+                    "ev_policy"
+                  ]
+                }
+              ]
+            }
+          ],
+          "evidence": [
+            {
+              "ref": "ev_guide",
+              "kind": "help_article",
+              "recordId": "policy-auto-next-vendor",
+              "requestId": null,
+              "routeKind": "help_context",
+              "publicRouteKind": "policy",
+              "lastVerifiedAt": "2026-10-29T18:00:00.000Z",
+              "revision": 1,
+              "hash": null,
+              "occurredAt": "2026-10-29T18:00:00.000Z",
+              "label": "Auto-contact next vendor"
+            },
+            {
+              "ref": "ev_policy",
+              "kind": "policy_revision",
+              "recordId": "ev_policy",
+              "requestId": null,
+              "routeKind": "policy_current",
+              "publicRouteKind": null,
+              "lastVerifiedAt": null,
+              "revision": 4,
+              "hash": null,
+              "occurredAt": "2026-10-29T18:00:00.000Z",
+              "label": "Your saved Policy revision 4"
+            }
+          ],
+          "coverage": "complete",
+          "source": "offline_stub",
+          "model": null,
+          "observedAt": "2026-10-29T18:00:00.000Z"
+        },
+        "preview": null,
+        "confirmationToken": null,
+        "error": null,
+        "serverTime": "2026-10-29T18:00:00.000Z"
+      }
+    },
+    {
+      "name": "preview",
+      "schema": "TurnView",
+      "valid": true,
+      "value": {
+        "schemaVersion": 2,
+        "turnId": "turn_preview",
+        "conversationId": "conv_fixture",
+        "origin": {
+          "segmentId": "seg_fixture_account",
+          "contextGeneration": 1,
+          "requestContextId": null,
+          "contextKind": "account",
+          "contextLabel": "Your account policy"
+        },
+        "trimmedSegmentIds": [],
+        "status": "completed",
+        "activities": [],
+        "answer": null,
+        "preview": {
+          "id": "pc_fixture",
+          "origin": {
+            "segmentId": "seg_fixture_account",
+            "contextGeneration": 1,
+            "requestContextId": null,
+            "contextKind": "account",
+            "contextLabel": "Your account policy"
+          },
+          "state": "preview_ready",
+          "basePolicyRevision": 4,
+          "appliedRevision": null,
+          "asOf": "2026-10-29T18:00:00.000Z",
+          "expiresAt": "2026-10-29T18:05:00.000Z",
+          "changes": [
+            {
+              "field": "defaultQuota",
+              "before": "CAD300.00",
+              "after": "CAD250.00"
+            },
+            {
+              "field": "allowAutopilotForLowSeverity",
+              "before": "On",
+              "after": "Off"
+            },
+            {
+              "field": "allowAutopilotForMediumSeverity",
+              "before": "Off",
+              "after": "On"
+            }
+          ],
+          "patchHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "impactHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "impactCounts": {
+            "eligible": 1,
+            "passed": 0,
+            "shadowed": 0,
+            "notApplicable": 1,
+            "unknown": 1
+          },
+          "impactCursor": null,
+          "impactComplete": true,
+          "stages": [
+            {
+              "stage": "preview",
+              "state": "completed",
+              "at": "2026-10-29T18:00:00.000Z"
+            },
+            {
+              "stage": "validate",
+              "state": "completed",
+              "at": "2026-10-29T18:00:00.000Z"
+            },
+            {
+              "stage": "confirm",
+              "state": "not_started",
+              "at": null
+            },
+            {
+              "stage": "execute",
+              "state": "not_started",
+              "at": null
+            },
+            {
+              "stage": "verify",
+              "state": "not_started",
+              "at": null
+            },
+            {
+              "stage": "audit",
+              "state": "not_started",
+              "at": null
+            }
+          ],
+          "verifiedValues": null,
+          "auditRef": null,
+          "refreshState": "not_required",
+          "errorCode": null
+        },
+        "confirmationToken": "1111111111111111111111111111111111111111111111111111111111111111",
+        "error": null,
+        "serverTime": "2026-10-29T18:00:00.000Z"
+      }
+    },
+    {
+      "name": "unavailable",
+      "schema": "TurnView",
+      "valid": true,
+      "value": {
+        "schemaVersion": 2,
+        "turnId": "turn_unavailable",
+        "conversationId": "conv_fixture",
+        "origin": {
+          "segmentId": "seg_fixture_account",
+          "contextGeneration": 1,
+          "requestContextId": null,
+          "contextKind": "account",
+          "contextLabel": "Your account policy"
+        },
+        "trimmedSegmentIds": [],
+        "status": "unavailable",
+        "activities": [],
+        "answer": {
+          "blocks": [
+            {
+              "id": "b_notice",
+              "kind": "notice",
+              "sourceType": "system_notice",
+              "code": "unavailable",
+              "text": "Iris cannot interpret that right now. Your recorded facts remain available.",
+              "evidenceRefs": []
+            }
+          ],
+          "evidence": [],
+          "coverage": "unknown",
+          "source": "deterministic_records",
+          "model": null,
+          "observedAt": "2026-10-29T18:00:00.000Z"
+        },
+        "preview": null,
+        "confirmationToken": null,
+        "error": {
+          "code": "model_unavailable",
+          "message": "Iris is unavailable.",
+          "retryAfterSeconds": null
+        },
+        "serverTime": "2026-10-29T18:00:00.000Z"
+      }
+    },
+    {
+      "name": "readonlyRefusal",
+      "schema": "TurnView",
+      "valid": true,
+      "value": {
+        "schemaVersion": 2,
+        "turnId": "turn_readonly",
+        "conversationId": "conv_fixture",
+        "origin": {
+          "segmentId": "seg_fixture_account",
+          "contextGeneration": 1,
+          "requestContextId": null,
+          "contextKind": "account",
+          "contextLabel": "Your account policy"
+        },
+        "trimmedSegmentIds": [],
+        "status": "refused",
+        "activities": [],
+        "answer": {
+          "blocks": [
+            {
+              "id": "b_notice",
+              "kind": "notice",
+              "sourceType": "system_notice",
+              "code": "unsupported_setting",
+              "text": "Iris cannot change this setting. You can review it on the Policy page.",
+              "evidenceRefs": []
+            }
+          ],
+          "evidence": [],
+          "coverage": "complete",
+          "source": "deterministic_records",
+          "model": null,
+          "observedAt": "2026-10-29T18:00:00.000Z"
+        },
+        "preview": null,
+        "confirmationToken": null,
+        "error": null,
+        "serverTime": "2026-10-29T18:00:00.000Z"
+      }
+    },
+    {
+      "name": "conversation",
+      "schema": "ConversationView",
+      "valid": true,
+      "value": {
+        "conversationId": "conv_fixture",
+        "createdAt": "2026-10-29T18:00:00.000Z",
+        "idleExpiresAt": "2026-10-29T18:30:00.000Z",
+        "absoluteExpiresAt": "2026-10-29T20:00:00.000Z",
+        "limits": {
+          "maxMessageChars": 2000,
+          "maxTurns": 20
+        },
+        "serverTime": "2026-10-29T18:00:00.000Z"
+      }
+    },
+    {
+      "name": "accepted",
+      "schema": "AcceptedTurn",
+      "valid": true,
+      "value": {
+        "turnId": "turn_history",
+        "status": "accepted",
+        "origin": {
+          "segmentId": "seg_fixture_request",
+          "contextGeneration": 0,
+          "requestContextId": "6ae2bfbed3d03df77beb5eee",
+          "contextKind": "request",
+          "contextLabel": "Synthetic maintenance request"
+        },
+        "serverTime": "2026-10-29T18:00:00.000Z"
+      }
+    },
+    {
+      "name": "applied",
+      "schema": "PolicyChangeView",
+      "valid": true,
+      "value": {
+        "id": "pc_fixture",
+        "origin": {
+          "segmentId": "seg_fixture_account",
+          "contextGeneration": 1,
+          "requestContextId": null,
+          "contextKind": "account",
+          "contextLabel": "Your account policy"
+        },
+        "state": "applied",
+        "basePolicyRevision": 4,
+        "appliedRevision": 5,
+        "asOf": "2026-10-29T18:00:00.000Z",
+        "expiresAt": "2026-10-29T18:05:00.000Z",
+        "changes": [
+          {
+            "field": "defaultQuota",
+            "before": "CAD300.00",
+            "after": "CAD250.00"
+          },
+          {
+            "field": "allowAutopilotForLowSeverity",
+            "before": "On",
+            "after": "Off"
+          },
+          {
+            "field": "allowAutopilotForMediumSeverity",
+            "before": "Off",
+            "after": "On"
+          }
+        ],
+        "patchHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "impactHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "impactCounts": {
+          "eligible": 1,
+          "passed": 0,
+          "shadowed": 0,
+          "notApplicable": 1,
+          "unknown": 1
+        },
+        "impactCursor": null,
+        "impactComplete": true,
+        "stages": [
+          {
+            "stage": "preview",
+            "state": "completed",
+            "at": "2026-10-29T18:00:00.000Z"
+          },
+          {
+            "stage": "validate",
+            "state": "completed",
+            "at": "2026-10-29T18:00:00.000Z"
+          },
+          {
+            "stage": "confirm",
+            "state": "completed",
+            "at": "2026-10-29T18:00:00.000Z"
+          },
+          {
+            "stage": "execute",
+            "state": "completed",
+            "at": "2026-10-29T18:00:00.000Z"
+          },
+          {
+            "stage": "verify",
+            "state": "completed",
+            "at": "2026-10-29T18:00:00.000Z"
+          },
+          {
+            "stage": "audit",
+            "state": "completed",
+            "at": "2026-10-29T18:00:00.000Z"
+          }
+        ],
+        "verifiedValues": {
+          "defaultQuotaMinor": 25000,
+          "lowAutopilot": false,
+          "mediumAutopilot": true
+        },
+        "auditRef": "audit_fixture",
+        "refreshState": "pending",
+        "errorCode": null
+      }
+    },
+    {
+      "name": "impact",
+      "schema": "ImpactPage",
+      "valid": true,
+      "value": {
+        "previewId": "pc_fixture",
+        "asOf": "2026-10-29T18:00:00.000Z",
+        "rows": [
+          {
+            "requestRef": "req_pending",
+            "requestId": "6ae2bfbed3d03df77beb5eef",
+            "requestTitle": "Synthetic demo: pending quote",
+            "requestEvidenceRef": "ev_pending",
+            "field": "defaultQuota",
+            "checkpoint": "vendor_quote",
+            "disposition": "eligible_next",
+            "reasonCode": "quote_not_submitted",
+            "reasonLabel": "The next submitted quote will use the default quota.",
+            "oldEffectiveMinor": 30000,
+            "newEffectiveMinor": 25000,
+            "quotaSource": "default",
+            "basisRef": null,
+            "policyRevisionAtPass": null,
+            "nextActor": "vendor",
+            "observedVersion": "observed_fixture",
+            "observedAt": "2026-10-29T18:00:00.000Z"
+          }
+        ],
+        "nextCursor": null,
+        "complete": true
+      }
+    },
+    {
+      "name": "evidence_0",
+      "schema": "EvidenceView",
+      "valid": true,
+      "value": {
+        "evidence": {
+          "ref": "ev_quote",
+          "kind": "quote_revision",
+          "recordId": "ev_quote",
+          "requestId": "6ae2bfbed3d03df77beb5eee",
+          "routeKind": "request_current",
+          "publicRouteKind": null,
+          "lastVerifiedAt": null,
+          "revision": 1,
+          "hash": null,
+          "occurredAt": "2026-10-29T18:00:00.000Z",
+          "label": "Original itemized quote"
+        },
+        "facts": [
+          {
+            "factId": "f_quote",
+            "code": "f_quote",
+            "text": "Original quote: CAD177.49.",
+            "evidenceRefs": [
+              "ev_quote"
+            ],
+            "observedAt": "2026-10-29T18:00:00.000Z"
+          }
+        ],
+        "observedAt": "2026-10-29T18:00:00.000Z"
+      }
+    },
+    {
+      "name": "evidence_1",
+      "schema": "EvidenceView",
+      "valid": true,
+      "value": {
+        "evidence": {
+          "ref": "ev_final",
+          "kind": "final_statement",
+          "recordId": "ev_final",
+          "requestId": "6ae2bfbed3d03df77beb5eee",
+          "routeKind": "request_current",
+          "publicRouteKind": null,
+          "lastVerifiedAt": null,
+          "revision": 1,
+          "hash": null,
+          "occurredAt": "2026-10-29T18:00:00.000Z",
+          "label": "Final itemized charges"
+        },
+        "facts": [
+          {
+            "factId": "f_final",
+            "code": "f_final",
+            "text": "Final charges: CAD240.00. Difference: CAD62.51.",
+            "evidenceRefs": [
+              "ev_final"
+            ],
+            "observedAt": "2026-10-29T18:00:00.000Z"
+          }
+        ],
+        "observedAt": "2026-10-29T18:00:00.000Z"
+      }
+    },
+    {
+      "name": "evidence_2",
+      "schema": "EvidenceView",
+      "valid": true,
+      "value": {
+        "evidence": {
+          "ref": "ev_guide",
+          "kind": "help_article",
+          "recordId": "policy-auto-next-vendor",
+          "requestId": null,
+          "routeKind": "help_context",
+          "publicRouteKind": "policy",
+          "lastVerifiedAt": "2026-10-29T18:00:00.000Z",
+          "revision": 1,
+          "hash": null,
+          "occurredAt": "2026-10-29T18:00:00.000Z",
+          "label": "Auto-contact next vendor"
+        },
+        "facts": [
+          {
+            "factId": "f_guide",
+            "code": "f_guide",
+            "text": "Auto-contact next vendor can advance after a decline or no response when your settings and the required reviews allow it.",
+            "evidenceRefs": [
+              "ev_guide"
+            ],
+            "observedAt": "2026-10-29T18:00:00.000Z"
+          }
+        ],
+        "observedAt": "2026-10-29T18:00:00.000Z"
+      }
+    },
+    {
+      "name": "evidence_3",
+      "schema": "EvidenceView",
+      "valid": true,
+      "value": {
+        "evidence": {
+          "ref": "ev_policy",
+          "kind": "policy_revision",
+          "recordId": "ev_policy",
+          "requestId": null,
+          "routeKind": "policy_current",
+          "publicRouteKind": null,
+          "lastVerifiedAt": null,
+          "revision": 4,
+          "hash": null,
+          "occurredAt": "2026-10-29T18:00:00.000Z",
+          "label": "Your saved Policy revision 4"
+        },
+        "facts": [
+          {
+            "factId": "f_setting",
+            "code": "f_setting",
+            "text": "Your saved Auto-contact next vendor setting is On. Max vendors contacted per request: 3.",
+            "evidenceRefs": [
+              "ev_policy"
+            ],
+            "observedAt": "2026-10-29T18:00:00.000Z"
+          }
+        ],
+        "observedAt": "2026-10-29T18:00:00.000Z"
+      }
+    },
+    {
+      "name": "preview_exact",
+      "schema": "ToolInput_preview_policy_change",
+      "valid": true,
+      "value": {
+        "defaultQuotaMinor": 25000,
+        "lowAutopilot": false,
+        "mediumAutopilot": true
+      }
+    },
+    {
+      "name": "preview_hidden_write",
+      "schema": "ToolInput_preview_policy_change",
+      "valid": false,
+      "value": {
+        "defaultQuotaMinor": 25000,
+        "lowAutopilot": false,
+        "mediumAutopilot": true,
+        "autoAdvanceOnVendorDecline": true
+      }
+    },
+    {
+      "name": "preview_boolean_coercion",
+      "schema": "ToolInput_preview_policy_change",
+      "valid": false,
+      "value": {
+        "defaultQuotaMinor": 25000,
+        "lowAutopilot": "false",
+        "mediumAutopilot": true
+      }
+    },
+    {
+      "name": "preview_fractional_cent",
+      "schema": "ToolInput_preview_policy_change",
+      "valid": false,
+      "value": {
+        "defaultQuotaMinor": 25000.5,
+        "lowAutopilot": null,
+        "mediumAutopilot": null
+      }
+    },
+    {
+      "name": "help_bounded",
+      "schema": "ToolInput_search_landlord_help",
+      "valid": true,
+      "value": {
+        "query": "Vendor auto-contact",
+        "featureRef": null,
+        "cursor": null,
+        "limit": 2
+      }
+    },
+    {
+      "name": "help_scope_injection",
+      "schema": "ToolInput_search_landlord_help",
+      "valid": false,
+      "value": {
+        "query": "Vendor auto-contact",
+        "featureRef": null,
+        "cursor": null,
+        "limit": 2,
+        "landlordId": "6ae2bfbed3d03df77beb5eee"
+      }
+    },
+    {
+      "name": "block_arbitrary_html",
+      "schema": "Block",
+      "valid": false,
+      "value": {
+        "id": "bad",
+        "kind": "html",
+        "sourceType": "product_guide",
+        "html": "<script>bad</script>"
+      }
+    },
+    {
+      "name": "origin_missing",
+      "schema": "TurnView",
+      "valid": false,
+      "value": {
+        "schemaVersion": 2,
+        "turnId": "turn_help",
+        "conversationId": "conv_fixture",
+        "origin": null,
+        "trimmedSegmentIds": [],
+        "status": "completed",
+        "activities": [],
+        "answer": {
+          "blocks": [
+            {
+              "id": "b_guide",
+              "kind": "paragraph",
+              "sourceType": "product_guide",
+              "text": "Auto-contact next vendor can advance after a decline or no response when your settings and the required reviews allow it.",
+              "factIds": [
+                "f_guide"
+              ],
+              "evidenceRefs": [
+                "ev_guide"
+              ]
+            },
+            {
+              "id": "b_setting",
+              "kind": "facts",
+              "sourceType": "account_record",
+              "title": "Your current setting",
+              "rows": [
+                {
+                  "label": "Vendor auto-contact",
+                  "value": "Your saved Auto-contact next vendor setting is On. Max vendors contacted per request: 3.",
+                  "factIds": [
+                    "f_setting"
+                  ],
+                  "evidenceRefs": [
+                    "ev_policy"
+                  ]
+                }
+              ]
+            }
+          ],
+          "evidence": [
+            {
+              "ref": "ev_guide",
+              "kind": "help_article",
+              "recordId": "policy-auto-next-vendor",
+              "requestId": null,
+              "routeKind": "help_context",
+              "publicRouteKind": "policy",
+              "lastVerifiedAt": "2026-10-29T18:00:00.000Z",
+              "revision": 1,
+              "hash": null,
+              "occurredAt": "2026-10-29T18:00:00.000Z",
+              "label": "Auto-contact next vendor"
+            },
+            {
+              "ref": "ev_policy",
+              "kind": "policy_revision",
+              "recordId": "ev_policy",
+              "requestId": null,
+              "routeKind": "policy_current",
+              "publicRouteKind": null,
+              "lastVerifiedAt": null,
+              "revision": 4,
+              "hash": null,
+              "occurredAt": "2026-10-29T18:00:00.000Z",
+              "label": "Your saved Policy revision 4"
+            }
+          ],
+          "coverage": "complete",
+          "source": "offline_stub",
+          "model": null,
+          "observedAt": "2026-10-29T18:00:00.000Z"
+        },
+        "preview": null,
+        "confirmationToken": null,
+        "error": null,
+        "serverTime": "2026-10-29T18:00:00.000Z"
+      }
+    },
+    {
+      "name": "origin_mismatch",
+      "schema": "Origin",
+      "valid": false,
+      "value": {
+        "segmentId": "seg_fixture_account",
+        "contextGeneration": 1,
+        "requestContextId": "6ae2bfbed3d03df77beb5eee",
+        "contextKind": "account",
+        "contextLabel": "Your account policy"
+      }
+    },
+    {
+      "name": "discarded",
+      "schema": "PolicyChangeView",
+      "valid": true,
+      "value": {
+        "id": "pc_fixture",
+        "origin": {
+          "segmentId": "seg_fixture_account",
+          "contextGeneration": 1,
+          "requestContextId": null,
+          "contextKind": "account",
+          "contextLabel": "Your account policy"
+        },
+        "state": "discarded",
+        "basePolicyRevision": 4,
+        "appliedRevision": null,
+        "asOf": "2026-10-29T18:00:00.000Z",
+        "expiresAt": "2026-10-29T18:05:00.000Z",
+        "changes": [
+          {
+            "field": "defaultQuota",
+            "before": "CAD300.00",
+            "after": "CAD250.00"
+          },
+          {
+            "field": "allowAutopilotForLowSeverity",
+            "before": "On",
+            "after": "Off"
+          },
+          {
+            "field": "allowAutopilotForMediumSeverity",
+            "before": "Off",
+            "after": "On"
+          }
+        ],
+        "patchHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "impactHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "impactCounts": {
+          "eligible": 1,
+          "passed": 0,
+          "shadowed": 0,
+          "notApplicable": 1,
+          "unknown": 1
+        },
+        "impactCursor": null,
+        "impactComplete": true,
+        "stages": [
+          {
+            "stage": "preview",
+            "state": "completed",
+            "at": "2026-10-29T18:00:00.000Z"
+          },
+          {
+            "stage": "validate",
+            "state": "completed",
+            "at": "2026-10-29T18:00:00.000Z"
+          },
+          {
+            "stage": "confirm",
+            "state": "not_started",
+            "at": null
+          },
+          {
+            "stage": "execute",
+            "state": "not_started",
+            "at": null
+          },
+          {
+            "stage": "verify",
+            "state": "not_started",
+            "at": null
+          },
+          {
+            "stage": "audit",
+            "state": "not_started",
+            "at": null
+          }
+        ],
+        "verifiedValues": null,
+        "auditRef": null,
+        "refreshState": "not_required",
+        "errorCode": null
+      }
+    },
+    {
+      "name": "discard_applied_returns_existing",
+      "schema": "PolicyChangeView",
+      "valid": true,
+      "value": {
+        "id": "pc_fixture",
+        "origin": {
+          "segmentId": "seg_fixture_account",
+          "contextGeneration": 1,
+          "requestContextId": null,
+          "contextKind": "account",
+          "contextLabel": "Your account policy"
+        },
+        "state": "applied",
+        "basePolicyRevision": 4,
+        "appliedRevision": 5,
+        "asOf": "2026-10-29T18:00:00.000Z",
+        "expiresAt": "2026-10-29T18:05:00.000Z",
+        "changes": [
+          {
+            "field": "defaultQuota",
+            "before": "CAD300.00",
+            "after": "CAD250.00"
+          },
+          {
+            "field": "allowAutopilotForLowSeverity",
+            "before": "On",
+            "after": "Off"
+          },
+          {
+            "field": "allowAutopilotForMediumSeverity",
+            "before": "Off",
+            "after": "On"
+          }
+        ],
+        "patchHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "impactHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "impactCounts": {
+          "eligible": 1,
+          "passed": 0,
+          "shadowed": 0,
+          "notApplicable": 1,
+          "unknown": 1
+        },
+        "impactCursor": null,
+        "impactComplete": true,
+        "stages": [
+          {
+            "stage": "preview",
+            "state": "completed",
+            "at": "2026-10-29T18:00:00.000Z"
+          },
+          {
+            "stage": "validate",
+            "state": "completed",
+            "at": "2026-10-29T18:00:00.000Z"
+          },
+          {
+            "stage": "confirm",
+            "state": "completed",
+            "at": "2026-10-29T18:00:00.000Z"
+          },
+          {
+            "stage": "execute",
+            "state": "completed",
+            "at": "2026-10-29T18:00:00.000Z"
+          },
+          {
+            "stage": "verify",
+            "state": "completed",
+            "at": "2026-10-29T18:00:00.000Z"
+          },
+          {
+            "stage": "audit",
+            "state": "completed",
+            "at": "2026-10-29T18:00:00.000Z"
+          }
+        ],
+        "verifiedValues": {
+          "defaultQuotaMinor": 25000,
+          "lowAutopilot": false,
+          "mediumAutopilot": true
+        },
+        "auditRef": "audit_fixture",
+        "refreshState": "pending",
+        "errorCode": null
+      }
+    },
+    {
+      "name": "cancelled_original_origin",
+      "schema": "TurnView",
+      "valid": true,
+      "value": {
+        "schemaVersion": 2,
+        "turnId": "turn_cancelled",
+        "conversationId": "conv_fixture",
+        "origin": {
+          "segmentId": "seg_fixture_request",
+          "contextGeneration": 0,
+          "requestContextId": "6ae2bfbed3d03df77beb5eee",
+          "contextKind": "request",
+          "contextLabel": "Synthetic maintenance request"
+        },
+        "trimmedSegmentIds": [],
+        "status": "cancelled",
+        "activities": [],
+        "answer": null,
+        "preview": null,
+        "confirmationToken": null,
+        "error": null,
+        "serverTime": "2026-10-29T18:00:00.000Z"
+      }
+    },
+    {
+      "name": "trimmed_exact_segments",
+      "schema": "TurnView",
+      "valid": true,
+      "value": {
+        "schemaVersion": 2,
+        "turnId": "turn_trimmed",
+        "conversationId": "conv_fixture",
+        "origin": {
+          "segmentId": "seg_fixture_account",
+          "contextGeneration": 1,
+          "requestContextId": null,
+          "contextKind": "account",
+          "contextLabel": "Your account policy"
+        },
+        "trimmedSegmentIds": [
+          "seg_old_request"
+        ],
+        "status": "completed",
+        "activities": [],
+        "answer": {
+          "blocks": [
+            {
+              "id": "b_guide",
+              "kind": "paragraph",
+              "sourceType": "product_guide",
+              "text": "Auto-contact next vendor can advance after a decline or no response when your settings and the required reviews allow it.",
+              "factIds": [
+                "f_guide"
+              ],
+              "evidenceRefs": [
+                "ev_guide"
+              ]
+            },
+            {
+              "id": "b_setting",
+              "kind": "facts",
+              "sourceType": "account_record",
+              "title": "Your current setting",
+              "rows": [
+                {
+                  "label": "Vendor auto-contact",
+                  "value": "Your saved Auto-contact next vendor setting is On. Max vendors contacted per request: 3.",
+                  "factIds": [
+                    "f_setting"
+                  ],
+                  "evidenceRefs": [
+                    "ev_policy"
+                  ]
+                }
+              ]
+            }
+          ],
+          "evidence": [
+            {
+              "ref": "ev_guide",
+              "kind": "help_article",
+              "recordId": "policy-auto-next-vendor",
+              "requestId": null,
+              "routeKind": "help_context",
+              "publicRouteKind": "policy",
+              "lastVerifiedAt": "2026-10-29T18:00:00.000Z",
+              "revision": 1,
+              "hash": null,
+              "occurredAt": "2026-10-29T18:00:00.000Z",
+              "label": "Auto-contact next vendor"
+            },
+            {
+              "ref": "ev_policy",
+              "kind": "policy_revision",
+              "recordId": "ev_policy",
+              "requestId": null,
+              "routeKind": "policy_current",
+              "publicRouteKind": null,
+              "lastVerifiedAt": null,
+              "revision": 4,
+              "hash": null,
+              "occurredAt": "2026-10-29T18:00:00.000Z",
+              "label": "Your saved Policy revision 4"
+            }
+          ],
+          "coverage": "complete",
+          "source": "offline_stub",
+          "model": null,
+          "observedAt": "2026-10-29T18:00:00.000Z"
+        },
+        "preview": null,
+        "confirmationToken": null,
+        "error": null,
+        "serverTime": "2026-10-29T18:00:00.000Z"
+      }
+    },
+    {
+      "name": "context_account",
+      "schema": "Origin",
+      "valid": true,
+      "value": {
+        "segmentId": "seg_fixture_account",
+        "contextGeneration": 1,
+        "requestContextId": null,
+        "contextKind": "account",
+        "contextLabel": "Your account policy"
+      }
+    },
+    {
+      "name": "policy_getMetadata",
+      "schema": "PolicyCasMetadata",
+      "valid": true,
+      "value": {
+        "policyRevision": 4,
+        "policyChangeReceiptRef": null,
+        "auditRef": null
+      }
+    },
+    {
+      "name": "policy_saveMetadata",
+      "schema": "PolicyCasMetadata",
+      "valid": true,
+      "value": {
+        "policyRevision": 5,
+        "policyChangeReceiptRef": "policy_revision_fixture",
+        "auditRef": "audit_fixture"
+      }
+    },
+    {
+      "name": "policy_get",
+      "schema": "PolicyGetResponse",
+      "valid": true,
+      "value": {
+        "success": true,
+        "data": {
+          "_id": "6ae2bfbed3d03df77beb5ee1",
+          "landlordId": "6ae2bfbed3d03df77beb5ee2",
+          "defaultQuota": 300,
+          "categoryQuotas": {},
+          "propertyQuotas": {},
+          "unitQuotas": {},
+          "requireApprovalForExternalSearch": true,
+          "requireApprovalOverQuota": true,
+          "requireApprovalForFirstTimeVendor": true,
+          "allowQuoteClarification": false,
+          "allowAutopilotForLowSeverity": true,
+          "allowAutopilotForMediumSeverity": false,
+          "digestFrequency": "daily",
+          "emergencyNotificationChannels": [
+            "email",
+            "push"
+          ],
+          "lowFundsThreshold": 100,
+          "autoAdvanceOnVendorDecline": true,
+          "maxOutreachAttempts": 3,
+          "policyRevision": 4,
+          "policyChangeReceiptRef": null,
+          "auditRef": null,
+          "createdAt": "2026-10-29T18:00:00.000Z",
+          "updatedAt": "2026-10-29T18:00:00.000Z"
+        }
+      }
+    },
+    {
+      "name": "policy_put",
+      "schema": "PolicyPut",
+      "valid": true,
+      "value": {
+        "expectedPolicyRevision": 4,
+        "defaultQuota": 250,
+        "allowAutopilotForLowSeverity": false,
+        "allowAutopilotForMediumSeverity": true
+      }
+    },
+    {
+      "name": "policy_saved",
+      "schema": "PolicyPutResponse",
+      "valid": true,
+      "value": {
+        "success": true,
+        "data": {
+          "_id": "6ae2bfbed3d03df77beb5ee1",
+          "landlordId": "6ae2bfbed3d03df77beb5ee2",
+          "defaultQuota": 250,
+          "categoryQuotas": {},
+          "propertyQuotas": {},
+          "unitQuotas": {},
+          "requireApprovalForExternalSearch": true,
+          "requireApprovalOverQuota": true,
+          "requireApprovalForFirstTimeVendor": true,
+          "allowQuoteClarification": false,
+          "allowAutopilotForLowSeverity": false,
+          "allowAutopilotForMediumSeverity": true,
+          "digestFrequency": "daily",
+          "emergencyNotificationChannels": [
+            "email",
+            "push"
+          ],
+          "lowFundsThreshold": 100,
+          "autoAdvanceOnVendorDecline": true,
+          "maxOutreachAttempts": 3,
+          "policyRevision": 5,
+          "policyChangeReceiptRef": "policy_revision_fixture",
+          "auditRef": "audit_fixture",
+          "createdAt": "2026-10-29T18:00:00.000Z",
+          "updatedAt": "2026-10-29T18:00:00.000Z"
+        },
+        "reevaluating": true
+      }
+    },
+    {
+      "name": "policy_put_missing_revision",
+      "schema": "PolicyPut",
+      "valid": false,
+      "value": {
+        "defaultQuota": 250
+      }
+    },
+    {
+      "name": "error_invalid_input",
+      "schema": "HttpError",
+      "valid": true,
+      "value": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "invalid_input",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "name": "error_ambiguous_change",
+      "schema": "HttpError",
+      "valid": true,
+      "value": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "ambiguous_change",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "name": "error_auth_expired",
+      "schema": "HttpError",
+      "valid": true,
+      "value": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "auth_expired",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "name": "error_forbidden",
+      "schema": "HttpError",
+      "valid": true,
+      "value": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "forbidden",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "name": "error_record_not_found",
+      "schema": "HttpError",
+      "valid": true,
+      "value": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "record_not_found",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "name": "error_conversation_expired",
+      "schema": "HttpError",
+      "valid": true,
+      "value": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "conversation_expired",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "name": "error_conversation_limit",
+      "schema": "HttpError",
+      "valid": true,
+      "value": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "conversation_limit",
+        "retryAfterSeconds": 60,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "name": "error_turn_limit",
+      "schema": "HttpError",
+      "valid": true,
+      "value": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "turn_limit",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "name": "error_transcript_limit",
+      "schema": "HttpError",
+      "valid": true,
+      "value": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "transcript_limit",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "name": "error_stale_context",
+      "schema": "HttpError",
+      "valid": true,
+      "value": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "stale_context",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "name": "error_context_mismatch",
+      "schema": "HttpError",
+      "valid": true,
+      "value": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "context_mismatch",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "name": "error_stale_policy",
+      "schema": "HttpError",
+      "valid": true,
+      "value": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "stale_policy",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": 4,
+        "field": null
+      }
+    },
+    {
+      "name": "error_impact_changed",
+      "schema": "HttpError",
+      "valid": true,
+      "value": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "impact_changed",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "name": "error_preview_expired",
+      "schema": "HttpError",
+      "valid": true,
+      "value": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "preview_expired",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "name": "error_preview_consumed",
+      "schema": "HttpError",
+      "valid": true,
+      "value": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "preview_consumed",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "name": "error_policy_revision_required",
+      "schema": "HttpError",
+      "valid": true,
+      "value": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "policy_revision_required",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": 4,
+        "field": "expectedPolicyRevision"
+      }
+    },
+    {
+      "name": "error_rate_limited",
+      "schema": "HttpError",
+      "valid": true,
+      "value": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "rate_limited",
+        "retryAfterSeconds": 60,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "name": "error_concurrent_turn_limit",
+      "schema": "HttpError",
+      "valid": true,
+      "value": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "concurrent_turn_limit",
+        "retryAfterSeconds": 60,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "name": "error_impact_incomplete",
+      "schema": "HttpError",
+      "valid": true,
+      "value": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "impact_incomplete",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "name": "error_audit_unavailable",
+      "schema": "HttpError",
+      "valid": true,
+      "value": {
+        "success": false,
+        "message": "This confirmation was not applied. Please try a fresh preview when the service is available.",
+        "code": "audit_unavailable",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "name": "error_model_unavailable",
+      "schema": "HttpError",
+      "valid": true,
+      "value": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "model_unavailable",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "name": "error_invalid_model_output",
+      "schema": "HttpError",
+      "valid": true,
+      "value": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "invalid_model_output",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "name": "error_tool_limit",
+      "schema": "HttpError",
+      "valid": true,
+      "value": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "tool_limit",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "name": "error_turn_interrupted",
+      "schema": "HttpError",
+      "valid": true,
+      "value": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "turn_interrupted",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "name": "error_service_unavailable",
+      "schema": "HttpError",
+      "valid": true,
+      "value": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "service_unavailable",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "name": "error_unsupported_setting",
+      "schema": "HttpError",
+      "valid": true,
+      "value": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "unsupported_setting",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "name": "error_stale_evidence",
+      "schema": "HttpError",
+      "valid": true,
+      "value": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "stale_evidence",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "name": "error_unknown_code",
+      "schema": "HttpError",
+      "valid": false,
+      "value": {
+        "success": false,
+        "message": "The operation could not be completed. Review the current state before trying again.",
+        "code": "provider_private_diagnostic",
+        "retryAfterSeconds": null,
+        "currentPolicyRevision": null,
+        "field": null
+      }
+    },
+    {
+      "name": "online_evidence_0",
+      "schema": "EvidenceView",
+      "valid": true,
+      "value": {
+        "evidence": {
+          "ref": "ev_online_policy",
+          "kind": "policy_revision",
+          "recordId": "ev_online_policy",
+          "requestId": null,
+          "routeKind": "policy_current",
+          "publicRouteKind": null,
+          "lastVerifiedAt": null,
+          "revision": 4,
+          "hash": null,
+          "occurredAt": "2026-10-29T18:00:00.000Z",
+          "label": "Your saved default quota"
+        },
+        "facts": [
+          {
+            "factId": "f_default_quota",
+            "code": "policy_default_quota",
+            "text": "Current default quota: CAD300.00.",
+            "evidenceRefs": [
+              "ev_online_policy"
+            ],
+            "observedAt": "2026-10-29T18:00:00.000Z"
+          }
+        ],
+        "observedAt": "2026-10-29T18:00:00.000Z"
+      }
+    },
+    {
+      "name": "online_evidence_1",
+      "schema": "EvidenceView",
+      "valid": true,
+      "value": {
+        "evidence": {
+          "ref": "ev_actual_policy",
+          "kind": "policy_revision",
+          "recordId": "ev_actual_policy",
+          "requestId": null,
+          "routeKind": "policy_current",
+          "publicRouteKind": null,
+          "lastVerifiedAt": null,
+          "revision": 5,
+          "hash": null,
+          "occurredAt": "2026-10-29T18:00:00.000Z",
+          "label": "Your actual saved default quota"
+        },
+        "facts": [
+          {
+            "factId": "f_actual_default",
+            "code": "policy_default_quota",
+            "text": "Current default quota: CAD350.00.",
+            "evidenceRefs": [
+              "ev_actual_policy"
+            ],
+            "observedAt": "2026-10-29T18:00:00.000Z"
+          }
+        ],
+        "observedAt": "2026-10-29T18:00:00.000Z"
+      }
+    },
+    {
+      "name": "onlineExplanation",
+      "schema": "TurnView",
+      "valid": true,
+      "value": {
+        "schemaVersion": 2,
+        "turnId": "turn_online_explanation",
+        "conversationId": "conv_fixture",
+        "origin": {
+          "segmentId": "seg_fixture_account",
+          "contextGeneration": 1,
+          "requestContextId": null,
+          "contextKind": "account",
+          "contextLabel": "Your account policy"
+        },
+        "trimmedSegmentIds": [],
+        "status": "completed",
+        "activities": [],
+        "answer": {
+          "blocks": [
+            {
+              "id": "b_explanation",
+              "kind": "explanation",
+              "text": "This is your saved default quota. Review the proposed change before confirming it.",
+              "factIds": [
+                "f_default_quota"
+              ],
+              "evidenceRefs": [
+                "ev_online_policy"
+              ]
+            },
+            {
+              "id": "b_policy",
+              "kind": "facts",
+              "sourceType": "account_record",
+              "title": "Your current setting",
+              "rows": [
+                {
+                  "label": "Default quota",
+                  "value": "Current default quota: CAD300.00.",
+                  "factIds": [
+                    "f_default_quota"
+                  ],
+                  "evidenceRefs": [
+                    "ev_online_policy"
+                  ]
+                }
+              ]
+            }
+          ],
+          "evidence": [
+            {
+              "ref": "ev_online_policy",
+              "kind": "policy_revision",
+              "recordId": "ev_online_policy",
+              "requestId": null,
+              "routeKind": "policy_current",
+              "publicRouteKind": null,
+              "lastVerifiedAt": null,
+              "revision": 4,
+              "hash": null,
+              "occurredAt": "2026-10-29T18:00:00.000Z",
+              "label": "Your saved default quota"
+            }
+          ],
+          "coverage": "complete",
+          "source": "model_planned",
+          "model": "muse-spark-1.3",
+          "observedAt": "2026-10-29T18:00:00.000Z"
+        },
+        "preview": null,
+        "confirmationToken": null,
+        "error": null,
+        "serverTime": "2026-10-29T18:00:00.000Z"
+      }
+    },
+    {
+      "name": "quotaParaphrase",
+      "schema": "TurnView",
+      "valid": true,
+      "value": {
+        "schemaVersion": 2,
+        "turnId": "turn_quota_paraphrase",
+        "conversationId": "conv_fixture",
+        "origin": {
+          "segmentId": "seg_fixture_account",
+          "contextGeneration": 1,
+          "requestContextId": null,
+          "contextKind": "account",
+          "contextLabel": "Your account policy"
+        },
+        "trimmedSegmentIds": [],
+        "status": "completed",
+        "activities": [],
+        "answer": {
+          "blocks": [
+            {
+              "id": "b_explanation",
+              "kind": "explanation",
+              "text": "This is your saved default quota. Review the proposed change before confirming it.",
+              "factIds": [
+                "f_default_quota"
+              ],
+              "evidenceRefs": [
+                "ev_online_policy"
+              ]
+            },
+            {
+              "id": "b_policy",
+              "kind": "facts",
+              "sourceType": "account_record",
+              "title": "Your current setting",
+              "rows": [
+                {
+                  "label": "Default quota",
+                  "value": "Current default quota: CAD300.00.",
+                  "factIds": [
+                    "f_default_quota"
+                  ],
+                  "evidenceRefs": [
+                    "ev_online_policy"
+                  ]
+                }
+              ]
+            }
+          ],
+          "evidence": [
+            {
+              "ref": "ev_online_policy",
+              "kind": "policy_revision",
+              "recordId": "ev_online_policy",
+              "requestId": null,
+              "routeKind": "policy_current",
+              "publicRouteKind": null,
+              "lastVerifiedAt": null,
+              "revision": 4,
+              "hash": null,
+              "occurredAt": "2026-10-29T18:00:00.000Z",
+              "label": "Your saved default quota"
+            }
+          ],
+          "coverage": "complete",
+          "source": "model_planned",
+          "model": "muse-spark-1.3",
+          "observedAt": "2026-10-29T18:00:00.000Z"
+        },
+        "preview": {
+          "id": "pc_paraphrase",
+          "origin": {
+            "segmentId": "seg_fixture_account",
+            "contextGeneration": 1,
+            "requestContextId": null,
+            "contextKind": "account",
+            "contextLabel": "Your account policy"
+          },
+          "state": "preview_ready",
+          "basePolicyRevision": 4,
+          "appliedRevision": null,
+          "asOf": "2026-10-29T18:00:00.000Z",
+          "expiresAt": "2026-10-29T18:05:00.000Z",
+          "changes": [
+            {
+              "field": "defaultQuota",
+              "before": "CAD300.00",
+              "after": "CAD200.00"
+            }
+          ],
+          "patchHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "impactHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "impactCounts": {
+            "eligible": 1,
+            "passed": 0,
+            "shadowed": 0,
+            "notApplicable": 1,
+            "unknown": 1
+          },
+          "impactCursor": null,
+          "impactComplete": true,
+          "stages": [
+            {
+              "stage": "preview",
+              "state": "completed",
+              "at": "2026-10-29T18:00:00.000Z"
+            },
+            {
+              "stage": "validate",
+              "state": "completed",
+              "at": "2026-10-29T18:00:00.000Z"
+            },
+            {
+              "stage": "confirm",
+              "state": "not_started",
+              "at": null
+            },
+            {
+              "stage": "execute",
+              "state": "not_started",
+              "at": null
+            },
+            {
+              "stage": "verify",
+              "state": "not_started",
+              "at": null
+            },
+            {
+              "stage": "audit",
+              "state": "not_started",
+              "at": null
+            }
+          ],
+          "verifiedValues": null,
+          "auditRef": null,
+          "refreshState": "not_required",
+          "errorCode": null
+        },
+        "confirmationToken": "2222222222222222222222222222222222222222222222222222222222222222",
+        "error": null,
+        "serverTime": "2026-10-29T18:00:00.000Z"
+      }
+    },
+    {
+      "name": "currentValueDiffers",
+      "schema": "TurnView",
+      "valid": true,
+      "value": {
+        "schemaVersion": 2,
+        "turnId": "turn_current_differs",
+        "conversationId": "conv_fixture",
+        "origin": {
+          "segmentId": "seg_fixture_account",
+          "contextGeneration": 1,
+          "requestContextId": null,
+          "contextKind": "account",
+          "contextLabel": "Your account policy"
+        },
+        "trimmedSegmentIds": [],
+        "status": "completed",
+        "activities": [],
+        "answer": {
+          "blocks": [
+            {
+              "id": "b_policy",
+              "kind": "facts",
+              "sourceType": "account_record",
+              "title": "Your current setting",
+              "rows": [
+                {
+                  "label": "Default quota",
+                  "value": "Current default quota: CAD350.00.",
+                  "factIds": [
+                    "f_actual_default"
+                  ],
+                  "evidenceRefs": [
+                    "ev_actual_policy"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "b_current_differs",
+              "kind": "clarification",
+              "sourceType": "system_notice",
+              "questionCode": "current_value_differs",
+              "question": "The current saved value differs from the amount you mentioned. What value would you like to set?",
+              "field": "defaultQuotaMinor",
+              "choices": []
+            }
+          ],
+          "evidence": [
+            {
+              "ref": "ev_actual_policy",
+              "kind": "policy_revision",
+              "recordId": "ev_actual_policy",
+              "requestId": null,
+              "routeKind": "policy_current",
+              "publicRouteKind": null,
+              "lastVerifiedAt": null,
+              "revision": 5,
+              "hash": null,
+              "occurredAt": "2026-10-29T18:00:00.000Z",
+              "label": "Your actual saved default quota"
+            }
+          ],
+          "coverage": "complete",
+          "source": "model_planned",
+          "model": "muse-spark-1.3",
+          "observedAt": "2026-10-29T18:00:00.000Z"
+        },
+        "preview": null,
+        "confirmationToken": null,
+        "error": null,
+        "serverTime": "2026-10-29T18:00:00.000Z"
+      }
+    },
+    {
+      "name": "noChangeNeeded",
+      "schema": "TurnView",
+      "valid": true,
+      "value": {
+        "schemaVersion": 2,
+        "turnId": "turn_no_change",
+        "conversationId": "conv_fixture",
+        "origin": {
+          "segmentId": "seg_fixture_account",
+          "contextGeneration": 1,
+          "requestContextId": null,
+          "contextKind": "account",
+          "contextLabel": "Your account policy"
+        },
+        "trimmedSegmentIds": [],
+        "status": "completed",
+        "activities": [],
+        "answer": {
+          "blocks": [
+            {
+              "id": "b_policy",
+              "kind": "facts",
+              "sourceType": "account_record",
+              "title": "Your current setting",
+              "rows": [
+                {
+                  "label": "Default quota",
+                  "value": "Current default quota: CAD300.00.",
+                  "factIds": [
+                    "f_default_quota"
+                  ],
+                  "evidenceRefs": [
+                    "ev_online_policy"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "b_notice",
+              "kind": "notice",
+              "sourceType": "system_notice",
+              "code": "no_change_needed",
+              "text": "This setting already matches your current Policy. No change was prepared.",
+              "evidenceRefs": []
+            }
+          ],
+          "evidence": [
+            {
+              "ref": "ev_online_policy",
+              "kind": "policy_revision",
+              "recordId": "ev_online_policy",
+              "requestId": null,
+              "routeKind": "policy_current",
+              "publicRouteKind": null,
+              "lastVerifiedAt": null,
+              "revision": 4,
+              "hash": null,
+              "occurredAt": "2026-10-29T18:00:00.000Z",
+              "label": "Your saved default quota"
+            }
+          ],
+          "coverage": "complete",
+          "source": "model_planned",
+          "model": "muse-spark-1.3",
+          "observedAt": "2026-10-29T18:00:00.000Z"
+        },
+        "preview": null,
+        "confirmationToken": null,
+        "error": null,
+        "serverTime": "2026-10-29T18:00:00.000Z"
+      }
+    },
+    {
+      "name": "explanationFallback",
+      "schema": "TurnView",
+      "valid": true,
+      "value": {
+        "schemaVersion": 2,
+        "turnId": "turn_explanation_fallback",
+        "conversationId": "conv_fixture",
+        "origin": {
+          "segmentId": "seg_fixture_account",
+          "contextGeneration": 1,
+          "requestContextId": null,
+          "contextKind": "account",
+          "contextLabel": "Your account policy"
+        },
+        "trimmedSegmentIds": [],
+        "status": "completed",
+        "activities": [],
+        "answer": {
+          "blocks": [
+            {
+              "id": "b_policy",
+              "kind": "facts",
+              "sourceType": "account_record",
+              "title": "Your current setting",
+              "rows": [
+                {
+                  "label": "Default quota",
+                  "value": "Current default quota: CAD300.00.",
+                  "factIds": [
+                    "f_default_quota"
+                  ],
+                  "evidenceRefs": [
+                    "ev_online_policy"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "b_notice",
+              "kind": "notice",
+              "sourceType": "system_notice",
+              "code": "explanation_unavailable",
+              "text": "A verified explanation is unavailable. Your authorized records are shown.",
+              "evidenceRefs": []
+            }
+          ],
+          "evidence": [
+            {
+              "ref": "ev_online_policy",
+              "kind": "policy_revision",
+              "recordId": "ev_online_policy",
+              "requestId": null,
+              "routeKind": "policy_current",
+              "publicRouteKind": null,
+              "lastVerifiedAt": null,
+              "revision": 4,
+              "hash": null,
+              "occurredAt": "2026-10-29T18:00:00.000Z",
+              "label": "Your saved default quota"
+            }
+          ],
+          "coverage": "complete",
+          "source": "model_planned",
+          "model": "muse-spark-1.3",
+          "observedAt": "2026-10-29T18:00:00.000Z"
+        },
+        "preview": null,
+        "confirmationToken": null,
+        "error": null,
+        "serverTime": "2026-10-29T18:00:00.000Z"
+      }
+    },
+    {
+      "name": "explanation_exact",
+      "schema": "ExplanationBlock",
+      "valid": true,
+      "value": {
+        "id": "b_explanation",
+        "kind": "explanation",
+        "text": "This is your saved default quota. Review the proposed change before confirming it.",
+        "factIds": [
+          "f_default_quota"
+        ],
+        "evidenceRefs": [
+          "ev_online_policy"
+        ]
+      }
+    },
+    {
+      "name": "explanation_too_long",
+      "schema": "ExplanationBlock",
+      "valid": false,
+      "value": {
+        "id": "b_explanation",
+        "kind": "explanation",
+        "text": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "factIds": [
+          "f_default_quota"
+        ],
+        "evidenceRefs": [
+          "ev_online_policy"
+        ]
+      }
+    },
+    {
+      "name": "explanation_no_sources",
+      "schema": "ExplanationBlock",
+      "valid": false,
+      "value": {
+        "id": "b_explanation",
+        "kind": "explanation",
+        "text": "This is your saved default quota. Review the proposed change before confirming it.",
+        "factIds": [
+          "f_default_quota"
+        ],
+        "evidenceRefs": []
+      }
+    },
+    {
+      "name": "explanation_hidden_control",
+      "schema": "ExplanationBlock",
+      "valid": false,
+      "value": {
+        "id": "b_explanation",
+        "kind": "explanation",
+        "text": "This is your saved default quota. Review the proposed change before confirming it.",
+        "factIds": [
+          "f_default_quota"
+        ],
+        "evidenceRefs": [
+          "ev_online_policy"
+        ],
+        "action": "confirm"
+      }
+    },
+    {
+      "name": "online_plan",
+      "schema": "OnlinePlan",
+      "valid": true,
+      "value": {
+        "outcome": "tools",
+        "calls": [
+          {
+            "tool": "preview_policy_change",
+            "arguments": "{\"defaultQuotaMinor\":20000,\"lowAutopilot\":null,\"mediumAutopilot\":null}"
+          }
+        ],
+        "requestEvidence": "Change the default quota from $300 to $200.",
+        "assertedCurrentDefaultQuotaMinor": 30000,
+        "clarificationCode": null,
+        "done": true
+      }
+    },
+    {
+      "name": "online_plan_forbidden_tool",
+      "schema": "OnlinePlan",
+      "valid": false,
+      "value": {
+        "outcome": "tools",
+        "calls": [
+          {
+            "tool": "confirm_policy_change",
+            "arguments": "{}"
+          }
+        ],
+        "requestEvidence": "Change the default quota from $300 to $200.",
+        "assertedCurrentDefaultQuotaMinor": 30000,
+        "clarificationCode": null,
+        "done": true
+      }
+    },
+    {
+      "name": "online_final",
+      "schema": "OnlineAnswer",
+      "valid": true,
+      "value": {
+        "selectedFactIds": [
+          "f_default_quota"
+        ],
+        "explanation": {
+          "text": "This is your saved default quota. Review the proposed change before confirming it.",
+          "factIds": [
+            "f_default_quota"
+          ]
+        }
+      }
+    },
+    {
+      "name": "online_final_no_explanation",
+      "schema": "OnlineAnswer",
+      "valid": true,
+      "value": {
+        "selectedFactIds": [],
+        "explanation": null
+      }
+    }
+  ],
+  "contractRevision": "2.3",
+  "onlineExplanation": {
+    "schemaVersion": 2,
+    "turnId": "turn_online_explanation",
+    "conversationId": "conv_fixture",
+    "origin": {
+      "segmentId": "seg_fixture_account",
+      "contextGeneration": 1,
+      "requestContextId": null,
+      "contextKind": "account",
+      "contextLabel": "Your account policy"
+    },
+    "trimmedSegmentIds": [],
+    "status": "completed",
+    "activities": [],
+    "answer": {
+      "blocks": [
+        {
+          "id": "b_explanation",
+          "kind": "explanation",
+          "text": "This is your saved default quota. Review the proposed change before confirming it.",
+          "factIds": [
+            "f_default_quota"
+          ],
+          "evidenceRefs": [
+            "ev_online_policy"
+          ]
+        },
+        {
+          "id": "b_policy",
+          "kind": "facts",
+          "sourceType": "account_record",
+          "title": "Your current setting",
+          "rows": [
+            {
+              "label": "Default quota",
+              "value": "Current default quota: CAD300.00.",
+              "factIds": [
+                "f_default_quota"
+              ],
+              "evidenceRefs": [
+                "ev_online_policy"
+              ]
+            }
+          ]
+        }
+      ],
+      "evidence": [
+        {
+          "ref": "ev_online_policy",
+          "kind": "policy_revision",
+          "recordId": "ev_online_policy",
+          "requestId": null,
+          "routeKind": "policy_current",
+          "publicRouteKind": null,
+          "lastVerifiedAt": null,
+          "revision": 4,
+          "hash": null,
+          "occurredAt": "2026-10-29T18:00:00.000Z",
+          "label": "Your saved default quota"
+        }
+      ],
+      "coverage": "complete",
+      "source": "model_planned",
+      "model": "muse-spark-1.3",
+      "observedAt": "2026-10-29T18:00:00.000Z"
+    },
+    "preview": null,
+    "confirmationToken": null,
+    "error": null,
+    "serverTime": "2026-10-29T18:00:00.000Z"
+  },
+  "quotaParaphrase": {
+    "schemaVersion": 2,
+    "turnId": "turn_quota_paraphrase",
+    "conversationId": "conv_fixture",
+    "origin": {
+      "segmentId": "seg_fixture_account",
+      "contextGeneration": 1,
+      "requestContextId": null,
+      "contextKind": "account",
+      "contextLabel": "Your account policy"
+    },
+    "trimmedSegmentIds": [],
+    "status": "completed",
+    "activities": [],
+    "answer": {
+      "blocks": [
+        {
+          "id": "b_explanation",
+          "kind": "explanation",
+          "text": "This is your saved default quota. Review the proposed change before confirming it.",
+          "factIds": [
+            "f_default_quota"
+          ],
+          "evidenceRefs": [
+            "ev_online_policy"
+          ]
+        },
+        {
+          "id": "b_policy",
+          "kind": "facts",
+          "sourceType": "account_record",
+          "title": "Your current setting",
+          "rows": [
+            {
+              "label": "Default quota",
+              "value": "Current default quota: CAD300.00.",
+              "factIds": [
+                "f_default_quota"
+              ],
+              "evidenceRefs": [
+                "ev_online_policy"
+              ]
+            }
+          ]
+        }
+      ],
+      "evidence": [
+        {
+          "ref": "ev_online_policy",
+          "kind": "policy_revision",
+          "recordId": "ev_online_policy",
+          "requestId": null,
+          "routeKind": "policy_current",
+          "publicRouteKind": null,
+          "lastVerifiedAt": null,
+          "revision": 4,
+          "hash": null,
+          "occurredAt": "2026-10-29T18:00:00.000Z",
+          "label": "Your saved default quota"
+        }
+      ],
+      "coverage": "complete",
+      "source": "model_planned",
+      "model": "muse-spark-1.3",
+      "observedAt": "2026-10-29T18:00:00.000Z"
+    },
+    "preview": {
+      "id": "pc_paraphrase",
+      "origin": {
+        "segmentId": "seg_fixture_account",
+        "contextGeneration": 1,
+        "requestContextId": null,
+        "contextKind": "account",
+        "contextLabel": "Your account policy"
+      },
+      "state": "preview_ready",
+      "basePolicyRevision": 4,
+      "appliedRevision": null,
+      "asOf": "2026-10-29T18:00:00.000Z",
+      "expiresAt": "2026-10-29T18:05:00.000Z",
+      "changes": [
+        {
+          "field": "defaultQuota",
+          "before": "CAD300.00",
+          "after": "CAD200.00"
+        }
+      ],
+      "patchHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "impactHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "impactCounts": {
+        "eligible": 1,
+        "passed": 0,
+        "shadowed": 0,
+        "notApplicable": 1,
+        "unknown": 1
+      },
+      "impactCursor": null,
+      "impactComplete": true,
+      "stages": [
+        {
+          "stage": "preview",
+          "state": "completed",
+          "at": "2026-10-29T18:00:00.000Z"
+        },
+        {
+          "stage": "validate",
+          "state": "completed",
+          "at": "2026-10-29T18:00:00.000Z"
+        },
+        {
+          "stage": "confirm",
+          "state": "not_started",
+          "at": null
+        },
+        {
+          "stage": "execute",
+          "state": "not_started",
+          "at": null
+        },
+        {
+          "stage": "verify",
+          "state": "not_started",
+          "at": null
+        },
+        {
+          "stage": "audit",
+          "state": "not_started",
+          "at": null
+        }
+      ],
+      "verifiedValues": null,
+      "auditRef": null,
+      "refreshState": "not_required",
+      "errorCode": null
+    },
+    "confirmationToken": "2222222222222222222222222222222222222222222222222222222222222222",
+    "error": null,
+    "serverTime": "2026-10-29T18:00:00.000Z"
+  },
+  "currentValueDiffers": {
+    "schemaVersion": 2,
+    "turnId": "turn_current_differs",
+    "conversationId": "conv_fixture",
+    "origin": {
+      "segmentId": "seg_fixture_account",
+      "contextGeneration": 1,
+      "requestContextId": null,
+      "contextKind": "account",
+      "contextLabel": "Your account policy"
+    },
+    "trimmedSegmentIds": [],
+    "status": "completed",
+    "activities": [],
+    "answer": {
+      "blocks": [
+        {
+          "id": "b_policy",
+          "kind": "facts",
+          "sourceType": "account_record",
+          "title": "Your current setting",
+          "rows": [
+            {
+              "label": "Default quota",
+              "value": "Current default quota: CAD350.00.",
+              "factIds": [
+                "f_actual_default"
+              ],
+              "evidenceRefs": [
+                "ev_actual_policy"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "b_current_differs",
+          "kind": "clarification",
+          "sourceType": "system_notice",
+          "questionCode": "current_value_differs",
+          "question": "The current saved value differs from the amount you mentioned. What value would you like to set?",
+          "field": "defaultQuotaMinor",
+          "choices": []
+        }
+      ],
+      "evidence": [
+        {
+          "ref": "ev_actual_policy",
+          "kind": "policy_revision",
+          "recordId": "ev_actual_policy",
+          "requestId": null,
+          "routeKind": "policy_current",
+          "publicRouteKind": null,
+          "lastVerifiedAt": null,
+          "revision": 5,
+          "hash": null,
+          "occurredAt": "2026-10-29T18:00:00.000Z",
+          "label": "Your actual saved default quota"
+        }
+      ],
+      "coverage": "complete",
+      "source": "model_planned",
+      "model": "muse-spark-1.3",
+      "observedAt": "2026-10-29T18:00:00.000Z"
+    },
+    "preview": null,
+    "confirmationToken": null,
+    "error": null,
+    "serverTime": "2026-10-29T18:00:00.000Z"
+  },
+  "noChangeNeeded": {
+    "schemaVersion": 2,
+    "turnId": "turn_no_change",
+    "conversationId": "conv_fixture",
+    "origin": {
+      "segmentId": "seg_fixture_account",
+      "contextGeneration": 1,
+      "requestContextId": null,
+      "contextKind": "account",
+      "contextLabel": "Your account policy"
+    },
+    "trimmedSegmentIds": [],
+    "status": "completed",
+    "activities": [],
+    "answer": {
+      "blocks": [
+        {
+          "id": "b_policy",
+          "kind": "facts",
+          "sourceType": "account_record",
+          "title": "Your current setting",
+          "rows": [
+            {
+              "label": "Default quota",
+              "value": "Current default quota: CAD300.00.",
+              "factIds": [
+                "f_default_quota"
+              ],
+              "evidenceRefs": [
+                "ev_online_policy"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "b_notice",
+          "kind": "notice",
+          "sourceType": "system_notice",
+          "code": "no_change_needed",
+          "text": "This setting already matches your current Policy. No change was prepared.",
+          "evidenceRefs": []
+        }
+      ],
+      "evidence": [
+        {
+          "ref": "ev_online_policy",
+          "kind": "policy_revision",
+          "recordId": "ev_online_policy",
+          "requestId": null,
+          "routeKind": "policy_current",
+          "publicRouteKind": null,
+          "lastVerifiedAt": null,
+          "revision": 4,
+          "hash": null,
+          "occurredAt": "2026-10-29T18:00:00.000Z",
+          "label": "Your saved default quota"
+        }
+      ],
+      "coverage": "complete",
+      "source": "model_planned",
+      "model": "muse-spark-1.3",
+      "observedAt": "2026-10-29T18:00:00.000Z"
+    },
+    "preview": null,
+    "confirmationToken": null,
+    "error": null,
+    "serverTime": "2026-10-29T18:00:00.000Z"
+  },
+  "explanationFallback": {
+    "schemaVersion": 2,
+    "turnId": "turn_explanation_fallback",
+    "conversationId": "conv_fixture",
+    "origin": {
+      "segmentId": "seg_fixture_account",
+      "contextGeneration": 1,
+      "requestContextId": null,
+      "contextKind": "account",
+      "contextLabel": "Your account policy"
+    },
+    "trimmedSegmentIds": [],
+    "status": "completed",
+    "activities": [],
+    "answer": {
+      "blocks": [
+        {
+          "id": "b_policy",
+          "kind": "facts",
+          "sourceType": "account_record",
+          "title": "Your current setting",
+          "rows": [
+            {
+              "label": "Default quota",
+              "value": "Current default quota: CAD300.00.",
+              "factIds": [
+                "f_default_quota"
+              ],
+              "evidenceRefs": [
+                "ev_online_policy"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "b_notice",
+          "kind": "notice",
+          "sourceType": "system_notice",
+          "code": "explanation_unavailable",
+          "text": "A verified explanation is unavailable. Your authorized records are shown.",
+          "evidenceRefs": []
+        }
+      ],
+      "evidence": [
+        {
+          "ref": "ev_online_policy",
+          "kind": "policy_revision",
+          "recordId": "ev_online_policy",
+          "requestId": null,
+          "routeKind": "policy_current",
+          "publicRouteKind": null,
+          "lastVerifiedAt": null,
+          "revision": 4,
+          "hash": null,
+          "occurredAt": "2026-10-29T18:00:00.000Z",
+          "label": "Your saved default quota"
+        }
+      ],
+      "coverage": "complete",
+      "source": "model_planned",
+      "model": "muse-spark-1.3",
+      "observedAt": "2026-10-29T18:00:00.000Z"
+    },
+    "preview": null,
+    "confirmationToken": null,
+    "error": null,
+    "serverTime": "2026-10-29T18:00:00.000Z"
+  },
+  "onlinePlan": {
+    "outcome": "tools",
+    "calls": [
+      {
+        "tool": "preview_policy_change",
+        "arguments": "{\"defaultQuotaMinor\":20000,\"lowAutopilot\":null,\"mediumAutopilot\":null}"
+      }
+    ],
+    "requestEvidence": "Change the default quota from $300 to $200.",
+    "assertedCurrentDefaultQuotaMinor": 30000,
+    "clarificationCode": null,
+    "done": true
+  },
+  "onlineFinal": {
+    "selectedFactIds": [
+      "f_default_quota"
+    ],
+    "explanation": {
+      "text": "This is your saved default quota. Review the proposed change before confirming it.",
+      "factIds": [
+        "f_default_quota"
+      ]
+    }
+  }
+}

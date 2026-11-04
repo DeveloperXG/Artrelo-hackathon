@@ -1,0 +1,11 @@
+# Frozen Iris contracts are copied and acknowledged by their exact byte hashes.
+shared/contracts/iris.v2*.json text eol=lf
+shared/contracts/validate.cjs text eol=lf
+backend/contracts/iris.v2*.json text eol=lf
+backend/contracts/validate.cjs text eol=lf
+frontend/src/app/contracts/iris.v2*.json text eol=lf
+frontend/src/app/contracts/validate.cjs text eol=lf
+# Judge core and rehearsal authority are also pinned by exact byte hash.
+backend/contracts/judgeSandbox.v1.json text eol=lf
+frontend/src/app/contracts/judgeSandbox.v1.json text eol=lf
+docs/iris-hackathon/M5_BROWSER_REHEARSAL_PROTOCOL.md text eol=lf

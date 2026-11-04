@@ -1,0 +1,11 @@
+const assert = require("assert");
+const { proposalsOf } = require("../../../services/vendor/bookingCoordination.service");
+const future = hours => new Date(Date.now() + hours * 3600_000).toISOString();
+assert.strictEqual(proposalsOf([{ start: future(2), end: future(3) }]).length, 1);
+assert.throws(() => proposalsOf([]), /one and three/);
+assert.throws(() => proposalsOf(Array(4).fill({ start: future(2), end: future(3) })), /one and three/);
+assert.throws(() => proposalsOf([{ start: future(-2), end: future(-1) }]), /future/);
+assert.throws(() => proposalsOf([{ start: future(2), end: future(2.1) }]), /15 minutes/);
+assert.throws(() => proposalsOf([{ start: future(2000), end: future(2001) }]), /60 days/);
+assert.throws(() => proposalsOf([{ start: "not-a-time", end: future(3) }]), /valid start/);
+console.log("booking coordination window policy tests passed");

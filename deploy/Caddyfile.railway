@@ -1,0 +1,82 @@
+# artrelo.com on Railway: the marketing static export and the SPA, served from
+# one origin with a path split. Built into the image by the root Dockerfile.
+#
+# This is the static-files half of deploy/Caddyfile only. Railway's edge already
+# terminates TLS and routes to this container on $PORT, so there is no
+# certificate here and no /api proxy: the browser calls api.artrelo.com
+# directly. deploy/Caddyfile remains the single-VPS reference.
+
+{
+	# Railway hands over plain HTTP. Left on, Caddy tries to obtain its own
+	# certificate from inside the container and fails.
+	auto_https off
+	admin off
+}
+
+:{$PORT:8080} {
+	encode zstd gzip
+
+	header {
+		-Server
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+
+	# Canonical host. Railway can attach both domains to a service but cannot
+	# redirect between them.
+	@www host www.artrelo.com
+	redir @www https://artrelo.com{uri} permanent
+
+	# Caching. Build output under these paths carries a content hash in the
+	# filename, so a given URL never changes and can be cached for good.
+	# Everything else — every HTML page — must be revalidated: the SPA loads its
+	# screens as separate chunks, and a stale index.html after a deploy asks for
+	# chunk names that no longer exist, breaking every lazy route.
+	@hashed path /assets/* /_next/static/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	@unhashed not path /assets/* /_next/static/*
+	header @unhashed Cache-Control "no-cache"
+
+	# SPA build assets: real files only. A missing chunk must 404, not fall back
+	# to index.html — the browser rejects HTML served as a JS module, with an
+	# error that points nowhere near this file.
+	handle /assets/* {
+		root * /srv/app
+		file_server
+	}
+
+	# SPA client routes, index.html fallback for React Router. Must stay in step
+	# with the routes in frontend/src/app/App.tsx: a route missing here falls
+	# through to marketing and 404s. "/" is not one of them — it is the
+	# marketing home.
+	@spa path /login* /signup* /landlord-signup* /portal* /dashboard* /requests* /vendor-response* /vendor-job* /vendor-hub*
+	handle @spa {
+		root * /srv/app
+		try_files {path} /index.html
+		file_server
+	}
+
+	# Marketing static export, the default. trailingSlash:false emits
+	# /pricing as pricing.html, hence {path}.html. try_files matches files only
+	# without a trailing slash, so /solutions resolves to solutions.html rather
+	# than the solutions/ directory beside it.
+	handle {
+		root * /srv/marketing
+		try_files {path} {path}.html {path}/index.html
+		file_server
+	}
+
+	# Unknown paths get marketing's branded 404 page WITH a 404 status. Serving
+	# it through try_files would return 200, and search engines index a 200.
+	# file_server writes 200 by default even here, hence the explicit status.
+	handle_errors {
+		@notfound expression {err.status_code} == 404
+		handle @notfound {
+			root * /srv/marketing
+			rewrite * /404.html
+			file_server {
+				status 404
+			}
+		}
+	}
+}

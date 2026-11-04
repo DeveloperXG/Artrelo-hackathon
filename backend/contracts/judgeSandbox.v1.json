@@ -1,0 +1,64 @@
+{
+  "contractVersion": "1.2.0",
+  "basePath": "/api/v1/judge-sandbox",
+  "steps": ["tenant_submit", "routing", "vendor_decline", "vendor_quote", "quote_resolution", "booking", "visit_change", "vendor_reschedule", "tenant_reschedule", "vendor_work", "tenant_completion", "landlord_review", "iris_segment", "complete"],
+  "legacySteps": ["tenant_submit", "routing", "vendor_quote", "quote_resolution", "booking", "visit_change", "vendor_reschedule", "tenant_reschedule", "vendor_work", "tenant_completion", "landlord_review", "iris_segment", "complete"],
+  "storyVersions": {"legacy":"legacy_v1","declineRecovery":"decline_recovery_v1","containedFaucet":"contained_faucet_v1"},
+  "states": ["running", "waiting_on_tenant", "waiting_on_landlord", "ready_to_continue", "paused", "failed", "completed"],
+  "actions": ["continue", "pause", "resume"],
+  "checkpointKinds": ["approval", "quote_over_limit", "visit_change", "wallet_funding", "tenant_submit", "booking", "vendor_work", "tenant_completion", "iris_review"],
+  "actorKinds": ["landlord", "tenant", "vendor", "simulated_vendor", "automation", "iris_assistant", "ai_triage", "system", "unknown"],
+  "provenanceKinds": ["rules", "model", "records", "simulation", "fallback", "unknown"],
+  "errors": {
+    "invalid_input": 400, "auth_expired": 401, "forbidden_role": 403, "record_not_found": 404,
+    "sandbox_disabled": 404, "run_exists": 409, "stale_revision": 409, "step_not_ready": 409,
+    "checkpoint_requires_human": 409, "tenant_quota_reached": 409, "open_request_cap": 409,
+    "no_free_visit_time": 409, "wallet_funding_required": 409, "idempotency_conflict": 409,
+    "unsupported_scenario": 409, "ambiguous_request": 409, "action_unknown": 409, "run_busy": 409,
+    "ai_unavailable": 503, "ai_cap_reached": 429, "rate_limited": 429, "service_unavailable": 503
+  },
+  "limits": { "maximumPairs": 12, "maximumVendorsPerPair": 4, "actionBodyBytes": 1024, "pollMilliseconds": 2000, "pollStopMilliseconds": 60000 },
+  "$defs": {
+    "Ref": { "type": "string", "minLength": 1, "maxLength": 80, "pattern": "^[a-zA-Z0-9_-]+$" },
+    "NullableRef": { "anyOf": [{ "$ref": "#/$defs/Ref" }, { "type": "null" }] },
+    "Date": { "type": "string", "minLength": 20, "maxLength": 30, "format": "date-time" },
+    "NullableDate": { "anyOf": [{ "$ref": "#/$defs/Date" }, { "type": "null" }] },
+    "StepCode": { "type": "string", "enum": ["tenant_submit", "routing", "vendor_decline", "vendor_quote", "quote_resolution", "booking", "visit_change", "vendor_reschedule", "tenant_reschedule", "vendor_work", "tenant_completion", "landlord_review", "iris_segment", "complete"] },
+    "StartInput": { "type": "object", "additionalProperties": false, "required": [], "properties": {} },
+    "ActionInput": { "type": "object", "additionalProperties": false, "required": ["expectedRevision", "stepCode"], "properties": { "expectedRevision": { "type": "integer", "minimum": 1 }, "stepCode": { "$ref": "#/$defs/StepCode" } } },
+    "RunError": { "type": "object", "additionalProperties": false, "required": ["code", "retryable", "retryAfterSeconds", "nextAvailableAt"], "properties": {
+      "code": { "type": "string", "enum": ["invalid_input", "auth_expired", "forbidden_role", "record_not_found", "sandbox_disabled", "run_exists", "stale_revision", "step_not_ready", "checkpoint_requires_human", "tenant_quota_reached", "open_request_cap", "no_free_visit_time", "wallet_funding_required", "idempotency_conflict", "unsupported_scenario", "ambiguous_request", "action_unknown", "run_busy", "ai_unavailable", "ai_cap_reached", "rate_limited", "service_unavailable"] },
+      "retryable": { "type": "boolean" }, "retryAfterSeconds": { "anyOf": [{ "type": "integer", "minimum": 0 }, { "type": "null" }] }, "nextAvailableAt": { "$ref": "#/$defs/NullableDate" }
+    } },
+    "Checkpoint": { "type": "object", "additionalProperties": false, "required": ["kind", "requestId", "approvalId"], "properties": {
+      "kind": { "type": "string", "enum": ["approval", "quote_over_limit", "visit_change", "wallet_funding", "tenant_submit", "booking", "vendor_work", "tenant_completion", "iris_review"] },
+      "requestId": { "$ref": "#/$defs/NullableRef" }, "approvalId": { "$ref": "#/$defs/NullableRef" }
+    } },
+    "LegacyRunStep": {"type":"object","additionalProperties":false,"required":["index","total","code","title","detail"],"properties":{"index":{"type":"integer","minimum":1,"maximum":13},"total":{"type":"integer","enum":[13]},"code":{"type":"string","enum":["tenant_submit","routing","vendor_quote","quote_resolution","booking","visit_change","vendor_reschedule","tenant_reschedule","vendor_work","tenant_completion","landlord_review","iris_segment","complete"]},"title":{"type":"string","minLength":1,"maxLength":100},"detail":{"type":"string","maxLength":500}}},
+    "RecoveryRunStep": {"type":"object","additionalProperties":false,"required":["index","total","code","title","detail"],"properties":{"index":{"type":"integer","minimum":1,"maximum":14},"total":{"type":"integer","enum":[14]},"code":{"$ref":"#/$defs/StepCode"},"title":{"type":"string","minLength":1,"maxLength":100},"detail":{"type":"string","maxLength":500}}},
+    "Run": { "type": "object", "additionalProperties": false, "required": ["runId", "requestId", "revision", "state", "step", "allowedActions", "checkpoint", "error", "startedAt", "updatedAt", "completedAt"], "properties": {
+      "runId": { "$ref": "#/$defs/Ref" }, "requestId": { "$ref": "#/$defs/NullableRef" }, "revision": { "type": "integer", "minimum": 1 },
+      "state": { "type": "string", "enum": ["running", "waiting_on_tenant", "waiting_on_landlord", "ready_to_continue", "paused", "failed", "completed"] },
+      "step": {"oneOf":[{"$ref":"#/$defs/LegacyRunStep"},{"$ref":"#/$defs/RecoveryRunStep"}]},
+      "allowedActions": { "type": "array", "maxItems": 3, "items": { "type": "string", "enum": ["continue", "pause", "resume"] } },
+      "checkpoint": { "anyOf": [{ "$ref": "#/$defs/Checkpoint" }, { "type": "null" }] }, "error": { "anyOf": [{ "$ref": "#/$defs/RunError" }, { "type": "null" }] },
+      "startedAt": { "$ref": "#/$defs/NullableDate" }, "updatedAt": { "$ref": "#/$defs/Date" }, "completedAt": { "$ref": "#/$defs/NullableDate" }
+    } },
+    "Status": { "type": "object", "additionalProperties": false, "required": ["contractVersion", "enabled", "pairLabel", "role", "simulatedVendorIds", "run"], "properties": {
+      "contractVersion": { "type": "string", "enum": ["1.2.0"] }, "enabled": { "type": "boolean" }, "pairLabel": { "anyOf": [{ "type": "string", "minLength": 1, "maxLength": 50 }, { "type": "null" }] },
+      "role": { "anyOf": [{ "type": "string", "enum": ["landlord", "tenant"] }, { "type": "null" }] }, "simulatedVendorIds": { "type": "array", "maxItems": 4, "items": { "$ref": "#/$defs/Ref" } },
+      "run": { "anyOf": [{ "$ref": "#/$defs/Run" }, { "type": "null" }] }
+    } },
+    "Error": { "type": "object", "additionalProperties": false, "required": ["success", "code", "message", "retryAfterSeconds", "nextAvailableAt"], "properties": {
+      "success": { "type": "boolean", "enum": [false] }, "code": { "type": "string", "enum": ["invalid_input", "auth_expired", "forbidden_role", "record_not_found", "sandbox_disabled", "run_exists", "stale_revision", "step_not_ready", "checkpoint_requires_human", "tenant_quota_reached", "open_request_cap", "no_free_visit_time", "wallet_funding_required", "idempotency_conflict", "unsupported_scenario", "ambiguous_request", "action_unknown", "run_busy", "ai_unavailable", "ai_cap_reached", "rate_limited", "service_unavailable"] }, "message": { "type": "string", "maxLength": 500 },
+      "retryAfterSeconds": { "anyOf": [{ "type": "integer", "minimum": 0 }, { "type": "null" }] }, "nextAvailableAt": { "$ref": "#/$defs/NullableDate" }
+    } }
+  },
+  "endpoints": [
+    { "method": "GET", "path": "/status", "output": "Status", "status": 200 },
+    { "method": "POST", "path": "/runs", "input": "StartInput", "output": "Run", "status": 201 },
+    { "method": "POST", "path": "/runs/:id/continue", "input": "ActionInput", "output": "Run", "status": 200 },
+    { "method": "POST", "path": "/runs/:id/pause", "input": "ActionInput", "output": "Run", "status": 200 },
+    { "method": "POST", "path": "/runs/:id/resume", "input": "ActionInput", "output": "Run", "status": 200 }
+  ]
+}

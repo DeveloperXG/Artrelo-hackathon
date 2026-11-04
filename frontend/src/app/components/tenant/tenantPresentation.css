@@ -1,0 +1,48 @@
+/* Tenant-only presentation; no D3, legacy, vendor or public-page selector. */
+.lichen-d5 .ll-fade-up { animation: none !important; }
+.lichen-d5 [data-slot='badge'] { max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
+.lichen-d5 :is(.p-3, .px-3), .lichen-d5:is(.p-3, .px-3) { padding-inline: min(0.75rem, 12px); }
+.lichen-d5 .p-3, .lichen-d5.p-3 { padding-block: min(0.75rem, 12px); }
+.lichen-d5 :is(.p-4, .px-4), .lichen-d5:is(.p-4, .px-4) { padding-inline: min(1rem, 16px); }
+.lichen-d5 .p-4, .lichen-d5.p-4 { padding-block: min(1rem, 16px); }
+.lichen-d5 :is(.p-5, .px-5), .lichen-d5:is(.p-5, .px-5) { padding-inline: min(1.25rem, 20px); }
+.lichen-d5 .p-5, .lichen-d5.p-5 { padding-block: min(1.25rem, 20px); }
+.lichen-d5 :is(.p-6, .px-6), .lichen-d5:is(.p-6, .px-6) { padding-inline: min(1.5rem, 24px); }
+.lichen-d5 .p-6, .lichen-d5.p-6 { padding-block: min(1.5rem, 24px); }
+.lichen-d5 .gap-2 { gap: min(0.5rem, 8px); }
+.lichen-d5 .gap-3 { gap: min(0.75rem, 12px); }
+.lichen-d5 .gap-4 { gap: min(1rem, 16px); }
+.lichen-d5 [data-slot='button'] { padding-inline: min(0.75rem, 12px); }
+.lichen-d5 [data-slot='button'] > svg { width: min(1rem, 16px); height: min(1rem, 16px); }
+.lichen-d5 [role='link']:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+.lichen-d5 :is(button, a, [role='link']):focus-visible { box-shadow: none; }
+.lichen-d5 .tenant-original-note { padding: min(0.75rem, 12px); }
+.lichen-d5 [data-slot='card'] { box-shadow: none; }
+.lichen-d5 [data-testid^='tenant-schedule-filter-'] { box-shadow: none; }
+.lichen-d5.tenant-confirm-dialog [class~='bg-rose-50'] { background: var(--role-alert-tint); box-shadow: none; }
+.lichen-d5.tenant-confirm-dialog [class~='text-rose-600'] { color: var(--role-alert-text); }
+.lichen-d5.tenant-confirm-dialog [class~='text-slate-900'] { color: var(--role-ink); }
+.lichen-d5.tenant-confirm-dialog [class~='text-slate-500'] { color: var(--role-meta); }
+.lichen-d5.tenant-confirm-dialog [data-slot='dialog-footer'] { background: var(--role-well); }
+.lichen-d5 { overflow-wrap: anywhere; }
+/* Keep portal insets physical when text is enlarged. A rem-based outer gap
+   plus nested card padding otherwise consumes most of a narrow viewport. */
+.lichen-d5[data-slot='dialog-content'] {
+  width: min(calc(100% - 24px), 32rem);
+  max-width: calc(100% - 24px);
+  max-height: calc(100dvh - 24px);
+}
+.lichen-d5[data-slot='dialog-content']:not(.p-0) { padding-inline: 16px; }
+.lichen-d5[data-slot='dialog-content'] :is(.p-6, .px-6) { padding-inline: 16px; }
+.lichen-d5[data-slot='dialog-content'] :is(.p-5, .px-5, .p-4, .px-4) { padding-inline: 12px; }
+.lichen-d5[data-slot='dialog-content'] [data-slot='dialog-header'] > .flex { flex-wrap: wrap; }
+.lichen-d5[data-slot='dialog-content'] [data-slot='dialog-header'] > .flex > div:last-child { flex: 1 1 12rem; min-width: 0; }
+.lichen-d5[data-slot='dialog-content'] [data-slot='dialog-header'] :is(span, div):is(.h-10, .h-11) { max-width: 44px; max-height: 44px; }
+.lichen-d5.tenant-confirm-dialog [class~='bg-rose-600'] { background: var(--destructive); color: var(--destructive-foreground); }
+.lichen-d5.tenant-confirm-dialog [class~='bg-rose-600']:hover { background: color-mix(in srgb, var(--destructive) 90%, transparent); }
+@media (prefers-reduced-motion: reduce) {
+  .lichen-d5, .lichen-d5 * { animation: none !important; transition: none !important; }
+  /* The shared primitive's overlay is the immediate sibling of its content.
+     Scope this rule to that D5 portal; other dialog owners remain unchanged. */
+  [data-slot='dialog-overlay']:has(+ [data-slot='dialog-content'].lichen-d5) { animation: none !important; transition: none !important; }
+}

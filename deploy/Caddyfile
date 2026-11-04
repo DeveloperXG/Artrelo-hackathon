@@ -1,0 +1,32 @@
+# Reference Caddy config — same path-split as deploy/nginx.conf, with automatic
+# HTTPS. Adapt the domain and the two root paths before using.
+
+artrelo.com {
+	# API: Express backend
+	handle /api/* {
+		reverse_proxy 127.0.0.1:5500
+	}
+
+	# SPA build assets: real files only. A missing /assets/*.js must 404 rather
+	# than fall back to index.html — the browser rejects HTML served as a module.
+	handle /assets/* {
+		root * /var/www/artrelo/app
+		file_server
+	}
+
+	# SPA client routes -> frontend/dist (SPA index.html fallback for the router)
+	@spa path /login* /signup* /landlord-signup* /portal* /dashboard* /requests* /vendor-response* /vendor-job* /vendor-hub*
+	handle @spa {
+		root * /var/www/artrelo/app
+		try_files {path} /index.html
+		file_server
+	}
+
+	# Marketing static export -> marketing/out (default).
+	# trailingSlash:false means /pricing is emitted as pricing.html.
+	handle {
+		root * /var/www/artrelo/marketing
+		try_files {path} {path}.html {path}/index.html /404.html
+		file_server
+	}
+}

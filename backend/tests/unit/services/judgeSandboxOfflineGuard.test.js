@@ -1,0 +1,20 @@
+const assert = require('assert/strict'), http = require('http'), net = require('net'), tls = require('tls');
+const { hostOf, installOfflineSandbox } = require('../../../services/judgeSandbox/offlineGuard.service');
+assert.equal(hostOf('http://127.0.0.1:9999/a'), '127.0.0.1');assert.equal(hostOf({ host: 'localhost:9999' }), 'localhost');
+assert.equal(hostOf(9999, '127.0.0.1'), '127.0.0.1');assert.equal(hostOf([{ host: '::1', port: 9999 }]), '::1');
+assert.throws(() => installOfflineSandbox({ database: 'production', frontendOrigin: 'http://127.0.0.1:3143' }));
+const proof = installOfflineSandbox({ database: 'artrelo_judge_guard_test', frontendOrigin: 'http://127.0.0.1:3143' });
+assert.ok(process.env.MODEL_API_KEY === '');assert.ok(process.env.RESEND_API_KEY === '');assert.ok(process.env.STRIPE_SECRET_KEY === '');
+assert.equal(process.env.OUTREACH_EMAIL_ENABLED, 'false');assert.equal(proof.mode, 'offline_judge_core');
+let server;
+(async () => {
+  await assert.rejects(() => fetch('https://example.invalid/never-sent'), /EXTERNAL_NETWORK_DISABLED/);
+  assert.throws(() => http.get('http://example.invalid/never-sent'), /EXTERNAL_NETWORK_DISABLED/);
+  assert.throws(() => net.connect(443, 'example.invalid'), /EXTERNAL_NETWORK_DISABLED/);
+  assert.throws(() => tls.connect({ host: 'example.invalid', port: 443 }), /EXTERNAL_NETWORK_DISABLED/);
+  assert.equal(proof.diagnostics().deniedNetworkAttempts, 4);assert.equal(proof.diagnostics().realModelCalls, 0);
+  server = http.createServer((req, res) => res.end('local-positive-control'));server.listen(0, '127.0.0.1');await new Promise(resolve => server.once('listening', resolve));
+  await new Promise((resolve, reject) => { http.get('http://127.0.0.1:' + server.address().port, response => { let data = '';response.on('data', c => data += c);response.on('end', () => { try { assert.equal(data, 'local-positive-control');resolve(); } catch (e) { reject(e); } }); }).on('error', reject); });
+  assert.equal(proof.diagnostics().deniedNetworkAttempts, 4);
+  console.log('PASS offline sandbox: invalid target denied, real credentials absent by name, fetch/HTTP/TCP/TLS external denied before send, loopback positive control and counters.');
+})().catch(e => { console.error(e.code || e.message);process.exitCode = 1; }).finally(() => { server?.closeAllConnections();server?.close(); });

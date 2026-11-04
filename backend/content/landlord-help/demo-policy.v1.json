@@ -1,0 +1,77 @@
+{
+  "bundleVersion": "demo-policy-1",
+  "articles": [
+    {
+      "articleId": "policy-auto-next-vendor",
+      "articleRevision": 1,
+      "audience": "landlord_client",
+      "status": "published",
+      "title": "Auto-contact next vendor",
+      "summary": "When a vendor declines or does not reply in time, this setting can let Artrelo contact the next eligible vendor automatically. It only proceeds when the contact limit, vendor eligibility and required reviews allow it. If it is off, you review contacting the next vendor. Turning it on does not approve a quote or spending, guarantee delivery, or remove emergency safeguards. It is separate from starting Low or Medium requests. Review this setting on the Policy page; Iris can explain it but cannot change it.",
+      "aliases": [
+        "Auto-contact next vendor",
+        "Vendor auto-contact",
+        "next vendor",
+        "automatic vendor outreach",
+        "vendor declines"
+      ],
+      "lastVerifiedAt": "2026-10-29T20:59:08.145Z",
+      "publishedAt": "2026-10-29T20:59:08.145Z",
+      "publicRouteKind": "policy"
+    },
+    {
+      "articleId": "policy-max-vendors",
+      "articleRevision": 1,
+      "audience": "landlord_client",
+      "status": "published",
+      "title": "Max vendors contacted per request",
+      "summary": "This is the limit on distinct vendors Artrelo can contact for one request, from 0 to 5. At 0, automatic vendor contact is disabled; it does not erase earlier contacts. A resend to the same vendor is not another distinct vendor. There may be fewer eligible vendors than your limit, and the limit does not guarantee someone accepts the job. When the limit or available list is exhausted, the request needs your attention. Review this setting on Policy; Iris cannot change it.",
+      "aliases": [
+        "Max vendors contacted per request",
+        "vendor limit",
+        "vendor cap",
+        "maximum vendors",
+        "zero vendors"
+      ],
+      "lastVerifiedAt": "2026-10-29T20:59:08.145Z",
+      "publishedAt": "2026-10-29T20:59:08.145Z",
+      "publicRouteKind": "policy"
+    },
+    {
+      "articleId": "policy-low-medium-autopilot",
+      "articleRevision": 1,
+      "audience": "landlord_client",
+      "status": "published",
+      "title": "Low and Medium autopilot",
+      "summary": "The Low and Medium switches control whether eligible requests of that severity can start vendor contact automatically within your quota and review rules. They do not remove intake, vendor, spending or other required reviews. High-severity and emergency work remains human-gated. Starting contact is separate from Auto-contact next vendor after a decline or no reply. Iris can prepare an exact Low or Medium change for you to review and confirm; it cannot approve spending.",
+      "aliases": [
+        "Low severity",
+        "Medium severity",
+        "Low autopilot",
+        "Medium autopilot",
+        "autopilot"
+      ],
+      "lastVerifiedAt": "2026-10-29T20:59:08.145Z",
+      "publishedAt": "2026-10-29T20:59:08.145Z",
+      "publicRouteKind": "policy"
+    },
+    {
+      "articleId": "policy-default-quota",
+      "articleRevision": 1,
+      "audience": "landlord_client",
+      "status": "published",
+      "title": "Default quota",
+      "summary": "Your default quota is the CAD limit used when a request has no more-specific recorded limit. It does not mean every request uses that amount. Changing it is not approval of a pending financial decision and does not reopen an already passed check. Future applicable checks use the current rules. A submitted quote above its effective limit still needs financial approval; turning off the earlier estimate review does not remove this ceiling. Iris can prepare an exact positive default quota for your confirmation.",
+      "aliases": [
+        "default quota",
+        "spending quota",
+        "default limit",
+        "change quota",
+        "budget limit"
+      ],
+      "lastVerifiedAt": "2026-10-29T20:59:08.145Z",
+      "publishedAt": "2026-10-29T20:59:08.145Z",
+      "publicRouteKind": "policy"
+    }
+  ]
+}

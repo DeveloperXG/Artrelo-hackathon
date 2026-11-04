@@ -1,0 +1,50 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "type": "commonjs",
+  "engines": {
+    "node": "22.x"
+  },
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "node tests/verify_signup_flow.js",
+    "test:unit": "node tests/run_unit.js",
+    "test:integration": "powershell -ExecutionPolicy Bypass -File tests/run_integration.ps1",
+    "start": "node server.js",
+    "start:test": "set NODE_ENV=test&& node server.js",
+    "dev": "nodemon server.js"
+  },
+  "author": "Excel Ojeifo",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  },
+  "dependencies": {
+    "@sentry/node": "^11.7.0",
+    "axios": "^1.16.1",
+    "bcryptjs": "^3.0.2",
+    "cloudinary": "^2.10.0",
+    "connect-flash": "^0.1.1",
+    "connect-mongodb-session": "^5.0.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.5.2",
+    "express-session": "^1.18.2",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.18.0",
+    "mongoose": "^8.17.1",
+    "morgan": "^1.10.1",
+    "multer": "^2.2.0",
+    "openai": "^6.39.0",
+    "resend": "^6.20.0",
+    "stripe": "^22.4.0"
+  }
+}

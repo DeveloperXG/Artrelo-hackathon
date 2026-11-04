@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "authorizationRef": "public-local-synthetic-example",
+  "assignedPairs": 8,
+  "sparePairs": 2,
+  "initialPolicy": {
+    "defaultQuotaMinor": 20000,
+    "lowAutopilot": true,
+    "mediumAutopilot": true,
+    "autoContact": true,
+    "maxVendors": 3,
+    "quoteClarification": true
+  },
+  "syntheticOpeningWalletMinor": 100000
+}

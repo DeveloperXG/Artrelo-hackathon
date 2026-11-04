@@ -1,0 +1,507 @@
+@custom-variant dark (&:is(.dark *));
+/* Styles that apply only inside a Lichen scope, e.g. lichen:shadow-none. */
+@custom-variant lichen (&:where(.lichen, .lichen *));
+
+/*
+ * Direction 3E "Lichen", dark-first, activated SCREEN BY SCREEN. Three layers:
+ *
+ * 1. --artrelo-*: the owner's primitives, verbatim, defined globally. Never
+ *    edit a value here to fix a contrast problem; pick a different role.
+ * 2. shadcn semantic roles (--background, --muted, --input, ...) that the
+ *    components/ui primitives consume. :root keeps the LEGACY light values;
+ *    the Lichen mapping lives on .lichen. Pages only reach these roles through
+ *    the shared primitives, and un-migrated pages wrap them in hard-coded light
+ *    markup (bg-white cards, slate text), so flipping :root would leave ink
+ *    text on white. A migrated surface opts in with class="lichen"; a portaled
+ *    overlay (dialog, menu) opened from it needs the class too, since it
+ *    renders outside the scope. :root flips only once every surface is
+ *    migrated.
+ * 3. Brand/state roles exposed to Tailwind (bg-lichen-tint, text-mist-text,
+ *    text-meta, border-control-border, ...). These are constants, for use
+ *    inside a Lichen scope.
+ *
+ * Owner and shadcn names collide (owner --muted is a text grey, shadcn --muted
+ * a background; owner --border/--sidebar differ in role), which is why the
+ * owner primitives are namespaced.
+ *
+ * Meaning: Lichen = live / needs you / the primary action. Mist = done,
+ * confirmed, approved, scheduled. Alert = urgent, rejected, negative.
+ * Everything else is graphite. A state colour never stands alone: it carries
+ * a label and/or an icon.
+ *
+ * The approved accessibility roles (Checkpoint A v2), in the .lichen mapping:
+ * - ReadableMeta: normal-size metadata, labels and placeholders use owner
+ *   muted #98a0a8 (6.60:1 on surface), never faint #6d757d (3.74:1, fails).
+ * - FocusVisibleSolid: --ring is solid Lichen, drawn as a 2px outline with a
+ *   2px offset so the dark ground shows between it and a Lichen fill. The
+ *   owner's 15% --artrelo-focus-ring is kept but is never the only cue and is
+ *   never multiplied down further (no ring-ring/50).
+ * - ControlBoundaryVisible: a field's required outline (--input) is faint
+ *   #6d757d (3.74:1 on surface, 3.89:1 on its inset fill). The owner border
+ *   #262c32 stays for decorative card/row lines only.
+ * - On an Alert or Lichen fill, labels are graphite #0f1215, never white
+ *   (white on Alert is 2.44:1).
+ */
+:root {
+  /* Neutrals */
+  --artrelo-ground: #0f1215;
+  --artrelo-sidebar: #0a0c0e;
+  --artrelo-surface: #161a1e;
+  --artrelo-inset: #12161a;
+  --artrelo-hairline: #22272c;
+  --artrelo-border: #262c32;
+  --artrelo-chip: #1e2328;
+  --artrelo-chip-ring: #2b3238;
+
+  /* Text */
+  --artrelo-ink: #e8ebee;
+  --artrelo-muted: #98a0a8;
+  --artrelo-faint: #6d757d;
+  --artrelo-nav: #adb4bb;
+  --artrelo-chip-icon: #c2c9d0;
+
+  /* Lichen: live / needs you / primary action */
+  --artrelo-lichen: #b8c65a;
+  --artrelo-on-lichen: #0f1215;
+  --artrelo-lichen-text: #cbd87a;
+  --artrelo-lichen-tint: #22281a;
+  --artrelo-lichen-wash: #1d2214;
+  --artrelo-lichen-line: #4a5426;
+  --artrelo-focus-ring: rgba(184, 198, 90, 0.15);
+
+  /* Mist: done / confirmed */
+  --artrelo-mist: #7fa3bd;
+  --artrelo-mist-text: #9cc0da;
+  --artrelo-mist-tint: #1c2833;
+  --artrelo-mist-line: #2c3a44;
+
+  /* Alert: urgent / rejected / negative */
+  --artrelo-alert: #ee8b78;
+  --artrelo-alert-tint: #2d1c1a;
+  --artrelo-alert-line: #4a2a26;
+
+  /* Closed / inactive */
+  --artrelo-closed: #363d44;
+
+  /* Sidebar sub-label (the line under the brand), dark chrome only. */
+  --artrelo-sidebar-sub: #848c94;
+
+  /* Lichen LIGHT: the owner's light-content primitives, verbatim. Fills the
+     two themes share (lichen #b8c65a, on-lichen #0f1215, mist #7fa3bd) are
+     not repeated. Lichen is a FILL on light, never text or an icon on white
+     (1.9:1); text and icons use lichen-text, the pill text or lichen-icon. */
+  --artrelo-light-page: #ffffff;
+  --artrelo-light-surface: #ffffff;
+  --artrelo-light-inset: #f6f7f8;
+  --artrelo-light-hairline: #eceef0;
+  --artrelo-light-border: #e1e4e8;
+  --artrelo-light-chip: #f1f3f5;
+  --artrelo-light-chip-ring: #e1e4e8;
+  --artrelo-light-chip-icon: #3b434b;
+  --artrelo-light-ink: #0f1215;
+  --artrelo-light-muted: #545c64;
+  --artrelo-light-faint: #6b737b;
+  --artrelo-light-lichen-text: #56620f;
+  --artrelo-light-pill-text: #4f5a10;
+  --artrelo-light-lichen-tint: #eef2d2;
+  --artrelo-light-lichen-wash: #f6f8e6;
+  --artrelo-light-lichen-line: #d6de9c;
+  --artrelo-light-lichen-icon: #6b7a12;
+  --artrelo-light-new-row: #fafbf0;
+  --artrelo-light-halo: rgba(184, 198, 90, 0.35);
+  --artrelo-light-mist-text: #2f5a78;
+  --artrelo-light-mist-tint: #e6eef4;
+  --artrelo-light-mist-line: #c9d9e5;
+  --artrelo-light-alert: #b8432e;
+  --artrelo-light-alert-text: #9c3826;
+  --artrelo-light-alert-tint: #fbebe7;
+  --artrelo-light-alert-line: #f0c8bf;
+  --artrelo-light-closed: #d3d8dc;
+  --artrelo-light-pill-neutral: #eef0f2;
+  --artrelo-light-card-shadow: 0 1px 2px rgba(15, 18, 21, 0.04);
+
+  /* Legacy semantic roles: the light theme every page that has not yet been
+     migrated was built against. Values unchanged from before Lichen, except
+     --ring (see below). */
+  --font-size: 16px;
+  --background: #ffffff;
+  --foreground: oklch(0.145 0 0);
+  --card: #ffffff;
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: #030213;
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.95 0.0058 264.53);
+  --secondary-foreground: #030213;
+  --muted: #ececf0;
+  --muted-foreground: #717182;
+  --accent: #e9ebef;
+  --accent-foreground: #030213;
+  --destructive: #d4183d;
+  --destructive-foreground: #ffffff;
+  --border: rgba(0, 0, 0, 0.1);
+  --input: transparent;
+  --input-background: #f3f3f5;
+  --switch-background: #cbced4;
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  /* Deliberate a11y correction (D1): the shadcn grey oklch(0.708 0 0) was
+     about 2.6:1 on white, below the 3:1 a focus indicator needs, and it now
+     draws the solid focus outline of every shared primitive and of the base
+     :focus-visible rule. #717182 is the existing legacy neutral
+     (--muted-foreground): 4.8:1 on white, 4.3:1 on the #f3f3f5 field fill,
+     4.0:1 on the dark #0a0f14 auth ground. */
+  --ring: #717182;
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: #030213;
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.lichen {
+  /* Dark native controls, scrollbars and date pickers inside the scope. */
+  color-scheme: dark;
+  --logo-mark: var(--artrelo-lichen);
+  --background: var(--artrelo-ground);
+  --foreground: var(--artrelo-ink);
+  --card: var(--artrelo-surface);
+  --card-foreground: var(--artrelo-ink);
+  --popover: var(--artrelo-surface);
+  --popover-foreground: var(--artrelo-ink);
+  --primary: var(--artrelo-lichen);
+  --primary-foreground: var(--artrelo-on-lichen);
+  --secondary: var(--artrelo-chip);
+  --secondary-foreground: var(--artrelo-ink);
+  /* shadcn --muted is a background; owner muted is text (ReadableMeta). */
+  --muted: var(--artrelo-chip);
+  --muted-foreground: var(--artrelo-muted);
+  /* Neutral hover surface. Lichen is not a hover colour. */
+  --accent: var(--artrelo-hairline);
+  --accent-foreground: var(--artrelo-ink);
+  --destructive: var(--artrelo-alert);
+  /* Graphite on a solid Alert fill, 7.69:1. */
+  --destructive-foreground: var(--artrelo-on-lichen);
+  --border: var(--artrelo-border);
+  /* --input is the field OUTLINE (border-input); --input-background its fill. */
+  --input: var(--artrelo-faint);
+  --input-background: var(--artrelo-inset);
+  --switch-background: var(--artrelo-faint);
+  --ring: var(--artrelo-lichen);
+  --chart-1: var(--artrelo-lichen); /* open / live */
+  --chart-2: var(--artrelo-mist); /* completed / confirmed */
+  --chart-3: var(--artrelo-closed); /* rejected or cancelled: always labelled */
+  --chart-4: var(--artrelo-alert); /* urgent / negative */
+  --chart-5: var(--artrelo-nav);
+  --radius: 0.5rem; /* cards 8px (rounded-lg); controls 6px (rounded-md) */
+  --sidebar: var(--artrelo-sidebar);
+  --sidebar-foreground: var(--artrelo-nav);
+  --sidebar-primary: var(--artrelo-lichen);
+  --sidebar-primary-foreground: var(--artrelo-on-lichen);
+  --sidebar-accent: var(--artrelo-hairline);
+  --sidebar-accent-foreground: var(--artrelo-ink);
+  --sidebar-border: var(--artrelo-hairline);
+  --sidebar-ring: var(--artrelo-lichen);
+}
+
+/*
+ * Lichen role layer. Tailwind's Lichen colours (text-ink, bg-lichen-tint, ...)
+ * read these --role-* variables rather than a primitive, so one class resolves
+ * per scope. DARK is the default and is declared explicitly on every .lichen
+ * element, so a dark .lichen anywhere resets every role and no light value
+ * can leak into dark chrome. :root carries the same dark set only so a Lichen
+ * colour used outside any scope behaves exactly as before.
+ */
+:root,
+.lichen {
+  --role-ground: var(--artrelo-ground);
+  --role-surface: var(--artrelo-surface);
+  --role-well: var(--artrelo-inset);
+  --role-hairline: var(--artrelo-hairline);
+  --role-chip: var(--artrelo-chip);
+  --role-chip-ring: var(--artrelo-chip-ring);
+  --role-ink: var(--artrelo-ink);
+  --role-meta: var(--artrelo-muted);
+  --role-nav: var(--artrelo-nav);
+  --role-chip-icon: var(--artrelo-chip-icon);
+  --role-control-border: var(--artrelo-faint);
+  --role-lichen: var(--artrelo-lichen);
+  --role-on-lichen: var(--artrelo-on-lichen);
+  --role-lichen-text: var(--artrelo-lichen-text);
+  --role-lichen-pill: var(--artrelo-lichen-text);
+  --role-lichen-icon: var(--artrelo-lichen);
+  --role-lichen-tint: var(--artrelo-lichen-tint);
+  --role-lichen-wash: var(--artrelo-lichen-wash);
+  --role-lichen-line: var(--artrelo-lichen-line);
+  --role-new-row: var(--artrelo-lichen-wash);
+  --role-mist: var(--artrelo-mist);
+  --role-mist-text: var(--artrelo-mist-text);
+  --role-mist-tint: var(--artrelo-mist-tint);
+  --role-mist-line: var(--artrelo-mist-line);
+  --role-alert: var(--artrelo-alert);
+  --role-alert-text: var(--artrelo-alert);
+  --role-alert-tint: var(--artrelo-alert-tint);
+  --role-alert-line: var(--artrelo-alert-line);
+  --role-on-alert: var(--artrelo-on-lichen);
+  --role-closed: var(--artrelo-closed);
+  --role-pill-neutral: var(--artrelo-hairline);
+  --role-card-shadow: none;
+}
+
+/*
+ * Lichen LIGHT content scope: class="lichen lichen-light". Only the page
+ * column of a migrated route, and the overlays opened from it, carry it; the
+ * sidebar, the phone bar and sign-in stay dark .lichen, and :root stays
+ * legacy. The same roles take light values, so every lichen: variant and
+ * Lichen colour resolves in both scopes.
+ *
+ * Light accessibility roles (measured in theme.test.ts):
+ * - Lichen #b8c65a is a fill only. Links and active tabs use lichen-text
+ *   #56620f, pills lichen-pill #4f5a10, icons lichen-icon #6b7a12.
+ * - FocusVisibleSolid: --ring is lichen-text, a solid 2px outline.
+ * - ControlBoundaryVisible: --input is light faint #6b737b.
+ * - The light Alert fill #b8432e takes a white label (graphite would be
+ *   3.3:1). Alert TEXT is alert-text #9c3826.
+ */
+.lichen.lichen-light {
+  color-scheme: light;
+  --logo-mark: var(--artrelo-on-lichen);
+  --background: var(--artrelo-light-page);
+  --foreground: var(--artrelo-light-ink);
+  --card: var(--artrelo-light-surface);
+  --card-foreground: var(--artrelo-light-ink);
+  --popover: var(--artrelo-light-surface);
+  --popover-foreground: var(--artrelo-light-ink);
+  --primary: var(--artrelo-lichen);
+  --primary-foreground: var(--artrelo-on-lichen);
+  --secondary: var(--artrelo-light-chip);
+  --secondary-foreground: var(--artrelo-light-ink);
+  --muted: var(--artrelo-light-chip);
+  --muted-foreground: var(--artrelo-light-muted);
+  --accent: var(--artrelo-light-hairline);
+  --accent-foreground: var(--artrelo-light-ink);
+  --destructive: var(--artrelo-light-alert);
+  --destructive-foreground: var(--artrelo-light-page);
+  --border: var(--artrelo-light-border);
+  --input: var(--artrelo-light-faint);
+  --input-background: var(--artrelo-light-inset);
+  --switch-background: var(--artrelo-light-faint);
+  --ring: var(--artrelo-light-lichen-text);
+  --chart-1: var(--artrelo-lichen);
+  --chart-2: var(--artrelo-mist);
+  --chart-3: var(--artrelo-light-closed);
+  --chart-4: var(--artrelo-light-alert);
+  --chart-5: var(--artrelo-light-muted);
+
+  --role-ground: var(--artrelo-light-page);
+  --role-surface: var(--artrelo-light-surface);
+  --role-well: var(--artrelo-light-inset);
+  --role-hairline: var(--artrelo-light-hairline);
+  --role-chip: var(--artrelo-light-chip);
+  --role-chip-ring: var(--artrelo-light-chip-ring);
+  --role-ink: var(--artrelo-light-ink);
+  --role-meta: var(--artrelo-light-muted);
+  --role-nav: var(--artrelo-light-chip-icon);
+  --role-chip-icon: var(--artrelo-light-chip-icon);
+  --role-control-border: var(--artrelo-light-faint);
+  --role-lichen: var(--artrelo-lichen);
+  --role-on-lichen: var(--artrelo-on-lichen);
+  --role-lichen-text: var(--artrelo-light-lichen-text);
+  --role-lichen-pill: var(--artrelo-light-pill-text);
+  --role-lichen-icon: var(--artrelo-light-lichen-icon);
+  --role-lichen-tint: var(--artrelo-light-lichen-tint);
+  --role-lichen-wash: var(--artrelo-light-lichen-wash);
+  --role-lichen-line: var(--artrelo-light-lichen-line);
+  --role-new-row: var(--artrelo-light-new-row);
+  --role-mist: var(--artrelo-mist);
+  --role-mist-text: var(--artrelo-light-mist-text);
+  --role-mist-tint: var(--artrelo-light-mist-tint);
+  --role-mist-line: var(--artrelo-light-mist-line);
+  --role-alert: var(--artrelo-light-alert);
+  --role-alert-text: var(--artrelo-light-alert-text);
+  --role-alert-tint: var(--artrelo-light-alert-tint);
+  --role-alert-line: var(--artrelo-light-alert-line);
+  --role-on-alert: var(--artrelo-light-page);
+  --role-closed: var(--artrelo-light-closed);
+  --role-pill-neutral: var(--artrelo-light-pill-neutral);
+  --role-card-shadow: var(--artrelo-light-card-shadow);
+}
+
+@theme {
+  /* System stacks are the loading/failure fallback, not the look. */
+  --font-sans: 'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-input-background: var(--input-background);
+  --color-switch-background: var(--switch-background);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Owner surfaces and text, by role, through the --role-* layer so each
+     resolves to its dark or light value per scope. "well" is the owner's inset: a Tailwind
+     colour named "inset" would collide with the ring-inset utility. Faint is
+     deliberately not a text colour (it fails normal text); it is exposed only
+     as the visible control boundary. */
+  --color-ground: var(--role-ground);
+  --color-surface: var(--role-surface);
+  --color-well: var(--role-well);
+  --color-hairline: var(--role-hairline);
+  --color-chip: var(--role-chip);
+  --color-chip-ring: var(--role-chip-ring);
+  --color-ink: var(--role-ink);
+  --color-meta: var(--role-meta);
+  --color-nav: var(--role-nav);
+  --color-chip-icon: var(--role-chip-icon);
+  --color-control-border: var(--role-control-border);
+
+  --color-lichen: var(--role-lichen);
+  --color-on-lichen: var(--role-on-lichen);
+  --color-lichen-text: var(--role-lichen-text);
+  --color-lichen-pill: var(--role-lichen-pill);
+  --color-lichen-icon: var(--role-lichen-icon);
+  --color-lichen-tint: var(--role-lichen-tint);
+  --color-lichen-wash: var(--role-lichen-wash);
+  --color-lichen-line: var(--role-lichen-line);
+  --color-mist: var(--role-mist);
+  --color-mist-text: var(--role-mist-text);
+  --color-mist-tint: var(--role-mist-tint);
+  --color-mist-line: var(--role-mist-line);
+  --color-alert: var(--role-alert);
+  --color-alert-text: var(--role-alert-text);
+  --color-alert-tint: var(--role-alert-tint);
+  --color-alert-line: var(--role-alert-line);
+  --color-on-alert: var(--role-on-alert);
+  --color-closed: var(--role-closed);
+  --color-new-row: var(--role-new-row);
+  --color-pill-neutral: var(--role-pill-neutral);
+  /* Dark chrome only: the sidebar's sub-label. */
+  --color-sidebar-sub: var(--artrelo-sidebar-sub);
+}
+
+/* Light cards carry a 1px shadow; in a dark scope it resolves to none. */
+@utility shadow-lichen-card {
+  box-shadow: var(--role-card-shadow);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring;
+  }
+
+  html {
+    font-size: var(--font-size);
+    /* Only the four real weights per family render; never a faux bold. */
+    font-synthesis: style;
+  }
+
+  body,
+  .lichen {
+    @apply bg-background text-foreground;
+  }
+
+  /* FocusVisibleSolid. Any focusable element without its own focus style gets
+     a solid --ring outline: Lichen inside .lichen, the legacy #717182 neutral
+     elsewhere. The offset leaves a gap of the ground, so it also reads against
+     a filled button. */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  /**
+  * Default typography styles for HTML elements (h1-h4, p, label, button, input).
+  * These are in @layer base, so Tailwind utility classes (like text-sm, text-lg) automatically override them.
+  */
+
+  h1 {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+    letter-spacing: -0.02em;
+  }
+
+  h2 {
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+    letter-spacing: -0.02em;
+  }
+
+  h3 {
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  h4 {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  label {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  button {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  input {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-normal);
+    line-height: 1.5;
+  }
+}

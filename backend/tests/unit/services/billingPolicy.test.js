@@ -1,0 +1,24 @@
+const assert = require("assert");
+const { readiness, feeDecision, offerVersion, periodStart, DAY } = require("../../../services/billing/billingPolicy");
+const now = new Date("2026-12-01T00:00:00Z");
+const account = { offer: { noticeSentAt: new Date(now - 40 * DAY), effectiveAt: new Date(now - 10 * DAY) },
+  agreement: { acceptedAt: new Date(now - 20 * DAY) }, card: { paymentMethodId: "pm_card" } };
+const base = { landlord: {}, account, now };
+assert.equal(readiness(base).chargeable, true);
+assert.equal(readiness({ ...base, account: null }).reason, "billing_setup_required");
+assert.equal(readiness({ ...base, landlord: { beta: { endsAt: new Date(+now + DAY) } }, account: null }).reason, "beta");
+assert.equal(readiness({ ...base, taxReviewed: false }).reason, "billing_configuration_pending");
+assert.equal(readiness({ ...base, enabled: false }).chargeable, false);
+assert.equal(readiness({ ...base, account: { ...account, offer: { ...account.offer, effectiveAt: new Date(+now + DAY) } } }).reason, "billing_notice_period");
+assert.equal(readiness({ ...base, failedAt: new Date(now - 14 * DAY + 1) }).allowed, true);
+assert.equal(readiness({ ...base, failedAt: new Date(now - 14 * DAY) }).reason, "billing_past_due");
+assert.equal(readiness({ ...base, failedAt: new Date(now - 20 * DAY), emergency: true }).allowed, true);
+const snapshot = { chargeable: true, rate: { flatCents: 500, percent: 1 }, agreementVersion: "accepted-v1" };
+assert.equal(feeDecision(snapshot, 30000).feeCents, 800);
+assert.equal(feeDecision(snapshot, 30).feeCents, 30, "fee is capped at final payable amount");
+assert.equal(feeDecision({ ...snapshot, chargeable: false, waivedReason: "beta" }, 30000).feeCents, 0);
+assert.equal(feeDecision(undefined, 30000).waivedReason, "pre_activation");
+assert.equal(offerVersion(snapshot.rate), offerVersion({ flatCents: 500, percent: 1 }));
+assert.notEqual(offerVersion(snapshot.rate), offerVersion({ flatCents: 300, percent: 0.5 }));
+assert.equal(periodStart(new Date("2026-12-31T23:59:59Z")).toISOString(), "2026-12-01T00:00:00.000Z");
+console.log("billing policy tests passed");

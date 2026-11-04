@@ -1,0 +1,125 @@
+@import "tailwindcss";
+
+/* Ported verbatim from frontend/src/styles/marketing.css, with two changes for
+   the static-export build:
+   1. The scroll-reveal hidden state ([data-reveal] opacity:0) is gated behind
+      `html.js` so that no-JS renderers — and crawlers that don't execute JS —
+      see fully visible content. RevealInit adds the `js` class on mount.
+   2. Added html{scroll-behavior:smooth} to replace the SPA's useSectionScroll
+      hook for in-page hash anchors. */
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+.hero-glow {
+  background:
+    radial-gradient(60rem 40rem at 50% -10%, rgba(19, 127, 236, 0.20), transparent 60%),
+    radial-gradient(40rem 30rem at 80% 20%, rgba(168, 85, 247, 0.16), transparent 60%);
+}
+.hero-grid {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 75%);
+}
+.panel-grid {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+.light-grid {
+  background-image:
+    linear-gradient(to right, rgba(15, 23, 42, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 23, 42, 0.035) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 0%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 0%, transparent 80%);
+}
+.cta-glow-purple { background: radial-gradient(circle at center, rgba(168, 85, 247, 0.25) 0%, transparent 70%); }
+.cta-glow-blue { background: radial-gradient(circle at center, rgba(19, 127, 236, 0.25) 0%, transparent 70%); }
+.text-gradient {
+  background-image: linear-gradient(to right, #137fec, #a855f7);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.text-gradient-animated {
+  background-image: linear-gradient(110deg, #137fec, #a855f7, #137fec);
+  background-size: 200% auto;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: gradient-shift 6s linear infinite;
+}
+.feature-card {
+  background: #ffffff;
+  border: 1px solid rgba(226, 232, 240, 1);
+  transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.feature-card:hover {
+  border-color: rgba(19, 127, 236, 0.35);
+  transform: translateY(-4px);
+  box-shadow: 0 24px 48px -16px rgba(19, 127, 236, 0.18);
+}
+.light-workflow-card {
+  background: #ffffff;
+  border: 1px solid rgba(226, 232, 240, 1);
+  box-shadow: 0 10px 25px -12px rgba(15, 23, 42, 0.08);
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.light-workflow-card:hover {
+  border-color: rgba(19, 127, 236, 0.4);
+  transform: translateY(-6px);
+  box-shadow: 0 28px 50px -12px rgba(19, 127, 236, 0.16);
+}
+.status-badge-gradient {
+  background: linear-gradient(135deg, rgba(19, 127, 236, 0.08), rgba(168, 85, 247, 0.08));
+  border: 1px solid rgba(19, 127, 236, 0.15);
+}
+@keyframes gradient-shift { to { background-position: 200% center; } }
+
+@keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+.animate-float { animation: floaty 5s ease-in-out infinite; }
+.animate-float-slow { animation: floaty 7.5s ease-in-out infinite; }
+
+@keyframes grow-bar { from { width: 0; } }
+.meter-fill { animation: grow-bar 1.3s 0.4s both cubic-bezier(0.16, 0.84, 0.44, 1); }
+
+/* How-it-works: dark cards that glow in their accent colour while hovered or
+   keyboard-focused. No automatic step-by-step animation. */
+.hiw-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.hiw-card::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 1rem;
+  border: 1px solid var(--hiw-accent);
+  box-shadow: 0 0 34px -10px var(--hiw-accent);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.45s ease;
+}
+.hiw-card:hover::before,
+.hiw-card:focus-visible::before { opacity: 0.85; }
+
+/* scroll reveal — gated behind html.js so content stays visible without JS */
+html.js [data-reveal] {
+  opacity: 0; transform: translateY(26px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 0.84, 0.44, 1);
+}
+html.js [data-reveal].reveal-in { opacity: 1; transform: none; }
+html.js .chart-bar {
+  transform: scaleY(0); transform-origin: bottom;
+  transition: transform 0.9s cubic-bezier(0.16, 0.84, 0.44, 1);
+}
+html.js [data-reveal].reveal-in .chart-bar { transform: scaleY(1); }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .chart-bar { transform: scaleY(1) !important; transition: none !important; }
+  .animate-float, .animate-float-slow, .text-gradient-animated, .meter-fill { animation: none !important; }
+}

@@ -1,0 +1,31 @@
+const assert = require("node:assert/strict");
+const mongoose = require("mongoose");
+const { ItemizationSchema, QuoteSnapshotSchema } = require("../../../models/schemas/quoteItemization.schema");
+const { createQuoteSnapshot, normalizeItemization } = require("../../../services/quotes/itemization.service");
+const Holder = mongoose.model("ItemizationFoundationTest", new mongoose.Schema({ item: ItemizationSchema, snapshot: QuoteSnapshotSchema }));
+const payload = () => ({ pricingMode: "fixed", currency: "CAD",
+  items: [{ description: "Repair", category: "labour", amountMinor: 100 }], totals: { lowMinor: 100, highMinor: 100 } });
+const snapshot = createQuoteSnapshot(payload(), { revision: 1 });
+assert.equal(new Holder({ item: snapshot.itemization, snapshot }).validateSync(), undefined);
+assert.equal(new Holder({ item: snapshot.itemization }).item.items[0]._id, undefined, "line IDs are the canonical server IDs, no hidden Mongo IDs");
+const invalid = change => { const input = JSON.parse(JSON.stringify(snapshot)); change(input); return new Holder({ snapshot: input }).validateSync(); };
+assert(invalid(x => { x.itemization.totals.highMinor++; }), "stored sums must reconcile");
+assert(invalid(x => { x.itemization.items = []; }));
+assert(invalid(x => { x.itemization.items[0].amountMinor = 1.5; }));
+assert(invalid(x => { x.itemization.items[0].highMinor = 200; }), "mixed-mode fields refused");
+assert(invalid(x => { x.itemization.items.push({ ...x.itemization.items[0] }); x.itemization.totals = { lowMinor: 200, highMinor: 200 }; }), "duplicate line IDs refused");
+assert(invalid(x => { x.itemization.items[0].category = "nonsense"; }));
+assert(invalid(x => { x.hash = "bad"; }));
+assert(invalid(x => { x.hash = "0".repeat(64); }), "well-formed but mismatched hashes must fail too");
+assert(invalid(x => { x.revision = 6; }));
+assert(invalid(x => { x.quoteContractVersion = 1; }));
+const range = payload(); range.pricingMode = "range";
+range.items = [{ description: "Repair", category: "labour", lowMinor: 100, highMinor: 200 }];
+range.totals = { lowMinor: 100, highMinor: 200 };
+assert.equal(new Holder({ snapshot: createQuoteSnapshot(range, { revision: 1 }) }).validateSync(), undefined);
+// The API boundary must validate raw data first: Mongoose can coerce a string.
+const raw = payload(); raw.items[0].amountMinor = "100";
+assert.throws(() => normalizeItemization(raw));
+const persistedShape = JSON.parse(JSON.stringify(snapshot.itemization)); persistedShape.items[0].amountMinor = "100";
+assert.equal(new Holder({ item: persistedShape }).validateSync(), undefined, "document casting cannot replace raw API validation");
+console.log("Embedded itemization schemas: persistence shape/sum/range/identity backstops PASS; raw casting limitation explicit");

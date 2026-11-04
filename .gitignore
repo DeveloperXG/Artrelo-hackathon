@@ -1,0 +1,13 @@
+node_modules/
+.env*
+*.env
+*.pem
+*.key
+.credentials
+credentials.json
+memory/
+logs/
+backups/
+dist/
+build/
+.public-local-cache/

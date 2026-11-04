@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "authorizationRef": "msg_45f0c54cf27c",
+  "campaignId": "iris-local-test-20261103-v1",
+  "kind": "test",
+  "realm": "artrelo_iris_judge_owner_rehearsal_20261101_test",
+  "baselineNano": 457197250,
+  "baselineRef": "authoritative-test-cumulative-20261103",
+  "pauseNano": 13000000000,
+  "hardNano": 20000000000,
+  "maximumCalls": 52,
+  "expiresAt": "2026-11-05T01:00:00.000Z",
+  "phases": [
+    { "name": "test-qualification", "ordinal": 3, "maximumCalls": 12 },
+    { "name": "test-rehearsal-a", "ordinal": 4, "maximumCalls": 20 },
+    { "name": "test-rehearsal-b", "ordinal": 5, "maximumCalls": 20 }
+  ]
+}

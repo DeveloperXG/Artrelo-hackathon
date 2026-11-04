@@ -1,0 +1,13 @@
+const router = require("express").Router();
+const { userAuth } = require("../middleware/auth.middleware");
+const { briefLimiter, respondLimiter, availabilityPreviewLimiter } = require("../middleware/vendorPortalRateLimit.middleware");
+const ctrl = require("../controllers/bookingCoordination.controller");
+router.get("/vendor/:token", briefLimiter, ctrl.getVendorCoordination);
+router.post("/vendor/:token", respondLimiter, ctrl.respondVendor);
+router.post('/vendor/:token/availability', availabilityPreviewLimiter, ctrl.interpretAvailability);
+router.get("/requests/:id", userAuth, ctrl.getCoordination);
+router.post("/requests/:id", userAuth, ctrl.respond);
+router.post('/requests/:id/availability', userAuth, availabilityPreviewLimiter, ctrl.interpretAvailability);
+router.post("/requests/:id/return", userAuth, respondLimiter, ctrl.returnToVendor);
+router.post("/requests/:id/notices/:notice/retry", userAuth, respondLimiter, ctrl.retryNotice);
+module.exports = router;

@@ -1,0 +1,46 @@
+const assert = require('assert/strict');
+const { projectDomain, chooseWindow, itemization } = require('../../../services/judgeSandbox/domain.service');
+const { validate } = require('../../../services/judgeSandbox/contract.service');
+const now = new Date('2026-10-31T06:00:00Z');
+const run = { _id: 'run1', revision: 1, stepCode: 'tenant_submit', startedAt: now, updatedAt: now, completedDirectives: [] };
+const request = { _id: 'request1', status: 'queued' };
+const project = fields => projectDomain({ run, request, ...fields });
+assert.equal(projectDomain({ run }).state, 'waiting_on_tenant');
+assert.equal(project({ request: { ...request, intakeFollowUp: { state: 'awaiting_answers' } } }).stepCode, 'tenant_submit');
+assert.equal(project({ request: { ...request, safetyAssessment: { state: 'needs_review' } } }).state, 'waiting_on_landlord');
+assert.equal(project({ approval: { _id: 'decision1' } }).checkpoint.approvalId, 'decision1');
+assert.equal(project({ outreach: { status: 'sent' } }).stepCode, 'vendor_quote');
+assert.equal(project({ outreach: { status: 'accepted', respondedAt: now }, approval: { _id: 'decision1' } }).state, 'waiting_on_landlord');
+assert.equal(project({ outreach: { status: 'accepted', counterOffer: { status: 'pending' } } }).stepCode, 'quote_resolution');
+assert.equal(project({ preparation: { phase: 'awaiting_funds' } }).checkpoint.kind, 'wallet_funding');
+assert.equal(project({ appointment: { status: 'awaiting_tenant' } }).state, 'waiting_on_tenant');
+const booked = { status: 'scheduled', tenantConfirmation: { accepted: true } };
+assert.equal(project({ appointment: booked }).stepCode, 'visit_change');
+assert.equal(project({ appointment: booked, changes: [{ active: true, status: 'awaiting_vendor' }] }).stepCode, 'vendor_reschedule');
+assert.equal(project({ appointment: booked, changes: [{ active: true, status: 'awaiting_tenant' }] }).state, 'waiting_on_tenant');
+for (const status of ['committed', 'declined', 'expired']) assert.equal(project({ appointment: booked, changes: [{ active: false, status }] }).stepCode, 'vendor_work', 'a resolved proposal uses the actual surviving visit');
+assert.equal(project({ completion: { report: { submittedAt: now } } }).stepCode, 'tenant_completion');
+assert.equal(project({ completion: { report: { submittedAt: now }, tenantConfirmation: { outcome: 'confirmed' } } }).stepCode, 'landlord_review');
+const declinedInvoice = { status: 'confirmed', report: { submittedAt: now }, invoiceReview: { state: 'rejected' }, tenantConfirmation: { outcome: 'confirmed' } };
+const declinedHold = project({ completion: declinedInvoice });
+assert.equal(declinedHold.stepCode, 'landlord_review'); assert.equal(declinedHold.checkpoint.approvalId, null);
+assert.match(declinedHold.detail, /Final scope review was declined/); assert.match(declinedHold.detail, /Approved payable is not decided/);
+assert.match(declinedHold.detail, /Reopen scope review/); assert.match(declinedHold.detail, /does not authorize spending or payment/);
+assert(!project({ completion: { ...declinedInvoice, overage: { decision: 'approved', approvedAmount: 200 } } }).detail.includes('not decided'), 'do not erase a separately decided payable');
+assert(!project({ completion: { ...declinedInvoice, closeRecovery: { payableCents: 0 } } }).detail.includes('not decided'), 'valid zero payable remains known');
+assert.equal(project({ completion: declinedInvoice, approval: { _id: 'actual-pending' } }).checkpoint.approvalId, 'actual-pending');
+assert.match(project({ outreach: { quoteReview: { state: 'rejected' } } }).detail, /Quote scope review was declined/);
+{ const { view } = require('../../../services/judgeSandbox/contract.service'); validate('Run', view({ ...run, ...declinedHold })); }
+assert.equal(project({ request: { ...request, status: 'completed' } }).stepCode, 'iris_segment');
+assert.equal(project({ run: { ...run, completedDirectives: ['iris_segment'] }, request: { ...request, status: 'completed' } }).state, 'completed');
+assert.equal(project({ request: { ...request, status: 'cancelled' } }).state, 'failed');
+for (const observation of [project({}), project({ appointment: booked }), project({ approval: { _id: 'decision1' } })]) {
+  const { view } = require('../../../services/judgeSandbox/contract.service');validate('Run', view({ ...run, ...observation }));
+}
+const future = new Date(now.getTime() + 49 * 3600000), end = new Date(future.getTime() + 3 * 3600000);
+const selected = chooseWindow([{ slotId: 'offered', start: future, end }], now);assert.equal(selected.slotId, 'offered');assert.equal(selected.durationMinutes, 120);
+const today = chooseWindow([{ slotId: 'same-day', start: new Date(now.getTime() + 7 * 3600000), end: new Date(now.getTime() + 10 * 3600000) }], now);
+assert.equal(today.slotId, 'same-day', 'use actual offered future hours without requiring a synthetic two-day calendar extension');
+assert.throws(() => chooseWindow([{ slotId: 'past', start: now, end: new Date(now.getTime() + 3600000) }], now), e => e.code === 'no_free_visit_time' && e.execution === 'not_started');
+assert.equal(itemization().totals.highMinor, 27500);assert.equal(itemization(18000, 6000).totals.highMinor, 24000);
+console.log('PASS judge domain projection: intake/safety/financial/human/tenant checkpoints retained, exact reschedule stages, closed-state and actual completion gating; future offered windows only.');

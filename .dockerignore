@@ -1,0 +1,17 @@
+# Build context for the root Dockerfile, which needs only marketing/,
+# frontend/ and deploy/. Railway builds from a clean checkout, so this mainly
+# keeps a local `docker build` from shipping node_modules, build output, or a
+# developer's .env files into the context.
+**/node_modules
+**/.next
+**/out
+**/dist
+**/.env*
+!**/.env.example
+.git
+backend
+docs
+memory
+monitoring
+test_reports
+shared

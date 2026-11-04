@@ -1,0 +1,19 @@
+# Nixpacks build config for the marketing static-export site.
+#
+# Why this file exists: Tailwind v4 ships its Rust engine (@tailwindcss/oxide)
+# as platform-specific optional dependencies. Nixpacks' default `npm ci` on the
+# Linux builder hits the npm optional-dependency bug (npm/cli#4828) and fails to
+# install @tailwindcss/oxide-linux-x64-gnu, so `next build` dies with
+# "Cannot find native binding". Using `npm install` reconciles the dependency
+# tree against the current platform and pulls the correct native binary.
+#
+# We also pin Node 20 (Nixpacks defaults to 18, which pairs with the buggy
+# npm 9) for a supported, current toolchain.
+
+# Node 20 bundles npm 10 (which fixes the npm 9 optional-dep bug); don't pin a
+# separate npm nixpkg — it isn't always a valid attribute.
+[phases.setup]
+nixPkgs = ['nodejs_20']
+
+[phases.install]
+cmds = ['npm install --no-audit --no-fund']

@@ -1,0 +1,33 @@
+{
+  "bundleVersion": "demo-policy-1",
+  "verifiedAt": "2026-10-29T20:59:08.145Z",
+  "method": "Principal read current Policy labels and deterministic backend guards; no marketing import; no model call",
+  "backendSources": [
+    {
+      "file": "services/vendor/autopilotPolicy.service.js",
+      "sha256": "0adc8d9f7b9425b5509cfd3ffa89bd21c3df1c6369484f986b259229fa3e125b"
+    },
+    {
+      "file": "services/vendor/vendorOutreachSweeper.service.js",
+      "sha256": "4b24aab2977fba47f19fc34ac989a76a6596ac1d242e3540991ef766b72c6418"
+    },
+    {
+      "file": "services/vendor/routingSetup.service.js",
+      "sha256": "3da6f212ca3ce69d3d77f1cd87fdff15fe4af00ab2c4a347c063aebc0f61c20d"
+    },
+    {
+      "file": "services/vendor/routingDecision.service.js",
+      "sha256": "4d1654df0d92516ee5efecb448bf271d8e2c7184c952dbbfca213cd182c83343"
+    },
+    {
+      "file": "services/quotes/quoteCheckpoint.service.js",
+      "sha256": "d1cf171c9c425861ba0e3e707e2308401f6f504a04a516886bf364caca5c755d"
+    }
+  ],
+  "articleIds": [
+    "policy-auto-next-vendor",
+    "policy-max-vendors",
+    "policy-low-medium-autopilot",
+    "policy-default-quota"
+  ]
+}

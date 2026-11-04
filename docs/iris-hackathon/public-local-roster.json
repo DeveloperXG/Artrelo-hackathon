@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "pairs": [
+    {
+      "ordinal": 1,
+      "landlordEmail": "landlord1@artrelo.judge",
+      "tenantEmail": "tenant1@artrelo.judge"
+    },
+    {
+      "ordinal": 2,
+      "landlordEmail": "landlord2@artrelo.judge",
+      "tenantEmail": "tenant2@artrelo.judge"
+    },
+    {
+      "ordinal": 3,
+      "landlordEmail": "landlord3@artrelo.judge",
+      "tenantEmail": "tenant3@artrelo.judge"
+    },
+    {
+      "ordinal": 4,
+      "landlordEmail": "landlord4@artrelo.judge",
+      "tenantEmail": "tenant4@artrelo.judge"
+    },
+    {
+      "ordinal": 5,
+      "landlordEmail": "landlord5@artrelo.judge",
+      "tenantEmail": "tenant5@artrelo.judge"
+    },
+    {
+      "ordinal": 6,
+      "landlordEmail": "landlord6@artrelo.judge",
+      "tenantEmail": "tenant6@artrelo.judge"
+    },
+    {
+      "ordinal": 7,
+      "landlordEmail": "landlord7@artrelo.judge",
+      "tenantEmail": "tenant7@artrelo.judge"
+    },
+    {
+      "ordinal": 8,
+      "landlordEmail": "landlord8@artrelo.judge",
+      "tenantEmail": "tenant8@artrelo.judge"
+    },
+    {
+      "ordinal": 9,
+      "landlordEmail": "landlord9@artrelo.judge",
+      "tenantEmail": "tenant9@artrelo.judge"
+    },
+    {
+      "ordinal": 10,
+      "landlordEmail": "landlord10@artrelo.judge",
+      "tenantEmail": "tenant10@artrelo.judge"
+    }
+  ]
+}
