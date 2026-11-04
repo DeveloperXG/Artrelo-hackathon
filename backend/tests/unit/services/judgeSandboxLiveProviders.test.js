@@ -18,7 +18,10 @@ const authority = createLiveAuthority({ proof, authorizePair: async user => ({ p
 let plannerOptions;
 require('../../../services/iris/planner.service').createPlanner = options => { plannerOptions = options;return async () => ({ selected: [], source: 'model_planned' }); };
 const review = require('../../../services/quotes/review.service');
-review.runReview = async input => input.complete ? input.complete({ request: { ref: 'request:fixture-request-1' } }) : { parsed: null, telemetry: { provider: 'disabled' } };
+review.runReview = async input => {
+  if (input.complete) { assert.equal(input.guardedLiveProof, proof);return input.complete({ request: { ref: 'request:fixture-request-1' } }); }
+  return { parsed: null, telemetry: { provider: 'disabled' } };
+};
 const { createLiveProviders, isLiveProviders } = require('../../../services/judgeSandbox/liveProviders.service');
 const calls = [], rows = new Map();let unavailable = false, invalid = false, highIntake = false, cancellations = 0;
 const recoveryStops = [];
@@ -45,6 +48,7 @@ const transport = { async execute(input) {
 async function main() {
   assert.throws(() => createLiveProviders({ proof: {}, authority, budget, transport }), /EXPLICIT_LIVE_PROVIDERS_REQUIRED/);
   const providers = createLiveProviders({ proof, authority, budget, transport });assert(isLiveProviders(providers, proof));assert(!isLiveProviders({}, proof));
+  assert.equal(plannerOptions.timeoutMs, 20000);assert.equal(plannerOptions.guardedLiveProof, proof);
   const triage = require('../../../services/ai/triageProvider.service');
   const input = { messages: [{ role: 'user', content: 'Inert fixture question.' }], schema: { name: 'triage_fixture', strict: true,
     schema: { type: 'object', properties: { summary: { type: 'string' } }, required: ['summary'], additionalProperties: false } } };

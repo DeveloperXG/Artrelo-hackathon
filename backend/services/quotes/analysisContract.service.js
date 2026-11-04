@@ -47,22 +47,25 @@ function buildAnalysisContext({ request, snapshot, stage, agreedMinor = null, or
 }
 
 /** Model output is advisory data. No approval, money or executable fields accepted. */
-function validateAnalysis(value, basis) {
+function inspectAnalysis(value, basis) {
+  const reject = reason => ({ analysis: null, reason });
   const lineIds = new Set(basis.context.quote.items.map(line => line.lineId));
   const sources = new Set(basis.sourceRefs);
   if (!exact(value, ["schemaVersion", "summary", "flags", "questions", "reviewRecommendation"]) || value.schemaVersion !== 1 ||
       !boundedText(value.summary, 800) || !RECOMMENDATIONS.includes(value.reviewRecommendation) ||
-      !Array.isArray(value.flags) || value.flags.length > 8 || !Array.isArray(value.questions) || value.questions.length > 4) return null;
+      !Array.isArray(value.flags) || value.flags.length > 8 || !Array.isArray(value.questions) || value.questions.length > 4) return reject('invalid_shape');
   for (const flag of value.flags) {
-    if (!exact(flag, ["code", "lineIds", "sourceRefs", "explanation"]) || !FLAG_CODES.includes(flag.code) ||
-        !refList(flag.lineIds, lineIds, 50) || !refList(flag.sourceRefs, sources, 8) || !flag.sourceRefs.length ||
-        !boundedText(flag.explanation, 200)) return null;
+    if (!exact(flag, ["code", "lineIds", "sourceRefs", "explanation"]) || !boundedText(flag.explanation, 200)) return reject('invalid_flag_shape');
+    if (!FLAG_CODES.includes(flag.code)) return reject('invalid_flag_code');
+    if (!refList(flag.lineIds, lineIds, 50)) return reject('invalid_line_reference');
+    if (!refList(flag.sourceRefs, sources, 8) || !flag.sourceRefs.length) return reject('invalid_source_reference');
   }
   for (const question of value.questions) {
-    if (!exact(question, ["code", "lineIds", "suggestedQuestion"]) || !FLAG_CODES.includes(question.code) ||
-        !refList(question.lineIds, lineIds, 50) || !boundedText(question.suggestedQuestion, 240)) return null;
+    if (!exact(question, ["code", "lineIds", "suggestedQuestion"]) || !boundedText(question.suggestedQuestion, 240)) return reject('invalid_question_shape');
+    if (!FLAG_CODES.includes(question.code)) return reject('invalid_question_code');
+    if (!refList(question.lineIds, lineIds, 50)) return reject('invalid_line_reference');
   }
-  if ((value.flags.length || value.questions.length) && value.reviewRecommendation === "no_additional_flags") return null;
+  if ((value.flags.length || value.questions.length) && value.reviewRecommendation === "no_additional_flags") return reject('inconsistent_recommendation');
   // Numeric claims must come from supplied facts; semantic quality still needs
   // a bounded live evaluation. Reject ungrounded numbers instead of guessing.
   const numbers = new Set(["0", "1", "2", "3"]);
@@ -77,7 +80,7 @@ function validateAnalysis(value, basis) {
   collect(basis.context.deltas); collect(basis.context.history.map(job => job.finalMinor));
   const prose = [value.summary, ...value.flags.map(flag => flag.explanation), ...value.questions.map(question => question.suggestedQuestion)].join(" ");
   const claims = prose.match(/-?\d+(?:,\d{3})*(?:\.\d+)?/g) || [];
-  if (claims.some(number => !numbers.has(number.replaceAll(",", "")))) return null;
+  if (claims.some(number => !numbers.has(number.replaceAll(",", "")))) return reject('unsupported_number');
   // Cents and percentages cannot be silently relabelled as CAD amounts.
   const monetary = new Set();
   const amount = value => { if (typeof value === "number" && Number.isFinite(value)) {
@@ -90,10 +93,12 @@ function validateAnalysis(value, basis) {
   amount(basis.context.deltas.finalVsAgreed?.amountMinor);
   basis.context.history.forEach(job => amount(job.finalMinor));
   for (const match of prose.matchAll(/(?:CAD\s*|\$)(-?\d+(?:,\d{3})*(?:\.\d+)?)|(-?\d+(?:,\d{3})*(?:\.\d+)?)\s*(?:CAD\b|dollars?\b)/gi)) {
-    if (!monetary.has((match[1] || match[2]).replaceAll(",", ""))) return null;
+    if (!monetary.has((match[1] || match[2]).replaceAll(",", ""))) return reject('unsupported_money');
   }
-  return JSON.parse(JSON.stringify(value));
+  return { analysis: JSON.parse(JSON.stringify(value)), reason: null };
 }
+// Preserve the existing closed validator's acceptance and return contract.
+function validateAnalysis(value, basis) { return inspectAnalysis(value, basis).analysis; }
 
 /** Deterministic development fixture, visibly labelled; never real model inference. */
 function developmentAnalysis() {
@@ -101,4 +106,4 @@ function developmentAnalysis() {
     flags: [], questions: [], reviewRecommendation: "landlord_review" };
 }
 
-module.exports = { FLAG_CODES, buildAnalysisContext, validateAnalysis, developmentAnalysis };
+module.exports = { FLAG_CODES, buildAnalysisContext, validateAnalysis, inspectAnalysis, developmentAnalysis };

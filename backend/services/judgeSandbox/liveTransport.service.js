@@ -8,7 +8,7 @@ const RESPONSE_BYTES = 262144;
 function createLiveTransport({ budget, authorize, fetchImpl, apiKey, report, timeoutMs = 10000, reportTimeoutMs = 3000, now = () => new Date() } = {}) {
   if (!budget || !['reserve', 'markSent', 'settle', 'cancelBeforeSend', 'summary', 'halt'].every(k => typeof budget[k] === 'function') ||
       ![authorize, fetchImpl, report].every(fn => typeof fn === 'function') || typeof apiKey !== 'string' || !apiKey.trim() ||
-      Buffer.byteLength(apiKey) > 1024 || /[\x00-\x20\x7f]/.test(apiKey) || !Number.isInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > 10000 ||
+      Buffer.byteLength(apiKey) > 1024 || /[\x00-\x20\x7f]/.test(apiKey) || !Number.isInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > 20000 ||
       !Number.isInteger(reportTimeoutMs) || reportTimeoutMs < 1 || reportTimeoutMs > 3000 || typeof now !== 'function') throw policy.fail('EXPLICIT_LIVE_CAPABILITIES_REQUIRED');
   let privateKey = apiKey, stopped = false, active = null;
   const authority = async purpose => {
@@ -88,7 +88,8 @@ function createLiveTransport({ budget, authorize, fetchImpl, apiKey, report, tim
           headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + privateKey }, body: JSON.stringify(frozen) }, { attemptRef: ref, purpose });
       }).then(readResponse);
       const timeout = new Promise((resolve, reject) => {
-        timer = setTimeout(() => { controller.abort();reject(policy.fail('LIVE_TIMEOUT')); }, timeoutMs);
+        timer = setTimeout(() => { controller.abort();reject(policy.fail('LIVE_TIMEOUT')); },
+          Math.min(timeoutMs, Math.max(1, Date.parse(policy.EXPIRES_AT) - now().getTime())));
         abortHandler = () => { controller.abort();reject(policy.fail('LIVE_INTERRUPTED')); };
         if (signal?.aborted) abortHandler();else signal?.addEventListener('abort', abortHandler, { once: true });
       });
@@ -102,9 +103,12 @@ function createLiveTransport({ budget, authorize, fetchImpl, apiKey, report, tim
       if (!settled) {
         if (marked) {
           stopped = true;
+          controller.abort();
           try {
             const unknown = await budget.settle(ref, {});settled = true;
-            await publish('unknown', ref, purpose, { state: unknown.state, actualUSD: null, retainedReservationUSD: unknown.retainedReservationUSD });
+            stopped = unknown.quarantined !== true;
+            await publish('unknown', ref, purpose, { state: unknown.state, actualUSD: null, retainedReservationUSD: unknown.retainedReservationUSD,
+              attemptQuarantined: unknown.quarantined === true });
           } catch { await stop('accounting_unavailable'); }
           // A late response can reconcile accounting once but never reaches
           // the app, executes a tool or clears the durable uncertainty stop.

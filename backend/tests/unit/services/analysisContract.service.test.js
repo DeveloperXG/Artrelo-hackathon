@@ -1,5 +1,5 @@
 const assert = require("node:assert/strict");
-const { buildAnalysisContext, validateAnalysis, developmentAnalysis } = require("../../../services/quotes/analysisContract.service");
+const { buildAnalysisContext, validateAnalysis, inspectAnalysis, developmentAnalysis } = require("../../../services/quotes/analysisContract.service");
 const { createQuoteSnapshot } = require("../../../services/quotes/itemization.service");
 const snapshot = createQuoteSnapshot({ pricingMode: "fixed", currency: "CAD", items: [
   { description: "Repair", category: "labour", amountMinor: 21000 },
@@ -19,6 +19,21 @@ const good = { schemaVersion: 1, summary: "Submitted total is CAD210.00; scope i
   lineIds: [snapshot.itemization.items[0].lineId], sourceRefs: [basis.sourceRefs[0]], explanation: "Clarify the recorded scope." }],
   questions: [{ code: "unsupported_basis", lineIds: [], suggestedQuestion: "What work is included?" }], reviewRecommendation: "landlord_review" };
 assert.deepEqual(validateAnalysis(good, basis), good);
+assert.equal(inspectAnalysis(good, basis).reason, null);
+for (const [mutate, reason] of [
+  [x => { x.approve = true; }, 'invalid_shape'],
+  [x => { x.flags[0].lineIds = ['foreign-line']; }, 'invalid_line_reference'],
+  [x => { x.flags[0].sourceRefs = ['request:foreign']; }, 'invalid_source_reference'],
+  [x => { x.flags[0].sourceRefs = []; }, 'invalid_source_reference'],
+  [x => { x.flags[0].code = 'approve'; }, 'invalid_flag_code'],
+  [x => { x.reviewRecommendation = 'no_additional_flags'; }, 'inconsistent_recommendation'],
+  [x => { x.summary = 'Invented total CAD999.99.'; }, 'unsupported_number'],
+  [x => { x.summary = 'Total CAD21000.'; }, 'unsupported_money'],
+]) {
+  const candidate = structuredClone(good);mutate(candidate);
+  assert.deepEqual(inspectAnalysis(candidate, basis), { analysis: null, reason });
+  assert.equal(validateAnalysis(candidate, basis), null, 'diagnostics never admit a previously rejected output');
+}
 for (const mutate of [
   x => { x.approve = true; }, x => { x.approvedAmount = 210; }, x => { x.tools = []; },
   x => { x.flags[0].lineIds = ["foreign-line"]; }, x => { x.flags[0].sourceRefs = ["request:other-owner"]; },

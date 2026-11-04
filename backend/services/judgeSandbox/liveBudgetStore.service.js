@@ -3,6 +3,8 @@
 const { randomUUID } = require('node:crypto');
 const { hash } = require('./contract.service');
 const policy = require('./liveBudgetPolicy.service');
+const freshRecording = require('../../contracts/judgeSandboxFreshRecording.v1.json');
+const recordingRetake = require('../../contracts/judgeSandboxRecordingRetake.v1.json');
 function createLiveBudgetStore({ connection, config: input, protocol = null, now = () => new Date() } = {}) {
   if (!connection?.db || !/^artrelo_judge_budget_control(?:_[a-z0-9_]+)?_test$/.test(connection.name || '') ||
       typeof connection.getClient !== 'function') throw policy.fail('ISOLATED_BUDGET_DATABASE_REQUIRED');
@@ -22,6 +24,7 @@ function createLiveBudgetStore({ connection, config: input, protocol = null, now
   const modelTurnLanes = connection.db.collection('judge_live_model_turn_lanes');
   const modelTurns = connection.db.collection('judge_live_model_turns');
   const recoveryAudits = connection.db.collection('judge_live_recovery_audits');
+  const quarantines = connection.db.collection('judge_live_attempt_quarantines');
   const laneId = 'meta-standard-single-flight-v1';
   let initialized = false;
   const at = () => { const value = now();if (!(value instanceof Date) || !Number.isFinite(value.getTime())) throw policy.fail('INVALID_LIVE_CLOCK');return value; };
@@ -50,7 +53,45 @@ function createLiveBudgetStore({ connection, config: input, protocol = null, now
       scope.originalAttemptRef === 'guarded_70c1d518-90bf-451d-95bb-7cad5ed6c826' &&
       scope.retainedReservedNano === 1321345000 && campaign?.halted === true && campaign.haltReason === scope.originalHaltReason;
   }
+  function approvedRecordingScope(scope) {
+    if (scope?.approvalRef === freshRecording.approvalRef && scope.pairRef === freshRecording.pairRef)
+      return { approvalRef: freshRecording.approvalRef, pairRef: freshRecording.pairRef,
+        minimumChargedNano: freshRecording.recordingChargedNano, action: 'release_recording_pair7_only', operationalTakeCalls: null };
+    if (scope?.approvalRef === recordingRetake.approvalRef && scope.pairRef === recordingRetake.pairRef &&
+        scope.operationalTakeCalls === recordingRetake.operationalTakeCalls)
+      return { approvalRef: recordingRetake.approvalRef, pairRef: recordingRetake.pairRef,
+        minimumChargedNano: recordingRetake.recordingChargedNano, action: 'release_recording_pair8_retake_only', operationalTakeCalls: recordingRetake.operationalTakeCalls };
+    return null;
+  }
+  function preservesFreshRecordingHalt(campaign, lane) {
+    const scope = lane?.recoveryScope;
+    const approved = approvedRecordingScope(scope);
+    return config.kind === 'recording' && config.campaignId === freshRecording.campaignId &&
+      approved && scope?.kind === 'recording' &&
+      scope.quarantineApprovalRef === freshRecording.quarantineApprovalRef &&
+      scope.irisQuarantineApprovalRef === freshRecording.irisQuarantineApprovalRef &&
+      scope.originalAttemptRef === freshRecording.recordingAttemptRef &&
+      scope.retainedReservedNano === freshRecording.recordingReservedNano && campaign?.halted === true &&
+      campaign.haltReason === 'transport_unknown' && campaign.reservedNano >= scope.retainedReservedNano &&
+      campaign.chargedNano >= approved.minimumChargedNano;
+  }
   async function admissionCampaign(campaign, lane, session) {
+    if (preservesFreshRecordingHalt(campaign, lane) && laneScopeAllowed(lane)) {
+      const scope = lane.recoveryScope;
+      const approved = approvedRecordingScope(scope);
+      const audit = await recoveryAudits.findOne({ _id: scope.recoveryRef, state: 'active', action: approved.action }, options(session));
+      const original = await attempts.findOne({ _id: freshRecording.recordingAttemptRef }, options(session));
+      if (!audit || audit.approvalRef !== approved.approvalRef || hash(audit.destination) !== hash(scope) ||
+          protocol?.allowedPairs.length !== 1 || protocol.allowedPairs[0].pairRef !== approved.pairRef ||
+          protocol.phase !== 'recording' || protocol.authorizationRef !== freshRecording.authorizationRef ||
+          !original || original.state !== 'unknown' || original.actualNano !== null || original.usage !== null ||
+          original.reservedNano !== freshRecording.recordingReservedNano || original.pairRef !== freshRecording.previousPairRef ||
+          original.campaignId !== freshRecording.campaignId || original.haltReason !== 'transport_unknown') return campaign;
+      // The persisted stop and full unknown reservation remain authoritative.
+      // Only this exact audited destination receives an admission view; ordinary
+      // reservation math still counts the entire retained exposure and new spend.
+      return { ...campaign, halted: false };
+    }
     if (!preservesOriginalTestHalt(campaign, lane) || !laneScopeAllowed(lane)) return campaign;
     const scope = lane.recoveryScope;
     const audit = await recoveryAudits.findOne({ _id: scope.recoveryRef, state: 'active', action: 'release_test_pair5_only' }, options(session));
@@ -103,7 +144,9 @@ function createLiveBudgetStore({ connection, config: input, protocol = null, now
     for(const candidate of candidates){
       const pair=candidate?await pairs.findOne({_id:pairKeyFor(candidate.realm,candidate.pairRef)}):null;
       try{policy.assertAdmission(config,await admissionCampaign(campaign,lane),pair||{chargedNano:0,reservedNano:0,attemptCount:0,sentCount:0},minimum,at());
-        if((!protocol||campaign.attemptCount<protocol.maximumCalls) && (!candidate?.maximumCalls || !pair || pair.attemptCount<candidate.maximumCalls)){admissible=true;break;}
+        const takeLimit = approvedRecordingScope(lane?.recoveryScope)?.operationalTakeCalls;
+        if((!protocol||campaign.attemptCount<protocol.maximumCalls) && (!candidate?.maximumCalls || !pair || pair.attemptCount<candidate.maximumCalls) &&
+          (!takeLimit || !pair || pair.attemptCount<takeLimit)){admissible=true;break;}
       }catch(error){if(error.code==='LIVE_ACCOUNTING_INVALID')throw error;}
     }
     return { ...(await summary()), liveAvailable: admissible && !lane.halted && lane.attemptRef === null && laneScopeAllowed(lane) };
@@ -122,6 +165,8 @@ function createLiveBudgetStore({ connection, config: input, protocol = null, now
       if(!campaign||campaign.configHash!==config.configHash||(await admissionCampaign(campaign,global,session)).halted||global?.halted!==false||!laneScopeAllowed(global,realm,pairRef))throw policy.fail('LIVE_CAMPAIGN_STOPPED');
       assertTestAccounting(campaign);
       if(protocol&&!protocol.allowedPairs.some(pair=>pair.realm===realm&&pair.pairRef===pairRef))throw policy.fail('LIVE_PROTOCOL_ADMISSION_DENIED');
+      const takeLimit = approvedRecordingScope(global.recoveryScope)?.operationalTakeCalls;
+      if (takeLimit && (await pairs.findOne({ _id: pairKeyFor(realm,pairRef) },opt))?.attemptCount >= takeLimit) throw policy.fail('LIVE_SEND_LIMIT');
       if(await modelTurns.findOne({_id:turnRef},opt))throw policy.fail('LIVE_PAIR_TURN_REPLAY');
       await modelTurnLanes.updateOne({_id:laneKey},{$setOnInsert:{activeTurnRef:null,holderId:null,createdAt:startedAt}},{...opt,upsert:true});
       const claimed=await modelTurnLanes.updateOne({_id:laneKey,activeTurnRef:null},{$set:{activeTurnRef:turnRef,holderId,updatedAt:startedAt}},opt);
@@ -139,7 +184,7 @@ function createLiveBudgetStore({ connection, config: input, protocol = null, now
       if(row.state==='closed')return{closed:true,replayed:true};
       const lane=await modelTurnLanes.findOne({_id:row.laneKey,activeTurnRef:turnRef,holderId},opt);
       if(!lane||row.state!=='active')throw policy.fail('LIVE_PAIR_TURN_NOT_OWNED');
-      await modelTurns.updateOne({_id:turnRef,holderId,state:'active'},{$set:{state:'closed',outcome,closedAt:at()}},opt);
+      await modelTurns.updateOne({_id:turnRef,holderId,state:'active'},{$set:{state:'closed',outcome:row.quarantinedAttemptRefs?.length?'failed':outcome,closedAt:at()}},opt);
       await modelTurnLanes.updateOne({_id:row.laneKey,activeTurnRef:turnRef,holderId},{$set:{activeTurnRef:null,holderId:null,updatedAt:at()}},opt);
       // Logical-turn completion never settles/refunds a money reservation.
       return{closed:true,replayed:false};
@@ -158,6 +203,12 @@ function createLiveBudgetStore({ connection, config: input, protocol = null, now
       if (!lane || lane.halted) throw policy.fail('LIVE_LANE_STOPPED');
       if (!laneScopeAllowed(lane, realm, pairRef)) throw policy.fail('LIVE_RECOVERY_SCOPE_DENIED');
       if (lane.attemptRef !== null) throw policy.fail('LIVE_LANE_BUSY');
+      if (preservesFreshRecordingHalt(await campaigns.findOne({ _id: config.campaignId }, opt), lane)) {
+        if (await attempts.findOne({ campaignId: config.campaignId, realm, pairRef, purpose, bodyHash: basis.bodyHash, state: 'unknown' }, opt))
+          throw policy.fail('LIVE_ATTEMPT_REPLAY');
+        if (!freshRecording.independentPurposesAfterQuarantine.includes(purpose) &&
+            await quarantines.countDocuments({ recoveryRef: lane.recoveryScope.recoveryRef }, opt)) throw policy.fail('LIVE_RECOVERY_SCOPE_DENIED');
+      }
       const campaign = await campaigns.findOne({ _id: config.campaignId }, opt);
       assertTestAccounting(campaign);
       if (protocol && ((await protocols.findOne({ _id: protocol.protocolKey }, opt))?.bindingHash !== protocol.bindingHash ||
@@ -165,14 +216,19 @@ function createLiveBudgetStore({ connection, config: input, protocol = null, now
       await pairs.updateOne({ _id: pairKey }, { $setOnInsert: { campaignId: config.campaignId, realm, pairRef,
         chargedNano: 0, reservedNano: 0, attemptCount: 0, sentCount: 0, createdAt } }, { ...opt, upsert: true });
       const pair = await pairs.findOne({ _id: pairKey }, opt);
+      const takeLimit = approvedRecordingScope(lane.recoveryScope)?.operationalTakeCalls;
+      if (takeLimit && pair.attemptCount >= takeLimit) throw policy.fail('LIVE_SEND_LIMIT');
       policy.assertAdmission(config, await admissionCampaign(campaign,lane,session), pair, basis.reservedNano, createdAt);
       const phasePair = protocol?.allowedPairs.find(value => value.realm === realm && value.pairRef === pairRef);
       if (config.kind === 'test' && (!phasePair || pair.attemptCount >= phasePair.maximumCalls)) throw policy.fail('LIVE_SEND_LIMIT');
       const claimed = await lanes.updateOne({ _id: laneId, attemptRef: null, halted: false },
         { $set: { attemptRef, holderId, campaignId: config.campaignId, updatedAt: createdAt } }, opt);
       if (claimed.modifiedCount !== 1) throw policy.fail('LIVE_LANE_BUSY');
+      const turnLane = await modelTurnLanes.findOne({ _id: hash({ realm, pairRef }), holderId, activeTurnRef: { $ne: null } }, opt);
+      const turn = turnLane && await modelTurns.findOne({ _id: turnLane.activeTurnRef, holderId, state: 'active', actorRef,
+        campaignId: config.campaignId, realm, pairRef, protocolHash: protocol?.protocolHash }, opt);
       await attempts.insertOne({ _id: attemptRef, campaignId: config.campaignId, configHash: config.configHash, pairKey, realm,
-        pairRef, actorRef, caseRef, holderId, ...basis, ...(protocol ? { protocolHash: protocol.protocolHash, protocolBindingHash: protocol.bindingHash,
+        pairRef, actorRef, caseRef, modelTurnRef: turn?._id || null, holderId, ...basis, ...(protocol ? { protocolHash: protocol.protocolHash, protocolBindingHash: protocol.bindingHash,
           protocolGoRef: protocol.goRef, backendTree: protocol.backendTree, frontendTree: protocol.frontendTree,
           ...(config.kind === 'test' ? { phase: protocol.phase, ordinal: phasePair.ordinal, testPlanHash: config.testPlanHash } : {}) } : {}), state: 'reserved', createdAt, actualNano: null, usage: null }, opt);
       await campaigns.updateOne({ _id: config.campaignId, configHash: config.configHash }, { $inc: { reservedNano: basis.reservedNano, attemptCount: 1 } }, opt);
@@ -235,6 +291,18 @@ function createLiveBudgetStore({ connection, config: input, protocol = null, now
   }
   async function finish(attemptRef, { usage = null, httpStatus = null, model = null, notSent = false } = {}) {
     return transaction(async session => {
+      // Planner cancellation and transport abort can both close the same send.
+      // A verified quarantine receipt is a read-only accounting replay, never a
+      // second send, refund, late-result delivery or reason to poison the lane.
+      if (!notSent && !usage && !model && protocol?.kind === 'recording' && policy.ref(attemptRef)) {
+        const previous = await attempts.findOne({ _id: attemptRef, campaignId: config.campaignId, holderId,
+          state: 'unknown', protocolHash: protocol.protocolHash }, options(session));
+        const receipt = previous && await quarantines.findOne({ _id: attemptRef, holderId, protocolHash: protocol.protocolHash,
+          approvalRef: freshRecording.quarantineApprovalRef, retainedReservedNano: previous.reservedNano }, options(session));
+        if (receipt) return { reservationRef: attemptRef, state: 'unknown', actualUSD: null,
+          retainedReservationUSD: previous.reservedNano / policy.NANO, halted: false, haltReason: 'transport_unknown',
+          lateSettlement: false, quarantined: true, accountingReplay: true };
+      }
       const row = await ownedAttempt(attemptRef, session), opt = options(session), settledAt = at();
       if (notSent ? row.state !== 'reserved' : !['started', 'unknown'].includes(row.state)) throw policy.fail('LIVE_SETTLEMENT_REPLAY_OR_STATE');
       const campaign = await campaigns.findOne({ _id: config.campaignId }, opt);
@@ -259,6 +327,28 @@ function createLiveBudgetStore({ connection, config: input, protocol = null, now
       const late = row.state === 'unknown';
       if (late && !known) throw policy.fail('LIVE_LATE_USAGE_STILL_UNKNOWN');
       const state = notSent ? 'not_sent' : known ? 'settled' : 'unknown';
+      let quarantined = false;
+      if (!late && code === 'transport_unknown' && row.wireClaimedAt && row.modelTurnRef &&
+          freshRecording.quarantinePurposes.includes(row.purpose) && preservesFreshRecordingHalt(campaign, lane) &&
+          laneScopeAllowed(lane, row.realm, row.pairRef) && !(await admissionCampaign(campaign, lane, session)).halted) {
+        const turn = await modelTurns.findOne({ _id: row.modelTurnRef, holderId, state: 'active', campaignId: config.campaignId,
+          realm: row.realm, pairRef: row.pairRef, actorRef: row.actorRef, protocolHash: protocol.protocolHash }, opt);
+        const turnLane = turn && await modelTurnLanes.findOne({ _id: turn.laneKey, holderId, activeTurnRef: turn._id }, opt);
+        if (turn && turnLane) {
+          await quarantines.insertOne({ _id: row._id, approvalRef: freshRecording.quarantineApprovalRef,
+            recoveryRef: lane.recoveryScope.recoveryRef, campaignId: config.campaignId, protocolHash: protocol.protocolHash,
+            goRef: protocol.goRef, realm: row.realm, pairRef: row.pairRef, purpose: row.purpose, caseRef: row.caseRef,
+            modelTurnRef: turn._id, holderId, bodyHash: row.bodyHash, retainedReservedNano: row.reservedNano,
+            originalOutcome: 'unknown', retryAllowed: false, atUTC: settledAt.toISOString() }, opt);
+          const linked = await modelTurns.updateOne({ _id: turn._id, holderId, state: 'active' }, { $addToSet: { quarantinedAttemptRefs: row._id } }, opt);
+          if (linked.matchedCount !== 1) throw policy.fail('LIVE_RECOVERY_BASIS_CHANGED');
+          const freed = await lanes.updateOne({ _id: laneId, attemptRef: row._id, holderId, halted: false,
+            'recoveryScope.status': 'active', 'recoveryScope.recoveryRef': lane.recoveryScope.recoveryRef },
+          { $set: { attemptRef: null, holderId: null, campaignId: null, updatedAt: settledAt } }, opt);
+          if (freed.modifiedCount !== 1) throw policy.fail('LIVE_RECOVERY_BASIS_CHANGED');
+          quarantined = true;
+        }
+      }
       await attempts.updateOne({ _id: attemptRef, holderId, state: row.state }, { $set: { state, actualNano,
         usage: known && !notSent ? { prompt_tokens: usage.prompt_tokens, completion_tokens: usage.completion_tokens, total_tokens: usage.total_tokens } : null,
         httpStatus: Number.isInteger(httpStatus) && httpStatus >= 100 && httpStatus <= 599 ? httpStatus : null,
@@ -268,13 +358,13 @@ function createLiveBudgetStore({ connection, config: input, protocol = null, now
       const campaignUpdate = { ...(known ? { $inc: inc } : {}), ...(haltReason && !preservesOriginalTestHalt(campaign,lane) ? { $set: { halted: true, haltReason } } : {}) };
       if (Object.keys(campaignUpdate).length) await campaigns.updateOne({ _id: config.campaignId }, campaignUpdate, opt);
       if (known) await pairs.updateOne({ _id: row.pairKey }, { $inc: inc }, opt);
-      if (haltReason) await lanes.updateOne({ _id: laneId, attemptRef, holderId }, { $set: { halted: true, haltReason } }, opt);
-      if (haltReason) await closeRecovery(lane, haltReason, session);
+      if (haltReason && !quarantined) await lanes.updateOne({ _id: laneId, attemptRef, holderId }, { $set: { halted: true, haltReason } }, opt);
+      if (haltReason && !quarantined) await closeRecovery(lane, haltReason, session);
       if (known) await lanes.updateOne({ _id: laneId, attemptRef, holderId }, { $set: { attemptRef: null, holderId: null, campaignId: null, updatedAt: settledAt } }, opt);
       // A late accounting response can reconcile cost once, but cannot clear
       // the durable stop set by the original unknown outcome.
       return { reservationRef: attemptRef, state, actualUSD: known ? actualNano / policy.NANO : null,
-        retainedReservationUSD: known ? 0 : row.reservedNano / policy.NANO, halted: Boolean(haltReason) || late, haltReason, lateSettlement: late };
+        retainedReservationUSD: known ? 0 : row.reservedNano / policy.NANO, halted: !quarantined && (Boolean(haltReason) || late), haltReason, lateSettlement: late, quarantined };
     });
   }
   async function summary({ realm = null, pairRef = null } = {}) {
@@ -288,7 +378,7 @@ function createLiveBudgetStore({ connection, config: input, protocol = null, now
       reservedUSD: row.reservedNano / policy.NANO, chargedOrReservedUSD: (row.chargedNano + row.reservedNano) / policy.NANO,
       sentCalls: row.sentCount, sentOrReservedCalls: row.attemptCount, pauseUSD: config.pauseNano / policy.NANO,
       hardUSD: config.hardNano / policy.NANO, halted: (await admissionCampaign(row,lane)).halted || lane?.halted !== false || !laneScopeAllowed(lane),
-      campaignHalted: row.halted, recoveryExceptionActive: Boolean(preservesOriginalTestHalt(row,lane) && !(await admissionCampaign(row,lane)).halted),
+      campaignHalted: row.halted, recoveryExceptionActive: Boolean((preservesOriginalTestHalt(row,lane) || preservesFreshRecordingHalt(row,lane)) && !(await admissionCampaign(row,lane)).halted),
       ...(config.kind === 'test' ? { baselineUSD: config.baselineNano / policy.NANO, baselineRef: config.baselineRef } : {}),
       globalLaneOccupied: lane?.attemptRef !== null, maximumCalls: config.maximumCalls,
       ...(protocol?{protocol:{phase:protocol.phase,maximumCalls:protocol.maximumCalls,goRef:protocol.goRef,hash:protocol.protocolHash,
@@ -320,6 +410,13 @@ function createLiveBudgetStore({ connection, config: input, protocol = null, now
     return transaction(async session => {
       const lane = await lanes.findOne({ _id: laneId }, options(session));
       if (!lane?.recoveryScope || lane.recoveryScope.status !== 'active' || !laneScopeAllowed(lane)) return { stopped: false };
+      const opt = options(session), campaign = await campaigns.findOne({ _id: config.campaignId }, opt);
+      if (preservesFreshRecordingHalt(campaign, lane) && !(await admissionCampaign(campaign, lane, session)).halted) {
+        const active = await modelTurns.findOne({ holderId, campaignId: config.campaignId, pairRef: lane.recoveryScope.pairRef,
+          state: 'active', 'quarantinedAttemptRefs.0': { $exists: true } }, opt);
+        if (active && await quarantines.findOne({ _id: { $in: active.quarantinedAttemptRefs }, modelTurnRef: active._id,
+          holderId, recoveryRef: lane.recoveryScope.recoveryRef, protocolHash: protocol.protocolHash }, opt)) return { stopped: false, quarantined: true };
+      }
       await closeRecovery(lane,reason,session);return { stopped: true };
     });
   }

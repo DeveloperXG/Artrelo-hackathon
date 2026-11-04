@@ -40,11 +40,12 @@ function modelContext({ registry, turnRef, message, discussion, policyDiscussion
     }) };
   return context;
 }
-function createPlanner({ complete, authorizeAttempt, settleAttempt, AttemptStore = Attempts, TurnStore = Turns, now = () => new Date(), timeoutMs = 10000 } = {}) {
+function createPlanner({ complete, authorizeAttempt, settleAttempt, AttemptStore = Attempts, TurnStore = Turns, now = () => new Date(), timeoutMs = 10000, guardedLiveProof = null } = {}) {
   // No env lookup, key lookup, transport construction or paid default. Only an
   // explicitly injected, separately authorized harness can enable this lane.
   if (![complete, authorizeAttempt, settleAttempt].every(fn => typeof fn === 'function')) throw new TypeError('Explicit completion, budget reservation and settlement capabilities are required');
-  if (!Number.isInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > 10000) throw new TypeError('Bounded model timeout required');
+  const guarded = guardedLiveProof !== null && require('../judgeSandbox/offlineGuard.service').isGuardedLiveProof(guardedLiveProof);
+  if (guardedLiveProof !== null && !guarded || !Number.isInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > (guarded ? 20000 : 10000)) throw new TypeError('Bounded model timeout required');
   return async function plan(context) {
     const { auth, registry, turnRef, origin, runTool, isCancelled = () => false, signal } = context;
     let completions = 0, functions = 0, previewed = false, lastResponse = null;

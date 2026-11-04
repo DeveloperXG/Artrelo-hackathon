@@ -1,17 +1,16 @@
-# Verification scope for this accepted source snapshot
+# Verification scope: accepted offline recovery source
 
-This is a curated public summary, not an export of private runtime logs or credentials. Upstream acceptance is distinct from the filtered public checkout.
+Application 97e90073bddf0c755d93239c76806bd353983ecb; backend 4bcf3ce5205ff9c8a56307f88b97792d4500d1b4; frontend 4903140a396d67b60ab52a7419f3bf26ad90acb7. Baseline adec601ba6854e47639c9dd8bf71d59b329e0edd remains pre-existing work. This is a normal public-history follow-up to d043ac64e1c244edd503d6ec91e946819b92912b, not publication of private history.
 
-| Binding | Recorded upstream result |
+| Upstream evidence reported by integration owner | Scope |
 | --- | --- |
-| Accepted application | `c9e752571c1b92439243fa54653ca10f55127a0f` |
-| Backend tree | `54383843f365f6d669ead3e2a4ffdeca9981ae00` |
-| Frontend tree | `4903140a396d67b60ab52a7419f3bf26ad90acb7` |
-| Maintained backend |218/218 maintained files passed; three pre-existing quarantined files remain separately reported by `backend/tests/run_unit.js`. No claim they passed. |
-| Frontend |1,364tests/129files passed; isolated production build47.307s, no source drift. |
+| Backend221/221 maintained files PASS,448.764s; same3 quarantines;16 fingerprints unchanged | Source-bound maintained tests, not browser scenarios |
+| Frontend1364tests/129files and isolated build47.307s | Unchanged frontend source epoch; not a fresh filtered-public-checkout build |
+| Native22groups/38inertDBs PASS | Native synthetic persistence/transactions and bounded recovery; no owner database or live provider |
+| Actual app38HTTP/7fakecompletions | Quote and invoice ready advisory fixtures, frontend landlord Iris validated explanation and role gates |
+| Separate worker31HTTP/4fakecompletions | Actual frontend mount, shared alias, persisted planning/selection, accepted explanation, tenant/foreign/expired denials and preview without Policy mutation |
+| Connected87HTTP synthetic lifecycle | Guide decline/cost-review/reschedule/tenant completion/synthetic Wallet/history/help/model preview/explicit human Confirm/CAS receipt, validated fake explanations |
 
-These accepted upstream results were independently reported by the integration owner. Later recovery/final-recording results are not included in this source epoch. No claim of successful current hosted demo, final take, every native/browser flow, physical repair or payment follows.
+All model completions in those isolated proofs are injected fakes. Pair7 recording finished but full-online qualification FAILED; exact historical invalid-analysis cause was not retained. Pair8 is an owner-selected next take, not a success or permission conveyed by this source export. No new live quality/TLS/browser acceptance, payment, transfer, physical repair, hosted deployment or video qualification is claimed.
 
-The packaging worker performed only allowlisted source-blob export, file/SHA/canonical checks, static Babel parsing/literal relative-import audit, and a redacted bounded pattern scan. The scanner is custom, with six synthetic pattern checks; it is not Gitleaks/TruffleHog or comprehensive secret/rights certification. Exact staged file/tree approval and scan dispositions are reviewed before publication. No dependency install, live provider, app server, full exported-checkout suite/build or local runtime was run during packaging.
-
-To reproduce independently on an isolated machine after reviewing prerequisites/scripts, use the maintained backend runner (`node tests/run_unit.js` from backend) and frontend Vitest/Vite with empty envDir and actual app plugins. Do not use the generic backend signup `npm test` as the unit suite or point integration scripts at production. See [local setup](PUBLIC_LOCAL_SETUP.md) for explicit offline requirements and current unvalidated setup limits.
+Packaging only exports allowlisted Git blobs, checks raw bytes/locks, statically parses literal imports and scans staged public files with a bounded redacted pattern scanner. Its exact findings require individual dispositions; it is not comprehensive secret/PII/licence certification or Gitleaks/TruffleHog. No install, app suite/build, runtime, remote fetch/push/API or model call was performed here. The filtered checkout still needs independent install/test/build validation. See PUBLIC_LOCAL_SETUP.md for synthetic offline setup limits; local-only launchers are not unchanged hosted deployment instructions.

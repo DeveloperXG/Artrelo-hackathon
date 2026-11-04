@@ -74,4 +74,4 @@ function createIrisRouter({ service, changes, knowledge = loadKnowledge(), authe
 }
 // Normal application entry remains off. The explicitly guarded isolated
 // bootstrap supplies its runtime router before loading app.js.
-module.exports = { createIrisRouter, createRuntimeIrisRouter: () => express.Router() };
+module.exports = { createIrisRouter, createLandlordIrisRouter: () => createIrisRouter(), createRuntimeIrisRouter: () => express.Router() };

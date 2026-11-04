@@ -98,6 +98,22 @@ async function main() {
   const disposed = fixture(() => ({}));await disposed.transport.dispose();
   await assert.rejects(disposed.transport.execute({ purpose: 'planning', body: body() }), /LIVE_TRANSPORT_STOPPED/);assert.equal(disposed.fetches.length, 0);
   assert.equal(disposed.halted(), false); // Healthy shutdown preserves durable campaign counters/authorization.
+  let sends = 0, firstSignal;
+  const quarantined = fixture(budget => {
+    const settle = budget.settle.bind(budget), summary = budget.summary.bind(budget);
+    budget.settle = async (ref, value) => { const result = await settle(ref, value);return { ...result, halted: false, quarantined: result.state === 'unknown' }; };
+    budget.summary = async () => ({ ...await summary(), halted: false });
+    return { fetchImpl: async (url, options) => {
+      sends++;if (sends === 1) { firstSignal = options.signal;throw Error('INERT_UNCERTAIN_TRANSPORT'); }
+      return response(payload());
+    } };
+  });
+  await rejectsSafely(quarantined.transport.execute({ purpose: 'planning', body: body() }));
+  assert.equal(sends, 1);assert(firstSignal.aborted);assert(quarantined.events.some(event => event.attemptQuarantined === true));
+  const independentBody = { ...body(), messages: [{ role: 'user', content: 'Separate current advisory fixture.' }], max_completion_tokens: 4096 };
+  await quarantined.transport.execute({ purpose: 'quote_analysis', body: independentBody });
+  assert.equal(sends, 2, 'only an explicit fresh independent call follows the quarantine; original call is never retried');
+  await quarantined.transport.dispose();
   console.log('PASS explicit guarded transport: immutable fixed Chat request, server authority recheck, reporting failure/timeout, no retry or secret errors, bounded response, cancel/expiry/dispose and late accounting only. Fake fetch/budget only; no key lookup or model/network call.');
 }
 main().catch(error => { console.error('FAIL guarded transport unit: ' + (error.code || 'ASSERTION'));process.exitCode = 1; });

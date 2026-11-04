@@ -20,12 +20,21 @@ async function createSandboxApplication({ proof, connection = require('mongoose'
   const service = require('./run.service').createRuns({ enabled: true, authorize, store: require('./store.service').createStore({ connection }), ...domain });
   const routes = require('../../routes/judgeSandbox.routes'), factory = routes.createJudgeSandboxRouter;
   const irisRoutes = require('../../routes/iris.routes'), irisFactory = irisRoutes.createRuntimeIrisRouter;
+  const landlordIrisFactory = irisRoutes.createLandlordIrisRouter;
   if (require.cache[require.resolve('../../app')]) throw error('sandbox_disabled');
   if (live) liveProviders.register();
   let app;
   routes.createJudgeSandboxRouter = options => factory({ ...options, service });
-  irisRoutes.createRuntimeIrisRouter = () => live ? liveProviders.createIrisRouter() : irisRoutes.createIrisRouter();
-  try { app = require('../../app'); } finally { routes.createJudgeSandboxRouter = factory;irisRoutes.createRuntimeIrisRouter = irisFactory; }
+  // The frontend uses the landlord mount. Both guarded aliases must share one
+  // conversation service; constructing the default router silently uses fallback.
+  let irisRouter;
+  const scopedIrisRouter = () => irisRouter ||= live ? liveProviders.createIrisRouter() : irisRoutes.createIrisRouter();
+  irisRoutes.createRuntimeIrisRouter = scopedIrisRouter;
+  irisRoutes.createLandlordIrisRouter = scopedIrisRouter;
+  try { app = require('../../app'); } finally {
+    routes.createJudgeSandboxRouter = factory;irisRoutes.createRuntimeIrisRouter = irisFactory;
+    irisRoutes.createLandlordIrisRouter = landlordIrisFactory;
+  }
   const outer = require('express')();
   outer.get('/health', (req, res) => res.json({ ready: true, syntheticOnly: true, mode: proof.mode,
     ...(live ? { providerAttempts: proof.diagnostics().modelAttempts } : { realModelCalls: 0 }), realDelivery: false, realPayment: false }));

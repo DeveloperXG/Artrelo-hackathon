@@ -3,8 +3,8 @@ const { AsyncLocalStorage } = require('node:async_hooks');
 const policy = require('./liveBudgetPolicy.service');
 const { ENDPOINT } = require('./liveTransport.service');
 const capabilities = new WeakSet();
-function createLiveNetwork({ claimAttempt, fetchImpl, now = () => new Date() } = {}) {
-  if (![claimAttempt, fetchImpl, now].every(fn => typeof fn === 'function')) throw policy.fail('EXPLICIT_LIVE_NETWORK_REQUIRED');
+function createLiveNetwork({ claimAttempt, fetchImpl, now = () => new Date(), timeoutMs = 10000 } = {}) {
+  if (![claimAttempt, fetchImpl, now].every(fn => typeof fn === 'function') || !Number.isInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > 20000) throw policy.fail('EXPLICIT_LIVE_NETWORK_REQUIRED');
   const scope = new AsyncLocalStorage(), nonce = Object.freeze({}), used = new Set();
   let stopped = false, providerAttempts = 0;
   async function guardedFetch(url, options, context) {
@@ -20,7 +20,7 @@ function createLiveNetwork({ claimAttempt, fetchImpl, now = () => new Date() } =
     used.add(context.attemptRef);
     if (stopped || options.signal.aborted || !(now() < new Date(policy.EXPIRES_AT))) throw policy.fail('LIVE_NETWORK_DENIED');
     providerAttempts++;
-    return scope.run({ nonce, expiresAt: new Date(now().getTime() + 10000) }, () => fetchImpl(url, options));
+    return scope.run({ nonce, expiresAt: new Date(Math.min(now().getTime() + timeoutMs, Date.parse(policy.EXPIRES_AT))) }, () => fetchImpl(url, options));
   }
   function permitsSocket(args) {
     const current = scope.getStore();

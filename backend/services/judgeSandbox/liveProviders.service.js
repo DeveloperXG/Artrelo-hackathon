@@ -2,13 +2,14 @@
 // Explicit isolated bootstrap only. No environment key lookup or default client.
 const { randomUUID } = require('node:crypto');
 const policy = require('./liveBudgetPolicy.service');
+const { guardedTimeoutMs } = require('../../contracts/judgeSandboxFreshRecording.v1.json');
 const instances = new WeakMap();
 function createLiveProviders({ proof, authority, budget, transport } = {}) {
   if (!require('./offlineGuard.service').isGuardedLiveProof(proof) || !require('./liveAuthority.service').isLiveAuthority(authority) ||
       !['reserve', 'viewAttempt', 'cancelBeforeSend', 'settle', 'beginModelTurn', 'finishModelTurn'].every(key => typeof budget?.[key] === 'function') || typeof transport?.execute !== 'function') throw policy.fail('EXPLICIT_LIVE_PROVIDERS_REQUIRED');
   const { createTriageRunner } = require('../ai/triageProvider.service');
   const configFor = maximum => ({ ai_triage_provider: 'meta', ai_triage_fallback_provider: 'none', meta_model: policy.MODEL,
-    ai_triage_timeout_ms: 10000, ai_triage_max_tokens: maximum });
+    ai_triage_timeout_ms: guardedTimeoutMs, ai_triage_max_tokens: maximum });
   async function stopRecovery(reason) {
     if (typeof budget.stopRecovery !== 'function') return;
     try { await budget.stopRecovery(reason); }
@@ -56,7 +57,7 @@ function createLiveProviders({ proof, authority, budget, transport } = {}) {
     }
     return { parsed: result.parsed, usage: attempt?.usage || null, source: 'meta', model: policy.MODEL, validationError: attempt?.errorCode || null };
   }
-  const plannerCore = require('../iris/planner.service').createPlanner({ complete: completeIris,
+  const plannerCore = require('../iris/planner.service').createPlanner({ complete: completeIris, timeoutMs: guardedTimeoutMs, guardedLiveProof: proof,
     authorizeAttempt: async ({ attemptRef, turnRef, purpose, body }) => budget.reserve({ attemptRef, ...await authority.authorize(purpose), purpose, body, caseRef: turnRef || null }),
     settleAttempt: async ({ reservationRef }) => settlePrepared(reservationRef) });
   const planner=context=>withModelTurn('planning',context.turnRef,()=>plannerCore(context));
@@ -76,7 +77,7 @@ function createLiveProviders({ proof, authority, budget, transport } = {}) {
         const complete=context=>withModelTurn('quote_analysis','quote_turn_'+randomUUID(),async()=>{
           const result=await completeCore(context);if(!result.parsed)await stopRecovery('provider_validation_failed');return result;
         });
-        try { return await review.runReview({ ...args, complete, source: 'meta' }); }
+        try { return await review.runReview({ ...args, complete, source: 'meta', guardedLiveProof: proof }); }
         finally { if (preparedRef) await settlePrepared(preparedRef); }
       });
     } catch (err) {

@@ -7,7 +7,7 @@ const requestCtrl = require("../controllers/request.controller");
 const ledgerCtrl = require("../controllers/ledger.controller");
 const reportsCtrl = require("../controllers/reports.controller");
 const betaCtrl = require("../controllers/beta.controller");
-router.use('/iris', require('./iris.routes').createIrisRouter());
+router.use('/iris', require('./iris.routes').createLandlordIrisRouter());
 
 const landlordOnly = authorize(["landlord", "property_manager", "admin"]);
 const billingCtrl = require("../controllers/billing.controller");

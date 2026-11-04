@@ -104,7 +104,16 @@ async function main() {
     telemetry: { provider: 'meta', model: 'muse-spark-1.3', attempts: [{ usage: { prompt_tokens: 100, completion_tokens: 20, total_tokens: 120 } }] } }) });
   assert.equal(invalidMeta.analysis.status, 'unavailable');assert.equal(invalidMeta.analysis.source, 'disabled');
   assert.equal(invalidMeta.analysis.provider, undefined);assert.equal(invalidMeta.analysis.usage.totalTokens, 120);
+  assert.equal(invalidMeta.analysis.errorCode, 'invalid_analysis');assert.equal(invalidMeta.analysis.validationReason, 'invalid_shape');
+  assert.equal(JSON.stringify(invalidMeta.analysis).includes('"approve":true'), false, 'rejected model fields never enter diagnostic persistence');
   assert.equal(subject.quoteReview.state, 'needs_review');assert.equal(resumes, 0);
+
+  reset();
+  const missingOutput = await svc.runReview({ ...args, source: 'meta', complete: async () => ({ parsed: null,
+    telemetry: { provider: 'meta', model: 'muse-spark-1.3', attempts: [{ usage: { prompt_tokens: 100, completion_tokens: 20, total_tokens: 120 } }] } }) });
+  assert.equal(missingOutput.analysis.validationReason, 'provider_output_unavailable');
+  assert.equal(missingOutput.analysis.source, 'disabled');assert.equal(missingOutput.analysis.usage.totalTokens, 120);
+  assert.equal(resumes, 0, 'a reason code never advances a failed analysis');
 
   reset();
   const stale = await svc.runReview({ ...args, complete: async () => { request.ai.summary = "Different scope"; return clean(); } });

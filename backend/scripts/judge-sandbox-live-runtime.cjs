@@ -2,6 +2,7 @@
 // Private guarded-live child. No normal-server registration, key/env/file path.
 const input=require('../services/judgeSandbox/liveOperatorInput.service');
 const rules=require('../services/judgeSandbox/operatorInput.service');
+const {guardedTimeoutMs}=require('../contracts/judgeSandboxFreshRecording.v1.json');
 async function run(stream=process.stdin,emit=value=>new Promise((resolve,reject)=>process.stdout.write(JSON.stringify(value)+'\n',error=>error?reject(error):resolve()))){
   const envelope=await input.readLiveEnvelope(stream),base=envelope.offline,{options,manifest,roster}=base;
   const nativeFetch=globalThis.fetch;
@@ -10,7 +11,7 @@ async function run(stream=process.stdin,emit=value=>new Promise((resolve,reject)
     if(!sourceValid)throw rules.fail('LIVE_SOURCE_NOT_FROZEN');
     try{input.checkProtocol(envelope.protocol,base,input.sourceState());}catch{sourceValid=false;throw rules.fail('LIVE_SOURCE_NOT_FROZEN');}
   };
-  const network=require('../services/judgeSandbox/liveNetwork.service').createLiveNetwork({fetchImpl:nativeFetch,
+  const network=require('../services/judgeSandbox/liveNetwork.service').createLiveNetwork({fetchImpl:nativeFetch,timeoutMs:guardedTimeoutMs,
     claimAttempt:async(ref,value)=>{verifySource();return budget.claimTransport(ref,{...value,authority:await authority.authorize(value.purpose)});}});
   const proof=require('../services/judgeSandbox/offlineGuard.service').installGuardedLiveSandbox({database:options.database,frontendOrigin:options.frontendOrigin,signingSecrets:base.signing},network);
   const mongoose=require('mongoose');
@@ -49,7 +50,7 @@ async function run(stream=process.stdin,emit=value=>new Promise((resolve,reject)
       catch{await budget.halt('report_delivery_failed');throw rules.fail('LIVE_REPORT_FAILED');}
       finally{clearTimeout(deadline);}
     };
-    transport=require('../services/judgeSandbox/liveTransport.service').createLiveTransport({budget,apiKey:envelope.modelKey,
+    transport=require('../services/judgeSandbox/liveTransport.service').createLiveTransport({budget,apiKey:envelope.modelKey,timeoutMs:guardedTimeoutMs,
       authorize:async purpose=>{if(!readyPublished)throw rules.fail('LIVE_RUNTIME_NOT_READY');verifySource();return authority.authorize(purpose);},fetchImpl:network.guardedFetch,
       report:async event=>publish({status:'GUARDED_LIVE_ATTEMPT',phase:config.phase,protocolHash:protocol.protocolHash,goRef:config.goRef,...event,totals:await totals()})});
     envelope.modelKey=null;base.signing=null;

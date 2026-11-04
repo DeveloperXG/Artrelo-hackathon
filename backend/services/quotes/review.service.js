@@ -4,7 +4,7 @@ const Completion = require("../../models/JobCompletion");
 const Request = require("../../models/MaintenanceRequest");
 const Approval = require("../../models/ApprovalRequest");
 const Analysis = require("../../models/QuoteAnalysis");
-const { buildAnalysisContext, validateAnalysis, developmentAnalysis } = require("./analysisContract.service");
+const { buildAnalysisContext, inspectAnalysis, developmentAnalysis } = require("./analysisContract.service");
 const { dollarToMinor } = require("./itemization.service");
 const { logAgentAction } = require("../audit/agentAction.service");
 const { publish } = require("../realtime/liveEvents.service");
@@ -134,7 +134,10 @@ async function routeResult(basis, row, stage) {
  * No provider SDK/default network path. Live E2E must inject the separately
  * budget-guarded Standard Spark runner; runtime defaults to unavailable/human.
  */
-async function runReview({ subjectId, stage, landlordId, complete = null, source = "disabled" }) {
+async function runReview({ subjectId, stage, landlordId, complete = null, source = "disabled", guardedLiveProof = null }) {
+  const guarded = guardedLiveProof !== null && require('../judgeSandbox/offlineGuard.service').isGuardedLiveProof(guardedLiveProof);
+  if (guardedLiveProof !== null && !guarded) throw new TypeError('Explicit guarded review proof required');
+  const timeoutMs = guarded ? require('../../contracts/judgeSandboxFreshRecording.v1.json').guardedTimeoutMs : 10000;
   const basis = await loadBasis({ subjectId, stage, landlordId });
   if (basis.subject[basis.review]?.state === "waiting_clarification") return { waitingClarification: true };
   if (["cleared", "rejected"].includes(basis.subject[basis.review]?.state) &&
@@ -152,14 +155,14 @@ async function runReview({ subjectId, stage, landlordId, complete = null, source
     if (["ready", "unavailable"].includes(row.status)) return { analysis: row, ...await routeResult(basis, row, stage) };
     return { analysis: row, pending: true };
   }
-  let result = null, errorCode = "analysis_disabled", timer, provider, model;
+  let result = null, errorCode = "analysis_disabled", validationReason = null, timer, provider, model;
   const usage = { promptTokens: 0, completionTokens: 0, totalTokens: 0 };
   const started = Date.now();
   try {
     if (Buffer.byteLength(JSON.stringify(basis.context), "utf8") > 24_576) throw error("context_too_large");
     if (typeof complete === "function") {
       const output = await Promise.race([complete(basis.context), new Promise((_, reject) => {
-        timer = setTimeout(() => reject(error("analysis_timeout")), 10_000);
+        timer = setTimeout(() => reject(error("analysis_timeout")), timeoutMs);
       })]);
       const telemetry = output?.telemetry;
       for (const attempt of telemetry?.attempts || []) for (const [key, target] of
@@ -168,7 +171,11 @@ async function runReview({ subjectId, stage, landlordId, complete = null, source
       }
       if (source === "meta" && (telemetry?.provider !== "meta" || telemetry?.model !== "muse-spark-1.3")) throw error("invalid_provider_provenance");
       if (source === "meta") { provider = "meta"; model = "muse-spark-1.3"; }
-      result = validateAnalysis(output?.parsed || output, basis);
+      if (output && Object.hasOwn(output, 'parsed') && output.parsed === null) validationReason = 'provider_output_unavailable';
+      else {
+        const inspected = inspectAnalysis(output?.parsed || output, basis);
+        result = inspected.analysis;validationReason = inspected.reason;
+      }
       errorCode = result ? null : "invalid_analysis";
     }
   } catch (err) { errorCode = ["analysis_timeout", "context_too_large"].includes(err.code) ? err.code : "analysis_unavailable"; }
@@ -182,7 +189,8 @@ async function runReview({ subjectId, stage, landlordId, complete = null, source
   const recordedSource = source === "meta" && !result ? "disabled" : ["disabled", "development_stub", "meta"].includes(source) ? source : "disabled";
   await Analysis.updateOne({ _id: row._id, status: "running", leaseToken }, { $set: {
     status, source: recordedSource,
-    result: stale ? null : result, errorCode: stale ? "context_changed" : errorCode, durationMs: Date.now() - started,
+    result: stale ? null : result, errorCode: stale ? "context_changed" : errorCode,
+    validationReason: stale ? null : validationReason, durationMs: Date.now() - started,
     usage, ...(provider && result ? { provider, model } : {}),
   }, $unset: { leaseToken: 1, leaseUntil: 1, ...(!result && source === 'meta' ? { provider: 1, model: 1 } : {}) } });
   if (stale) return { stale: true };

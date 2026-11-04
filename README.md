@@ -8,7 +8,7 @@ Artrelo helps landlords and property managers turn unstructured tenant reports i
 
 ## Watch the demo
 
-**Video: to be added after the approved recording. Hosted demo to follow.** No fabricated video link, screenshot, public judge account or deployment is supplied. Local synthetic exploration is documented in [the local setup guide](docs/PUBLIC_LOCAL_SETUP.md).
+**Video and hosted demo: pending a qualified owner-approved take and publication decisions.** No fabricated video link, screenshot, public judge account or deployment is supplied. Local synthetic exploration is documented in [the local setup guide](docs/PUBLIC_LOCAL_SETUP.md).
 
 ## Built during the hackathon
 
@@ -72,12 +72,13 @@ The model does not own authentication, authorisation, payment, visit consent or 
 
 | Accepted upstream checkpoint | Verified result / limit |
 | --- | --- |
-| Source `c9e752571c1b92439243fa54653ca10f55127a0f` | Backend tree `54383843f365f6d669ead3e2a4ffdeca9981ae00`, frontend tree `4903140a396d67b60ab52a7419f3bf26ad90acb7`. [Source manifest](SOURCE_MANIFEST.json) maps included committed bytes. |
-| Maintained upstream backend | **218/218 maintained files passed**, with three explicitly retained pre-existing quarantined files. This is not218browser scenarios. |
+| Source `97e90073bddf0c755d93239c76806bd353983ecb` | Backend tree `4bcf3ce5205ff9c8a56307f88b97792d4500d1b4`, frontend tree `4903140a396d67b60ab52a7419f3bf26ad90acb7`. [Source manifest](SOURCE_MANIFEST.json) maps included committed bytes. |
+| Maintained upstream backend | **221/221 maintained files passed** (448.764s; 16 measured source fingerprints unchanged), with three explicitly retained pre-existing quarantined files. These are backend test files, not browser scenarios. |
 | Upstream frontend | **1,364 tests across129files passed** and isolated production build **47.307s**, with no source drift. These results belong to the accepted upstream application, not an install/build of this filtered public checkout. |
+| Isolated fake-provider/native proofs | 22 native groups across38 inert databases; 38 real app HTTP requests/7 fake completions including quote and invoice advisory fixtures and actual landlord Iris narration; separate31HTTP/4fake alias/auth/preview proof. A further87HTTP connected synthetic Guide lifecycle covered decline, human cost review, rescheduling, tenant verification, synthetic Wallet, history/help and Policy preview/explicit Confirm/CAS receipt. These are offline/fake-provider results, not live model, browser or physical-work acceptance. |
 | Public packaging | Static relative-import/require audit, redacted bounded scan and exact source-byte checks are separate from runtime, fresh-checkout and native/browser acceptance. See [verification scope](docs/VERIFICATION.md). |
 
-No later recovery/final-recording source or results are borrowed into this checkpoint. No blanket production-ready, flawless AI, legal-clearance or end-to-end native acceptance claim is made.
+This revision includes the Nov4 guarded landlord Iris mount, bounded advisory reason/reference validation and one-shot recording-retake recovery source. Pair7 recording finished but failed full-online qualification; the exact historical invalid-analysis cause was not retained and is not invented here. Pair8 was selected for a later owner-controlled take; no successful take, live model quality or TLS result is claimed. No blanket production-ready, flawless AI, legal-clearance or end-to-end native acceptance claim is made.
 
 ## Local setup and architecture
 

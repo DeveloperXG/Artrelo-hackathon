@@ -13,6 +13,10 @@ const QuoteAnalysisSchema = new Schema({
   // Only validated output and numeric safe telemetry, never prompts/raw response.
   result: { type: Schema.Types.Mixed, default: null },
   errorCode: String,
+  // Closed diagnostic only. Never retain rejected prose, amounts or raw output.
+  validationReason: { type: String, enum: ['invalid_shape', 'invalid_flag_shape', 'invalid_flag_code', 'invalid_line_reference',
+    'invalid_source_reference', 'invalid_question_shape', 'invalid_question_code', 'inconsistent_recommendation',
+    'unsupported_number', 'unsupported_money', 'provider_output_unavailable', null], default: null },
   durationMs: { type: Number, min: 0 },
   usage: { promptTokens: Number, completionTokens: Number, totalTokens: Number },
   leaseToken: { type: String, select: false }, leaseUntil: Date,

@@ -4,6 +4,7 @@ const { hash } = require('./contract.service');
 const testPlanInput = require('../../contracts/judgeSandboxTestLane.v1.json');
 const TEST_PLAN = Object.freeze({ ...testPlanInput, phases: Object.freeze(testPlanInput.phases.map(value => Object.freeze({ ...value }))) });
 const TEST_PLAN_HASH = hash(TEST_PLAN);
+const freshRecording = require('../../contracts/judgeSandboxFreshRecording.v1.json');
 const NANO = 1_000_000_000;
 const MODEL = 'muse-spark-1.3';
 const WINDOW = 1_048_576;
@@ -25,6 +26,8 @@ function campaignConfig(input) {
   if (input.kind === 'test' && (input.campaignId !== TEST_PLAN.campaignId || input.authorizationRef !== TEST_PLAN.authorizationRef)) throw fail('INVALID_LIVE_CAMPAIGN');
   const config = { version: 1, ...input, model: MODEL, inputWindow: WINDOW, inputNanoPerToken: INPUT_NANO,
     outputNanoPerToken: OUTPUT_NANO, expiresAt: EXPIRES_AT, ...CAPS[input.kind],
+    ...(input.kind === 'recording' && input.campaignId === freshRecording.campaignId && input.authorizationRef === freshRecording.authorizationRef
+      ? { pauseNano: freshRecording.pauseNano, capAmendmentRef: freshRecording.recordingPauseApprovalRef } : {}),
     ...(input.kind === 'test' ? { baselineNano: TEST_PLAN.baselineNano, baselineRef: TEST_PLAN.baselineRef, testPlanHash: TEST_PLAN_HASH } : {}) };
   return Object.freeze({ ...config, configHash: hash(config) });
 }

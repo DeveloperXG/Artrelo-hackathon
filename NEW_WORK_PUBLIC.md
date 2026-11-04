@@ -1,6 +1,6 @@
 # Built during the hackathon / pre-existing work
 
-Window: Oct26–Nov4,2026. This public source snapshot is based on accepted application `c9e752571c1b92439243fa54653ca10f55127a0f`, not the final recording/recovery claim. The source manifest supplies exact included files; private operational history is deliberately omitted.
+Window: Oct26–Nov4,2026. This public source snapshot is based on accepted application `97e90073bddf0c755d93239c76806bd353983ecb`, including bounded Nov4 recovery source, not a successful final-recording claim. The source manifest supplies exact included files; private operational history is deliberately omitted.
 
 **Pre-existing baseline:** `adec601ba6854e47639c9dd8bf71d59b329e0edd` (Oct24). The existing product already had GPT intake/deterministic fallback, authentication/authorization, vendor matching/outreach, request lifecycle, booking foundations, quote ranges/counteroffers, completion/dispute and generic request activity. This is an extension of that product.
 
@@ -15,3 +15,7 @@ Window: Oct26–Nov4,2026. This public source snapshot is based on accepted appl
 | Later Guide follow-up and bounded unsent server-window examples; proven section provenance labels | `frontend/src/app/components/judge/`, `components/reschedule/DemoVisitChangeExamples.tsx`, `demoReschedulePrefill.ts` | Reviewed source `c804403bd8547f0cbf5891a50df01dd0e81277a6` / `067466abaf8f795e4cefe739e4d50325dff7a76f`, Nov4, incorporated in this accepted application |
 
 These rows attribute mechanisms, not entire old pages, generic scheduling, payment authority or every model invocation. Earlier implementation commits may not exist as objects in this fresh public history; the IDs and source-blob map provide attribution without exposing private history. No later recovery, recorded take, live deployment or physical repair is claimed by a source listing. Unknown/fallback output remains labelled and synthetic money remains synthetic.
+
+## Nov4 recovery revision
+
+Source `97e90073bddf0c755d93239c76806bd353983ecb` (Nov4): the actual frontend landlord Iris route now shares the guarded router/conversation service with the runtime alias; typed advisory reason/reference validation is bounded; an exact one-shot recording-retake service and CLI preserve existing campaign caps and expiry while bounding one approved take. Sources: `backend/routes/landlord.routes.js`, `backend/routes/iris.routes.js`, `backend/services/judgeSandbox/application.service.js`, `backend/services/quotes/analysisContract.service.js`, `backend/services/judgeSandbox/recordingRetake.service.js`, and the matching contracts/unit tests. This adds no frontend feature, payment authority, physical repair claim or successful live-model take. Original pre-existing baseline and mechanism-level attribution above remain unchanged. Private execution protocols, credentials and evidence are excluded.
