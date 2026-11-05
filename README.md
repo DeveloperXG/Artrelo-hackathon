@@ -36,9 +36,15 @@ Identity, access scope, safety, revision checks, spending approvals and visit co
 
 ## Screenshots
 
-Earlier **synthetic demo view** from the Oct 31 judge sandbox: the guided maintenance workflow reaches completion. Styling and step counts reflect that earlier milestone. This screenshot does not establish live-model use, a physical repair or a money transfer; the recording and verification sections state the current evidence. All names, requests and amounts shown are test data.
+App detail crops from the **recorded pair-8 synthetic demo**, in the current Lichen interface. Vendors and work reports are simulated; these images do not establish a physical repair or a money transfer. The Iris and cost-analysis panels show the recorded model output; they are not a new live run. Click an image to view it at full resolution.
 
-<img src="docs/screenshots/guided-workflow-synthetic.png" width="960" alt="Synthetic demo: guided maintenance workflow marked complete alongside landlord and tenant instructions" />
+| Iris request history | Policy preview and confirmation |
+| --- | --- |
+| <a href="docs/screenshots/iris-request-history-lichen.png"><img src="docs/screenshots/iris-request-history-lichen.png" width="440" alt="Synthetic pair-8 demo: iris request history in the Lichen interface" /></a><br/>Iris explains the recorded request, with source links. | <a href="docs/screenshots/iris-policy-preview-lichen.png"><img src="docs/screenshots/iris-policy-preview-lichen.png" width="440" alt="Synthetic pair-8 demo: policy preview and confirmation in the Lichen interface" /></a><br/>The exact default-quota change, C$250 to C$300, awaits human confirmation. |
+| **Itemized quote and advisory analysis** | **Final-cost review** |
+| <a href="docs/screenshots/itemized-quote-analysis-lichen.png"><img src="docs/screenshots/itemized-quote-analysis-lichen.png" width="440" alt="Synthetic pair-8 demo: itemized quote and advisory analysis in the Lichen interface" /></a><br/>Labour, materials and Muse Spark advisory flags stay visible before a human decision. | <a href="docs/screenshots/final-cost-review-lichen.png"><img src="docs/screenshots/final-cost-review-lichen.png" width="440" alt="Synthetic pair-8 demo: final-cost review in the Lichen interface" /></a><br/>The final statement and simulated vendor clarification remain in the record. |
+| **Tenant completion review** | **Guided lifecycle complete** |
+| <a href="docs/screenshots/tenant-completion-review-lichen.png"><img src="docs/screenshots/tenant-completion-review-lichen.png" width="440" alt="Synthetic pair-8 demo: tenant completion review in the Lichen interface" /></a><br/>The tenant reviews simulated work notes and confirms the outcome. | <a href="docs/screenshots/guided-demo-complete-lichen.png"><img src="docs/screenshots/guided-demo-complete-lichen.png" width="440" alt="Synthetic pair-8 demo: guided lifecycle complete in the Lichen interface" /></a><br/>The current 14-checkpoint Guide records completion, with its simulation limits visible. |
 
 ## Built during the hackathon
 
