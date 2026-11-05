@@ -6,7 +6,9 @@
 
 <p align="center"><strong>AI-assisted property maintenance, with clear records and human control.</strong></p>
 
-**One maintenance record, from report to repair confirmation.** Artrelo brings tenant reports, quotes and visits into a traceable workflow for landlords and property managers. Muse Spark helps interpret reports and review itemized costs. Iris helps landlords understand the record and propose Policy changes.
+**Maintenance on Autopilot.** Artrelo handles the work between a tenant's report and a completed repair: intelligent triage, vendor coordination, quote analysis, approvals, scheduling, and payment workflows. Landlords set the rules and step in only when decisions require their attention. Powered by Meta's Muse Spark, Iris transforms unstructured requests into actionable information, analyzes itemized costs, explains maintenance activity using real records, and helps landlords update policies through natural conversation—with explicit confirmation before changes take effect.
+
+AI advises. The backend validates. You decide.
 
 ## Demo video
 
