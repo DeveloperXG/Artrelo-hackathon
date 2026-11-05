@@ -4,9 +4,9 @@
 
 <h1 align="center">Artrelo</h1>
 
-<p align="center"><strong>AI-assisted property maintenance, with clear records and human control.</strong></p>
+<p align="center"><strong>Maintenance on Autopilot.</strong></p>
 
-**Maintenance on Autopilot.** Artrelo handles the work between a tenant's report and a completed repair: intelligent triage, vendor coordination, quote analysis, approvals, scheduling, and payment workflows. Landlords set the rules and step in only when decisions require their attention. Powered by Meta's Muse Spark, Iris transforms unstructured requests into actionable information, analyzes itemized costs, explains maintenance activity using real records, and helps landlords update policies through natural conversation—with explicit confirmation before changes take effect.
+Artrelo handles the work between a tenant's report and a completed repair: intelligent triage, vendor coordination, quote analysis, approvals, scheduling, and payment workflows. Landlords set the rules and step in only when decisions require their attention. Powered by Meta's Muse Spark, Iris transforms unstructured requests into actionable information, analyzes itemized costs, explains maintenance activity using real records, and helps landlords update policies through natural conversation—with explicit confirmation before changes take effect.
 
 AI advises. The backend validates. You decide.
 
