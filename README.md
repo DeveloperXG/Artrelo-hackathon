@@ -1,6 +1,10 @@
-# Artrelo
+<p align="center">
+  <img src="frontend/src/assets/brand/app-icon.svg" width="96" height="96" alt="Artrelo Lichen logo" />
+</p>
 
-### AI-assisted property maintenance, with clear records and human control.
+<h1 align="center">Artrelo</h1>
+
+<p align="center"><strong>AI-assisted property maintenance, with clear records and human control.</strong></p>
 
 Artrelo helps landlords and property managers coordinate maintenance, from a tenant’s report through quotes, visits and repair confirmation. Muse Spark helps interpret reports and review itemized costs. Iris helps landlords understand the record and propose Policy changes.
 
