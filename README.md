@@ -126,4 +126,4 @@ The backend's generic `npm test` is a signup integration helper, not the maintai
 
 ## Licence
 
-Owner-selected **MIT**, copyright 2026 DeveloperXG, for team-owned published work. See [LICENSE](LICENSE), [third-party notices](THIRD_PARTY_NOTICES.md) and [dependency metadata](DEPENDENCY_LICENSES.json). IBM Plex retains its bundled OFL 1.1 licence/provenance; dependencies retain their own terms. Legacy ISC package metadata was preserved rather than altering accepted application bytes. No reference screenshots, real tenant data or new downloaded assets are distributed.
+This project is licensed under the **MIT License**, copyright 2026 DeveloperXG, for team-owned published work. See [LICENSE](LICENSE), [third-party notices](THIRD_PARTY_NOTICES.md) and [dependency metadata](DEPENDENCY_LICENSES.json). IBM Plex retains its bundled OFL 1.1 licence/provenance; dependencies retain their own terms. Legacy ISC package metadata was preserved rather than altering accepted application bytes. No reference screenshots, real tenant data or new downloaded assets are distributed.
