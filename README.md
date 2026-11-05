@@ -18,7 +18,7 @@ Video URL: https://youtu.be/EVId4MG_Aeg
 
 > **Recorded synthetic take — verified from usage/billing receipts:** **14 Muse Spark sends · USD 0.082561 · 0 new UNKNOWN outcomes.** Earlier unknown attempts and their reserves remain; these figures are for this take, not a blanket model-quality or production claim. See [verification scope](#verification-with-scope-made-explicit).
 
-**Hosted demo: pending.** Local synthetic exploration is documented in [the local setup guide](docs/PUBLIC_LOCAL_SETUP.md).
+**Read-only recorded tour (no login):** https://completed-tour-production.up.railway.app - five views from the recorded pair-8 demo in the current Lichen interface; synthetic data, simulated vendors, recorded Muse Spark output; no live AI, logins or payments. This is a separately hosted read-only supplement; its source is not included in this repository. An interactive hosted sandbox is not available. Local synthetic exploration is documented in [the local setup guide](docs/PUBLIC_LOCAL_SETUP.md).
 
 ## How it works
 
@@ -153,7 +153,7 @@ The backend's generic `npm test` is a signup integration helper, not the maintai
 
 ## Current limitations
 
-- **Hosted demo pending.** The owner-provided recording is linked above. Local instructions remain synthetic/offline and do not establish authenticated hosted access.
+- **Read-only recorded tour available; interactive hosted sandbox pending.** The tour is a separately hosted read-only supplement, with source outside this repository. The owner-provided recording is linked above. Local instructions remain synthetic/offline and do not establish authenticated hosted access.
 - Vendors are simulated. Wallet values, including illustrative CAD 240 `pending_manual` with null bank reference, are synthetic: no bank transfer, paid status or physical-repair proof is implied.
 - Human financial/scope decisions, Policy confirmation and vendor/tenant visit consent remain separate. A later default quota does not rewrite a previously submitted quote ceiling.
 - Historical browser/focus/large-text findings remain qualified; source/unit checks do not prove native zoom, touch, screen-reader or every current rendered flow.
