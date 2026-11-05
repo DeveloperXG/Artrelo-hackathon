@@ -34,11 +34,11 @@ Identity, access scope, safety, revision checks, spending approvals and visit co
 
 ## Screenshots
 
-Existing **synthetic MOCK views** of the Lichen page components with production CSS. These are not live-account or live-model screenshots and do not certify whole-page responsiveness or native/connected acceptance. All names, addresses and financial figures shown are test data.
+Earlier **synthetic demo views** from the Oct 31 judge sandbox: Iris prepares a policy change for human confirmation, and the guided maintenance workflow reaches completion. Styling and step counts reflect that earlier milestone. These screenshots do not establish live-model use, a physical repair or a money transfer; the recording and verification sections state the current evidence. All names, requests and amounts shown are test data.
 
-| Properties & units | Reports |
+| Iris policy preview and human confirmation | Guided maintenance workflow |
 | --- | --- |
-| <img src="docs/screenshots/landlord-properties-mock.png" width="480" alt="Synthetic mock Properties and Units view showing one property and two units" /> | <img src="docs/screenshots/landlord-reports-mock.png" width="480" alt="Synthetic mock Reports view with test spend and request charts" /> |
+| <img src="docs/screenshots/iris-policy-preview-synthetic.png" width="480" alt="Synthetic demo: Ask Iris shows the exact quota change, affected requests and Confirm change button" /> | <img src="docs/screenshots/guided-workflow-synthetic.png" width="480" alt="Synthetic demo: guided maintenance workflow marked complete alongside landlord and tenant instructions" /> |
 
 ## Built during the hackathon
 
