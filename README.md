@@ -36,11 +36,9 @@ Identity, access scope, safety, revision checks, spending approvals and visit co
 
 ## Screenshots
 
-Earlier **synthetic demo views** from the Oct 31 judge sandbox: Iris prepares a policy change for human confirmation, and the guided maintenance workflow reaches completion. Styling and step counts reflect that earlier milestone. These screenshots do not establish live-model use, a physical repair or a money transfer; the recording and verification sections state the current evidence. All names, requests and amounts shown are test data.
+Earlier **synthetic demo view** from the Oct 31 judge sandbox: the guided maintenance workflow reaches completion. Styling and step counts reflect that earlier milestone. This screenshot does not establish live-model use, a physical repair or a money transfer; the recording and verification sections state the current evidence. All names, requests and amounts shown are test data.
 
-| Iris policy preview and human confirmation | Guided maintenance workflow |
-| --- | --- |
-| <img src="docs/screenshots/iris-policy-preview-synthetic.png" width="480" alt="Synthetic demo: Ask Iris shows the exact quota change, affected requests and Confirm change button" /> | <img src="docs/screenshots/guided-workflow-synthetic.png" width="480" alt="Synthetic demo: guided maintenance workflow marked complete alongside landlord and tenant instructions" /> |
+<img src="docs/screenshots/guided-workflow-synthetic.png" width="960" alt="Synthetic demo: guided maintenance workflow marked complete alongside landlord and tenant instructions" />
 
 ## Built during the hackathon
 
