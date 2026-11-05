@@ -6,13 +6,15 @@
 
 <p align="center"><strong>AI-assisted property maintenance, with clear records and human control.</strong></p>
 
-Artrelo helps landlords and property managers coordinate maintenance, from a tenant’s report through quotes, visits and repair confirmation. Muse Spark helps interpret reports and review itemized costs. Iris helps landlords understand the record and propose Policy changes.
+**One maintenance record, from report to repair confirmation.** Artrelo brings tenant reports, quotes and visits into a traceable workflow for landlords and property managers. Muse Spark helps interpret reports and review itemized costs. Iris helps landlords understand the record and propose Policy changes.
 
 ## Demo video
 
 [Watch the Artrelo demo on YouTube](https://youtu.be/EVId4MG_Aeg)
 
 Video URL: https://youtu.be/EVId4MG_Aeg
+
+> **Recorded synthetic take — verified from usage/billing receipts:** **14 Muse Spark sends · USD 0.082561 · 0 new UNKNOWN outcomes.** Earlier unknown attempts and their reserves remain; these figures are for this take, not a blanket model-quality or production claim. See [verification scope](#verification-with-scope-made-explicit).
 
 **Hosted demo: pending.** Local synthetic exploration is documented in [the local setup guide](docs/PUBLIC_LOCAL_SETUP.md).
 
@@ -29,6 +31,14 @@ Identity, access scope, safety, revision checks, spending approvals and visit co
 ### About this submission
 
 **Meta Global AI Developer Hackathon — October 26–November 4, 2026.** This is an accepted source checkpoint, not a production-readiness certificate. Artrelo extends a pre-existing product; the contribution breakdown below separates old and new work.
+
+## Screenshots
+
+Existing **synthetic MOCK views** of the Lichen page components with production CSS. These are not live-account or live-model screenshots and do not certify whole-page responsiveness or native/connected acceptance. All names, addresses and financial figures shown are test data.
+
+| Properties & units | Reports |
+| --- | --- |
+| <img src="docs/screenshots/landlord-properties-mock.png" width="480" alt="Synthetic mock Properties and Units view showing one property and two units" /> | <img src="docs/screenshots/landlord-reports-mock.png" width="480" alt="Synthetic mock Reports view with test spend and request charts" /> |
 
 ## Built during the hackathon
 
@@ -106,6 +116,22 @@ This revision includes the Nov 4 guarded landlord Iris mount, bounded advisory r
 ## Local setup and architecture
 
 The source uses Node 22, Express/Mongoose/MongoDB, React/Vite/Tailwind/Radix and self-hosted IBM Plex. `backend/`, `frontend/`, `shared/`, `marketing/` and `deploy/` preserve the relevant accepted application/build source. The ordinary marketing/static Dockerfile is **not** a hosted judge adapter.
+
+## Tech stack
+
+Versions below are **declared in the [frontend](frontend/package.json) and [backend](backend/package.json) manifests**. A declared dependency does not prove that an external service is configured or active.
+
+| Layer | Declared stack | Demonstrated use / limit |
+| --- | --- | --- |
+| Web app | React `^19.1.1`, Vite `^7.1.2`, Tailwind CSS `^4.1.12` | Used by the app; the integrated frontend tests and production build passed. |
+| UI components | Radix Dialog `1.1.6`; MUI `7.3.5` | Radix is imported by the dialog/Iris UI; MUI is a declared dependency, with no separate demo-use claim. |
+| Server | Node `22.x` engine; Express `^5.1.0` | Node 22 and the Express app were exercised in the source-bound local tests; no hosted-runtime claim. |
+| Data | MongoDB driver `^6.18.0`; Mongoose `^8.17.1` | Local synthetic persistence/transaction tests are described in the verification section; no production database claim. |
+| AI client package | OpenAI SDK `^6.39.0` | Declared client package; the recorded Muse Spark provider behavior is verified separately above. |
+| Test tooling | Vitest `^4.1.11`; Playwright `1.56.1` | Maintained frontend suite uses Vitest; backend uses its custom Node runner. Playwright is declared, not a fresh end-to-end pass. |
+| Telemetry packages | Sentry React/Node `^11.7.0` / `^11.7.0` | Declared; external telemetry activation/delivery is not verified here. |
+| Payment packages | Stripe backend `^22.4.0`; Stripe.js `^9.13.0` | Declared; demo Wallet values are synthetic, with no live transfer or paid-transaction claim. |
+| Email/media packages | Resend `^6.20.0`; Cloudinary `^2.10.0` | Declared; live service configuration/delivery is not verified here. |
 
 Start with [fresh local offline setup](docs/PUBLIC_LOCAL_SETUP.md). It requires a private local transactional replica set, newly authored synthetic manifest/roster, your own hidden prompt inputs and installed locked dependencies on your isolated machine. No installation/server/model action was performed during packaging. The `.env.example` file is a **names-only inventory**, not a set of usable secrets or permission to bypass hidden-input startup. Do not copy an owner's environment or reuse rehearsal state.
 
