@@ -1,3 +1,4 @@
+import { REMAINDER_PORTAL } from '../remainderPresentation';
 import { useEffect, useMemo, useState } from 'react';
 import { ArrowLeft, Building2, FileSpreadsheet, Loader2, Plus } from 'lucide-react';
 import { toast } from 'sonner';
@@ -191,7 +192,7 @@ export default function AddPropertiesDialog({
           : 'Upload a CSV with a property, address and unit column.';
 
   return (
-    <FormDialog
+    <FormDialog presentation
       open={open}
       onOpenChange={onOpenChange}
       icon={Building2}
@@ -216,7 +217,7 @@ export default function AddPropertiesDialog({
               <FieldLabel>Name</FieldLabel>
               <Input
                 data-testid="new-property-name"
-                className={`h-10 bg-white ${singleErrors.name ? invalidFieldClass : ''}`}
+                className={`h-10 bg-white  lichen:bg-card ${singleErrors.name ? invalidFieldClass : ''}`}
                 value={single.name}
                 disabled={busy}
                 aria-invalid={Boolean(singleErrors.name)}
@@ -233,7 +234,7 @@ export default function AddPropertiesDialog({
               <FieldLabel>Address</FieldLabel>
               <Input
                 data-testid="new-property-address"
-                className={`h-10 bg-white ${singleErrors.address ? invalidFieldClass : ''}`}
+                className={`h-10 bg-white  lichen:bg-card ${singleErrors.address ? invalidFieldClass : ''}`}
                 value={single.address}
                 disabled={busy}
                 aria-invalid={Boolean(singleErrors.address)}
@@ -253,7 +254,7 @@ export default function AddPropertiesDialog({
               data-testid="create-property-btn"
               disabled={busy}
               onClick={() => void createSingle()}
-              className="w-full bg-[#137fec] hover:bg-[#137fec]/90"
+              className="w-full bg-[#137fec] hover:bg-[#137fec]/90 lichen:bg-primary lichen:hover:bg-chip lichen:text-primary-foreground"
             >
               {busy ? (
                 <Loader2 className="mr-1 h-4 w-4 animate-spin" />
@@ -268,9 +269,9 @@ export default function AddPropertiesDialog({
         {step === 'compose' && method === 'portfolio' ? (
           <div className="space-y-3">
             <UnitFileImport mode="portfolio" onParsed={onFileParsed} />
-            <div className="rounded-xl border border-slate-200 bg-slate-50/70 p-3">
+            <div className="rounded-xl border border-slate-200 bg-slate-50/70 p-3 lichen:rounded-lg lichen:border-hairline lichen:bg-well">
               <FieldLabel>Expected shape</FieldLabel>
-              <pre className="mt-1.5 overflow-x-auto text-xs leading-relaxed text-slate-600">
+              <pre className="mt-1.5 overflow-x-auto text-xs leading-relaxed text-slate-600 lichen:text-meta">
                 {SAMPLE_CSV}
               </pre>
             </div>
@@ -292,7 +293,7 @@ export default function AddPropertiesDialog({
               data-testid="import-portfolio-btn"
               disabled={busy || !merged.valid}
               onClick={() => void importPortfolio()}
-              className="w-full bg-[#137fec] hover:bg-[#137fec]/90"
+              className="w-full bg-[#137fec] hover:bg-[#137fec]/90 lichen:bg-primary lichen:hover:bg-chip lichen:text-primary-foreground"
             >
               {busy ? (
                 <Loader2 className="mr-1 h-4 w-4 animate-spin" />
@@ -313,7 +314,7 @@ export default function AddPropertiesDialog({
             size="sm"
             disabled={busy}
             onClick={() => setStep(step === 'review' ? 'compose' : 'method')}
-            className="h-8 px-2 text-slate-500 hover:text-slate-900"
+            className="h-8 px-2 text-slate-500 hover:text-slate-900 lichen:text-meta lichen:hover:text-ink"
           >
             <ArrowLeft className="mr-1.5 h-3.5 w-3.5" />
             Back

@@ -7,11 +7,11 @@
  * shared controls unreadable, so it keeps the legacy light column until its own
  * phase adds its path here.
  */
-export const LICHEN_LANDLORD_PATHS: readonly string[] = ['/dashboard', '/dashboard/activity', '/dashboard/policy', '/dashboard/guided-demo', '/dashboard/requests', '/dashboard/decisions', '/dashboard/wallet', '/dashboard/schedule'];
+export const LICHEN_LANDLORD_PATHS: readonly string[] = ['/dashboard', '/dashboard/activity', '/dashboard/policy', '/dashboard/guided-demo', '/dashboard/requests', '/dashboard/decisions', '/dashboard/wallet', '/dashboard/schedule', '/dashboard/properties', '/dashboard/tenants', '/dashboard/vendors', '/dashboard/billing', '/dashboard/reports'];
 
 export function isLichenLandlordPath(pathname: string): boolean {
   const path = pathname.replace(/\/+$/, '') || '/';
-  return LICHEN_LANDLORD_PATHS.includes(path) || /^\/dashboard\/requests\/[^/]+$/.test(path);
+  return LICHEN_LANDLORD_PATHS.includes(path) || /^\/dashboard\/(?:requests|properties)\/[^/]+$/.test(path);
 }
 
 // Presentation only, never an access/role gate. Owner-authorized activation

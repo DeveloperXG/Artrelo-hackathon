@@ -1,6 +1,6 @@
 # Built during the hackathon / pre-existing work
 
-Window: Oct26–Nov4,2026. This public source snapshot is based on accepted application `97e90073bddf0c755d93239c76806bd353983ecb`, including bounded Nov4 recovery source, not a successful final-recording claim. The source manifest supplies exact included files; private operational history is deliberately omitted.
+Window: Oct26–Nov4,2026. This public source snapshot is based on accepted application `e0754b577c1a2eac4ef2f66cbd7a28aa7699b8f6`, including bounded Nov4 recovery source, not a successful final-recording claim. The source manifest supplies exact included files; private operational history is deliberately omitted.
 
 **Pre-existing baseline:** `adec601ba6854e47639c9dd8bf71d59b329e0edd` (Oct24). The existing product already had GPT intake/deterministic fallback, authentication/authorization, vendor matching/outreach, request lifecycle, booking foundations, quote ranges/counteroffers, completion/dispute and generic request activity. This is an extension of that product.
 
@@ -19,3 +19,7 @@ These rows attribute mechanisms, not entire old pages, generic scheduling, payme
 ## Nov4 recovery revision
 
 Source `97e90073bddf0c755d93239c76806bd353983ecb` (Nov4): the actual frontend landlord Iris route now shares the guarded router/conversation service with the runtime alias; typed advisory reason/reference validation is bounded; an exact one-shot recording-retake service and CLI preserve existing campaign caps and expiry while bounding one approved take. Sources: `backend/routes/landlord.routes.js`, `backend/routes/iris.routes.js`, `backend/services/judgeSandbox/application.service.js`, `backend/services/quotes/analysisContract.service.js`, `backend/services/judgeSandbox/recordingRetake.service.js`, and the matching contracts/unit tests. This adds no frontend feature, payment authority, physical repair claim or successful live-model take. Original pre-existing baseline and mechanism-level attribution above remain unchanged. Private execution protocols, credentials and evidence are excluded.
+
+## Final landlord presentation, Nov4 local / Nov5 UTC
+
+Source `e0754b577c1a2eac4ef2f66cbd7a28aa7699b8f6`: existing Lichen Light/Plex tokens now cover Properties and property history, Tenants, Vendors, Billing and Reports, including owned dialogs, tables and chart presentation. This is presentation-only work; request/auth/data/financial/Guide/Iris behavior and backend source are unchanged. Source and tests are mapped in SOURCE_MANIFEST.json. Current integrated focused/full frontend tests and production build passed; six-page isolated mock visuals do not certify real account or payment flows. The linked pair8 recording results are separately stated in README, with explanation/article/native limitations.

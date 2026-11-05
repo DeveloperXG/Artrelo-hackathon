@@ -1,3 +1,4 @@
+import { REMAINDER_PORTAL } from '../remainderPresentation';
 import { useEffect, useState } from 'react';
 import { Building2, DoorOpen, Loader2, TriangleAlert } from 'lucide-react';
 import { toast } from 'sonner';
@@ -122,7 +123,7 @@ export default function EditPortfolioDialog({
   );
 
   return (
-    <FormDialog
+    <FormDialog presentation
       open
       onOpenChange={(next) => (saving ? null : onOpenChange(next))}
       icon={isProperty ? Building2 : DoorOpen}
@@ -147,7 +148,7 @@ export default function EditPortfolioDialog({
             {addressChanged && bookedJobs > 0 ? (
               <div
                 data-testid="edit-address-warning"
-                className="flex items-start gap-2 rounded-lg border border-amber-100 bg-amber-50 px-3 py-2.5 text-xs leading-5 text-amber-900"
+                className="flex items-start gap-2 rounded-lg border border-amber-100 bg-amber-50 px-3 py-2.5 text-xs leading-5 text-amber-900 lichen:rounded-lg lichen:border-lichen-line lichen:bg-lichen-tint lichen:text-lichen-text"
               >
                 <TriangleAlert className="mt-0.5 h-3.5 w-3.5 shrink-0" />
                 {bookedJobs} booked job{bookedJobs === 1 ? '' : 's'} will see the new address. We'll email{' '}
@@ -179,13 +180,13 @@ export default function EditPortfolioDialog({
           <Button
             type="button"
             variant="outline"
-            className="border-slate-200"
+            className="border-slate-200 lichen:border-hairline"
             disabled={saving}
             onClick={() => onOpenChange(false)}
           >
             Cancel
           </Button>
-          <Button type="submit" data-testid="edit-save" className="bg-[#137fec] hover:bg-[#137fec]/90" disabled={saving}>
+          <Button type="submit" data-testid="edit-save" className="bg-[#137fec] hover:bg-[#137fec]/90 lichen:bg-primary lichen:hover:bg-chip lichen:text-primary-foreground" disabled={saving}>
             {saving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
             Save changes
           </Button>

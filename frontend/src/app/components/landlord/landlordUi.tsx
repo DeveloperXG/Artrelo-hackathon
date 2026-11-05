@@ -1,3 +1,4 @@
+import { REMAINDER_PORTAL } from './remainderPresentation';
 import { useEffect, useState } from 'react';
 import type { ComponentProps, ReactNode } from 'react';
 import { AlertTriangle, Loader2, RefreshCcw } from 'lucide-react';
@@ -45,12 +46,12 @@ export function useLandlordEntrance() {
 
 /** Shared classes for native inputs / selects so they match the design system. */
 export const fieldClass =
-  'h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-[#137fec] focus:ring-2 focus:ring-[#137fec]/15';
+  'h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-[#137fec] focus:ring-2 focus:ring-[#137fec]/15 in-[.lichen-remainder]:rounded-md in-[.lichen-remainder]:border-control-border in-[.lichen-remainder]:bg-input-background in-[.lichen-remainder]:text-ink in-[.lichen-remainder]:shadow-none in-[.lichen-remainder]:placeholder:text-meta in-[.lichen-remainder]:focus:border-control-border in-[.lichen-remainder]:focus:ring-0 in-[.lichen-remainder]:focus-visible:outline-solid in-[.lichen-remainder]:focus-visible:outline-2 in-[.lichen-remainder]:focus-visible:outline-offset-2 in-[.lichen-remainder]:focus-visible:outline-ring';
 
 /** Small uppercase eyebrow label used above form controls and section meta. */
 export function FieldLabel({ children, className }: { children: ReactNode; className?: string }) {
   return (
-    <span className={cn('text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400', className)}>
+    <span className={cn('text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400 in-[.lichen-remainder]:text-xs in-[.lichen-remainder]:normal-case in-[.lichen-remainder]:tracking-normal in-[.lichen-remainder]:text-meta', className)}>
       {children}
     </span>
   );
@@ -66,6 +67,7 @@ export function SectionCard({
   children,
   className,
   delay = 0,
+  entrance = true,
 }: {
   icon?: LucideIcon;
   iconColor?: string;
@@ -75,28 +77,30 @@ export function SectionCard({
   children?: ReactNode;
   className?: string;
   delay?: number;
+  entrance?: boolean;
 }) {
   return (
     <Card
       style={delay ? { animationDelay: `${delay}ms` } : undefined}
       className={cn(
-        'll-fade-up gap-0 border border-slate-100 p-5 shadow-sm transition duration-300 hover:shadow-md lichen:border-border lichen:shadow-lichen-card lichen:hover:shadow-lichen-card',
+        entrance && 'll-fade-up',
+        'gap-0 border border-slate-100 p-5 shadow-sm transition duration-300 hover:shadow-md lichen:border-border lichen:shadow-lichen-card lichen:hover:shadow-lichen-card',
         className
       )}
     >
       {/* The action drops below the title only when it cannot fit beside the title's longest word. */}
       <div className="flex flex-wrap items-start justify-between gap-4">
         {/* Likewise the icon sits above the title only when the two cannot share a row. */}
-        <div className="flex min-w-min flex-1 basis-0 flex-wrap items-center gap-3">
+        <div className="flex min-w-min flex-1 basis-0 in-[.lichen-remainder]:min-w-0 in-[.lichen-remainder]:[overflow-wrap:anywhere] flex-wrap items-center gap-3">
           {Icon ? (
             <div
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl in-[.lichen-remainder]:rounded-md in-[.lichen-remainder]:bg-chip! in-[.lichen-remainder]:text-chip-icon!"
               style={{ backgroundColor: `${iconColor}1a`, color: iconColor }}
             >
               <Icon className="h-5 w-5" />
             </div>
           ) : null}
-          <div className="min-w-min flex-1 basis-0">
+          <div className="min-w-min flex-1 basis-0 in-[.lichen-remainder]:min-w-0 in-[.lichen-remainder]:[overflow-wrap:anywhere]">
             <h3 className="font-semibold text-slate-900 lichen:text-ink">{title}</h3>
             {description ? <p className="text-sm text-slate-500 lichen:text-meta">{description}</p> : null}
           </div>
@@ -168,6 +172,7 @@ export function FormDialog({
   description,
   children,
   className,
+  presentation = false,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -177,21 +182,22 @@ export function FormDialog({
   description?: string;
   children: ReactNode;
   className?: string;
+  presentation?: boolean;
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className={cn('sm:max-w-lg', className)}>
+      <DialogContent className={cn('sm:max-w-lg', presentation && REMAINDER_PORTAL, className)}>
         <DialogHeader>
-          <div className="flex items-center gap-3 text-left">
+          <div className="flex items-center gap-3 text-left in-[.lichen-remainder]:min-w-0 in-[.lichen-remainder]:flex-wrap">
             {Icon ? (
               <div
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl"
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl in-[.lichen-remainder]:rounded-md in-[.lichen-remainder]:bg-chip! in-[.lichen-remainder]:text-chip-icon!"
                 style={{ backgroundColor: `${iconColor}1a`, color: iconColor }}
               >
                 <Icon className="h-5 w-5" />
               </div>
             ) : null}
-            <div>
+            <div className="in-[.lichen-remainder]:min-w-0 in-[.lichen-remainder]:flex-1 in-[.lichen-remainder]:[overflow-wrap:anywhere]">
               <DialogTitle>{title}</DialogTitle>
               {description ? <DialogDescription className="mt-0.5">{description}</DialogDescription> : null}
             </div>
@@ -251,19 +257,19 @@ export function ConfirmDialog({
         onFocusCapture={onFocusCapture}
       >
         <div className="flex flex-col items-center gap-4 px-6 pb-6 pt-8 text-center">
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-rose-50 text-rose-600 ring-8 ring-rose-50/60">
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-rose-50 text-rose-600 ring-8 ring-rose-50/60 in-[.lichen-remainder]:rounded-md in-[.lichen-remainder]:bg-alert-tint in-[.lichen-remainder]:text-alert-text in-[.lichen-remainder]:ring-0">
             <AlertTriangle className="h-7 w-7" />
           </div>
           <div className="space-y-1.5">
-            <DialogTitle className="text-lg font-semibold text-slate-900">{title}</DialogTitle>
+            <DialogTitle className="text-lg font-semibold text-slate-900 in-[.lichen-remainder]:text-ink">{title}</DialogTitle>
             {description ? (
-              <DialogDescription className="text-sm leading-relaxed text-slate-500">
+              <DialogDescription className="text-sm leading-relaxed text-slate-500 in-[.lichen-remainder]:text-meta">
                 {description}
               </DialogDescription>
             ) : null}
           </div>
         </div>
-        <DialogFooter className="gap-2 border-t border-slate-100 bg-slate-50/60 px-6 py-4 sm:gap-3">
+        <DialogFooter className="gap-2 border-t border-slate-100 bg-slate-50/60 in-[.lichen-remainder]:border-hairline in-[.lichen-remainder]:bg-well px-6 py-4 sm:gap-3">
           <Button
             variant="outline"
             className="flex-1 border-slate-200 bg-white"
@@ -273,7 +279,7 @@ export function ConfirmDialog({
             {cancelLabel}
           </Button>
           <Button
-            className="flex-1 bg-rose-600 text-white hover:bg-rose-700"
+            className="flex-1 bg-rose-600 text-white hover:bg-rose-700 in-[.lichen-remainder]:bg-alert-text in-[.lichen-remainder]:text-white in-[.lichen-remainder]:hover:bg-alert-text/90"
             disabled={busy}
             onClick={() => void handleConfirm()}
           >

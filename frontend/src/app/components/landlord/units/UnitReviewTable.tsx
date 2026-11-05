@@ -138,7 +138,7 @@ export default function UnitReviewTable({ rows, review, onChange, busy }: UnitRe
               size="sm"
               variant="outline"
               disabled={busy}
-              className="h-8 border-rose-200 text-rose-600 hover:bg-rose-50 hover:text-rose-700"
+              className="h-8 border-rose-200 text-rose-600 hover:bg-rose-50 hover:text-rose-700 lichen:border-alert-line lichen:text-alert-text lichen:hover:bg-alert-tint lichen:hover:text-alert-text"
               onClick={() => removeRows(selected)}
             >
               <Trash2 className="mr-1.5 h-3.5 w-3.5" />
@@ -150,7 +150,7 @@ export default function UnitReviewTable({ rows, review, onChange, busy }: UnitRe
             size="sm"
             variant="outline"
             disabled={busy}
-            className="h-8 border-slate-200"
+            className="h-8 border-slate-200 lichen:border-hairline"
             onClick={() => addRowAfter()}
           >
             <Plus className="mr-1.5 h-3.5 w-3.5" />
@@ -159,10 +159,10 @@ export default function UnitReviewTable({ rows, review, onChange, busy }: UnitRe
         </div>
       </div>
 
-      <div className="max-h-[46vh] overflow-auto rounded-xl border border-slate-200">
+      <div className="max-h-[46vh] overflow-auto rounded-xl border border-slate-200 lichen:rounded-lg lichen:border-hairline">
         <table className="w-full border-collapse text-sm">
-          <thead className="sticky top-0 z-10 bg-slate-50/95 backdrop-blur">
-            <tr className="border-b border-slate-200 text-left">
+          <thead className="sticky top-0 z-10 bg-slate-50/95 backdrop-blur lichen:bg-well">
+            <tr className="border-b border-slate-200 text-left lichen:border-hairline">
               <th scope="col" className="w-10 px-3 py-2">
                 <Checkbox
                   checked={allVisibleSelected}
@@ -173,7 +173,7 @@ export default function UnitReviewTable({ rows, review, onChange, busy }: UnitRe
               </th>
               <th
                 scope="col"
-                className="px-2 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400"
+                className="px-2 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400 lichen:text-xs lichen:normal-case lichen:tracking-normal lichen:text-meta"
               >
                 Unit
               </th>
@@ -187,7 +187,7 @@ export default function UnitReviewTable({ rows, review, onChange, busy }: UnitRe
               <tr
                 key={row.id}
                 data-testid={`review-row-${at}`}
-                className={row.valid ? 'border-b border-slate-100' : 'border-b border-rose-100 bg-rose-50/40'}
+                className={row.valid ? "border-b border-slate-100 lichen:border-hairline" : "border-b border-rose-100 bg-rose-50/40 lichen:border-alert-line lichen:bg-alert-tint"}
               >
                 <td className="px-3 py-1.5 align-top">
                   <div className="pt-2">
@@ -210,14 +210,14 @@ export default function UnitReviewTable({ rows, review, onChange, busy }: UnitRe
                     aria-invalid={!row.valid}
                     aria-label={`Unit identifier, row ${row.index + 1}`}
                     aria-describedby={row.valid ? undefined : `review-error-${row.id}`}
-                    className="h-9 bg-white"
+                    className="h-9 bg-white lichen:bg-card"
                     onChange={(event) => setName(row.id, event.target.value)}
                     onKeyDown={(event) => onKeyDown(event, row.id, at)}
                   />
                   {row.valid ? null : (
                     <p
                       id={`review-error-${row.id}`}
-                      className="mt-1 flex items-start gap-1 text-xs text-rose-600"
+                      className="mt-1 flex items-start gap-1 text-xs text-rose-600 lichen:text-alert-text"
                     >
                       <AlertCircle className="mt-0.5 h-3 w-3 shrink-0" />
                       <span>{row.errors.map((error) => error.message).join('. ')}</span>
@@ -232,7 +232,7 @@ export default function UnitReviewTable({ rows, review, onChange, busy }: UnitRe
                       size="icon"
                       disabled={busy}
                       aria-label={`Remove ${row.name || `row ${row.index + 1}`}`}
-                      className="h-8 w-8 text-slate-300 hover:bg-rose-50 hover:text-rose-600"
+                      className="h-8 w-8 text-slate-300 hover:bg-rose-50 hover:text-rose-600 lichen:text-meta lichen:hover:bg-alert-tint lichen:hover:text-alert-text"
                       onClick={() => removeRows(new Set([row.id]))}
                     >
                       <Trash2 className="h-3.5 w-3.5" />
@@ -243,7 +243,7 @@ export default function UnitReviewTable({ rows, review, onChange, busy }: UnitRe
             ))}
             {visible.length === 0 ? (
               <tr>
-                <td colSpan={3} className="px-4 py-8 text-center text-sm text-slate-400">
+                <td colSpan={3} className="px-4 py-8 text-center text-sm text-slate-400 lichen:text-meta">
                   No units proposed yet.
                 </td>
               </tr>
@@ -256,7 +256,7 @@ export default function UnitReviewTable({ rows, review, onChange, busy }: UnitRe
         <button
           type="button"
           onClick={() => setShowAll(true)}
-          className="w-full rounded-lg border border-dashed border-slate-200 px-3 py-2 text-xs text-slate-500 transition hover:border-[#137fec]/40 hover:text-[#137fec]"
+          className="w-full rounded-lg border border-dashed border-slate-200 px-3 py-2 text-xs text-slate-500 transition hover:border-[#137fec]/40 hover:text-[#137fec] lichen:rounded-lg lichen:border-hairline lichen:text-meta lichen:hover:border-lichen-line lichen:hover:text-lichen-text"
         >
           {hiddenCount} more {hiddenCount === 1 ? 'unit' : 'units'} not shown — every row with a
           problem is already listed above. Show all {reviewed.length}.

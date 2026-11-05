@@ -1,3 +1,4 @@
+import { REMAINDER_PORTAL } from '../remainderPresentation';
 import { useEffect, useState } from 'react';
 import { CalendarDays, ChevronDown } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '../../ui/popover';
@@ -64,14 +65,14 @@ export default function DateRangePicker({
         <button
           type="button"
           data-testid="reports-range"
-          className="inline-flex h-10 items-center gap-2 rounded-lg border border-slate-200 bg-white px-3.5 text-sm font-medium text-slate-700 shadow-sm transition hover:border-slate-300"
+          className="inline-flex h-10 items-center gap-2 rounded-lg border border-slate-200 bg-white px-3.5 text-sm font-medium text-slate-700 shadow-sm transition hover:border-slate-300 lichen:rounded-lg lichen:border-hairline lichen:bg-card lichen:text-ink lichen:shadow-lichen-card lichen:hover:border-hairline"
         >
-          <CalendarDays className="h-4 w-4 text-slate-500" />
+          <CalendarDays className="h-4 w-4 text-slate-500 lichen:text-meta" />
           {rangeLabel(value.from, value.to)}
-          <ChevronDown className="h-4 w-4 text-slate-400" />
+          <ChevronDown className="h-4 w-4 text-slate-400 lichen:text-meta" />
         </button>
       </PopoverTrigger>
-      <PopoverContent align="end" className="w-[19rem] p-3">
+      <PopoverContent align="end" className={`${REMAINDER_PORTAL} w-[19rem] p-3`}>
         <div className="space-y-1">
           {RANGE_PRESETS.map((preset) => (
             <button
@@ -84,14 +85,14 @@ export default function DateRangePicker({
               }}
               className={cn(
                 'flex w-full items-center justify-between rounded-md px-2.5 py-1.5 text-left text-sm transition',
-                value.preset === preset.key ? 'bg-[#137fec]/10 font-semibold text-[#137fec]' : 'text-slate-700 hover:bg-slate-50'
+                value.preset === preset.key ? "bg-[#137fec]/10 font-semibold text-[#137fec] lichen:bg-chip lichen:text-lichen-text" : "text-slate-700 hover:bg-slate-50 lichen:text-ink lichen:hover:bg-well"
               )}
             >
               {preset.label}
             </button>
           ))}
         </div>
-        <div className="mt-3 border-t border-slate-100 pt-3">
+        <div className="mt-3 border-t border-slate-100 pt-3 lichen:border-hairline">
           <FieldLabel>Custom range</FieldLabel>
           <div className="mt-2 grid grid-cols-2 gap-2">
             <input
@@ -123,7 +124,7 @@ export default function DateRangePicker({
             type="button"
             onClick={applyCustom}
             data-testid="reports-apply-custom"
-            className="mt-2 h-9 w-full bg-[#137fec] text-sm hover:bg-[#137fec]/90"
+            className="mt-2 h-9 w-full bg-[#137fec] text-sm hover:bg-[#137fec]/90 lichen:bg-primary lichen:hover:bg-chip lichen:text-primary-foreground"
           >
             Apply
           </Button>

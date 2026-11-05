@@ -1,3 +1,4 @@
+import { REMAINDER_PORTAL } from '../remainderPresentation';
 import { useEffect, useMemo, useState } from 'react';
 import { ArrowLeft, ClipboardList, DoorOpen, Loader2, Plus, Wand2 } from 'lucide-react';
 import { toast } from 'sonner';
@@ -210,7 +211,7 @@ export default function AddUnitsDialog({
             : 'Bring a list you already have — paste it, or upload a CSV.';
 
   return (
-    <FormDialog
+    <FormDialog presentation
       open={open}
       onOpenChange={onOpenChange}
       icon={DoorOpen}
@@ -256,7 +257,7 @@ export default function AddUnitsDialog({
               <FieldLabel>Unit name</FieldLabel>
               <Input
                 data-testid="new-unit-number"
-                className={`h-10 bg-white ${singleNameError ? invalidFieldClass : ''}`}
+                className={`h-10 bg-white  lichen:bg-card ${singleNameError ? invalidFieldClass : ''}`}
                 placeholder="e.g. 4B"
                 value={singleName}
                 disabled={busy}
@@ -276,7 +277,7 @@ export default function AddUnitsDialog({
               data-testid="create-unit-btn"
               disabled={busy}
               onClick={() => void createSingle()}
-              className="w-full bg-[#137fec] hover:bg-[#137fec]/90"
+              className="w-full bg-[#137fec] hover:bg-[#137fec]/90 lichen:bg-primary lichen:hover:bg-chip lichen:text-primary-foreground"
             >
               {busy ? (
                 <Loader2 className="mr-1 h-4 w-4 animate-spin" />
@@ -307,7 +308,7 @@ export default function AddUnitsDialog({
                     className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
                       active
                         ? 'bg-slate-900 text-white'
-                        : 'border border-slate-200 bg-white text-slate-600 hover:border-slate-300'
+                        : "border border-slate-200 bg-white text-slate-600 hover:border-slate-300 lichen:border-hairline lichen:bg-card lichen:text-meta lichen:hover:border-hairline"
                     }`}
                   >
                     {source === 'paste' ? 'Paste a list' : 'Upload a CSV'}
@@ -324,13 +325,13 @@ export default function AddUnitsDialog({
               <Textarea
                 data-testid="paste-units"
                 rows={8}
-                className="min-h-[9rem] bg-white font-mono text-sm"
+                className="min-h-[9rem] bg-white font-mono text-sm lichen:bg-card"
                 placeholder={'A1\nA2\nPH1\nG01\n\nor: A1, A2, A3'}
                 value={pasted}
                 onChange={(event) => setPasted(event.target.value)}
               />
             </label>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-slate-400 lichen:text-meta">
               {parsePastedUnits(pasted).length} unit
               {parsePastedUnits(pasted).length === 1 ? '' : 's'} detected. Names are kept exactly as
               written.
@@ -339,7 +340,7 @@ export default function AddUnitsDialog({
               data-testid="review-pasted-units"
               disabled={parsePastedUnits(pasted).length === 0}
               onClick={() => goToReview(parsePastedUnits(pasted))}
-              className="w-full bg-[#137fec] hover:bg-[#137fec]/90"
+              className="w-full bg-[#137fec] hover:bg-[#137fec]/90 lichen:bg-primary lichen:hover:bg-chip lichen:text-primary-foreground"
             >
               Review units
             </Button>
@@ -363,7 +364,7 @@ export default function AddUnitsDialog({
             {merged.summary.invalid > 0 ? (
               <p
                 role="status"
-                className="rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700"
+                className="rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700 lichen:rounded-lg lichen:border-alert-line lichen:bg-alert-tint lichen:text-alert-text"
               >
                 {merged.summary.invalid} of {merged.summary.total} units need attention before
                 anything can be created.
@@ -374,7 +375,7 @@ export default function AddUnitsDialog({
               data-testid="create-units-btn"
               disabled={busy || !merged.valid}
               onClick={() => void createBatch()}
-              className="w-full bg-[#137fec] hover:bg-[#137fec]/90"
+              className="w-full bg-[#137fec] hover:bg-[#137fec]/90 lichen:bg-primary lichen:hover:bg-chip lichen:text-primary-foreground"
             >
               {busy ? (
                 <Loader2 className="mr-1 h-4 w-4 animate-spin" />
@@ -393,7 +394,7 @@ export default function AddUnitsDialog({
             size="sm"
             disabled={busy}
             onClick={back}
-            className="h-8 px-2 text-slate-500 hover:text-slate-900"
+            className="h-8 px-2 text-slate-500 hover:text-slate-900 lichen:text-meta lichen:hover:text-ink"
           >
             <ArrowLeft className="mr-1.5 h-3.5 w-3.5" />
             Back

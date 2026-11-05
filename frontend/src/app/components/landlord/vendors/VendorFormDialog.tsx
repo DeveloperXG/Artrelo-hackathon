@@ -1,3 +1,4 @@
+import { REMAINDER_PORTAL } from '../remainderPresentation';
 import { D3_FIELD } from '../../request-detail/d3Presentation';
 import { D3FormDialog, D3_PORTAL, useD3Presentation } from '../../request-detail/d3Presentation';
 import { useEffect, useState, type KeyboardEvent } from 'react';
@@ -108,12 +109,14 @@ export default function VendorFormDialog({
   onOpenChange,
   vendor,
   onSaved,
+  presentation = false,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   /** null to create, a vendor to edit. */
   vendor: VendorItem | null;
   onSaved: () => Promise<void> | void;
+  presentation?: boolean;
 }) {
   const d3 = useD3Presentation();
   const [form, setForm] = useState<FormState>(() => fromVendor(vendor));
@@ -227,23 +230,23 @@ export default function VendorFormDialog({
     'data-testid': testId,
     'aria-invalid': Boolean(errors[key]),
     'aria-describedby': errors[key] ? `${testId}-error` : undefined,
-    className: `h-10 bg-white ${D3_FIELD} ${errors[key] ? invalidFieldClass : ''}`,
+    className: `h-10 bg-white  lichen:bg-card ${D3_FIELD} ${errors[key] ? invalidFieldClass : ''}`,
   });
 
   return (
-    <D3FormDialog
+    <D3FormDialog presentation={presentation}
       open={open}
       onOpenChange={onOpenChange}
       icon={editing ? Pencil : HardHat}
       title={editing ? `Edit ${vendor?.name}` : 'Add vendor'}
       description={editing ? 'Update this contractor’s details.' : 'Save a contractor to your network.'}
-      className={`max-h-[92vh] overflow-y-auto sm:max-w-xl ${d3 ? `${D3_PORTAL} [&_[data-slot=dialog-header]_.h-10]:rounded-md [&_[data-slot=dialog-header]_.h-10]:bg-chip! [&_[data-slot=dialog-header]_.h-10]:text-chip-icon!` : ''}`}
+      className={`${presentation ? REMAINDER_PORTAL : ''} max-h-[92vh] overflow-y-auto sm:max-w-xl ${d3 ? `${D3_PORTAL} [&_[data-slot=dialog-header]_.h-10]:rounded-md [&_[data-slot=dialog-header]_.h-10]:bg-chip! [&_[data-slot=dialog-header]_.h-10]:text-chip-icon!` : ''}`}
     >
       <div className="space-y-4">
         <div className="grid gap-3 sm:grid-cols-2">
           <label className="block space-y-1.5">
             <FieldLabel className="in-[.lichen-d3]:text-meta">
-              Name <span className="text-rose-500 in-[.lichen-d3]:text-alert-text">*</span>
+              Name <span className="text-rose-500 in-[.lichen-d3]:text-alert-text lichen:text-alert-text">*</span>
             </FieldLabel>
             <Input
               {...fieldProps('name', 'new-vendor-name')}
@@ -257,7 +260,7 @@ export default function VendorFormDialog({
             <FieldLabel className="in-[.lichen-d3]:text-meta">Company</FieldLabel>
             <Input
               data-testid="new-vendor-company"
-              className={["h-10 bg-white in-[.lichen-d3]:bg-card", D3_FIELD].join(' ')}
+              className={["h-10 bg-white in-[.lichen-d3]:bg-card lichen:bg-card", D3_FIELD].join(' ')}
               placeholder="Acme Plumbing"
               value={form.company}
               onChange={(event) => update({ company: event.target.value })}
@@ -265,7 +268,7 @@ export default function VendorFormDialog({
           </label>
           <label className="block space-y-1.5">
             <FieldLabel className="in-[.lichen-d3]:text-meta">
-              Email <span className="text-rose-500 in-[.lichen-d3]:text-alert-text">*</span>
+              Email <span className="text-rose-500 in-[.lichen-d3]:text-alert-text lichen:text-alert-text">*</span>
             </FieldLabel>
             <Input
               {...fieldProps('email', 'new-vendor-email')}
@@ -278,7 +281,7 @@ export default function VendorFormDialog({
           </label>
           <label className="block space-y-1.5">
             <FieldLabel className="in-[.lichen-d3]:text-meta">
-              Phone <span className="font-normal normal-case tracking-normal text-slate-400 in-[.lichen-d3]:text-meta">(optional)</span>
+              Phone <span className="font-normal normal-case tracking-normal text-slate-400 in-[.lichen-d3]:text-meta lichen:tracking-normal lichen:text-meta">(optional)</span>
             </FieldLabel>
             <Input
               {...fieldProps('phone', 'new-vendor-phone')}
@@ -293,7 +296,7 @@ export default function VendorFormDialog({
             <FieldLabel className="in-[.lichen-d3]:text-meta">City</FieldLabel>
             <Input
               data-testid="new-vendor-city"
-              className={["h-10 bg-white in-[.lichen-d3]:bg-card", D3_FIELD].join(' ')}
+              className={["h-10 bg-white in-[.lichen-d3]:bg-card lichen:bg-card", D3_FIELD].join(' ')}
               placeholder="Calgary"
               value={form.city}
               onChange={(event) => update({ city: event.target.value })}
@@ -303,7 +306,7 @@ export default function VendorFormDialog({
             <FieldLabel className="in-[.lichen-d3]:text-meta">Service areas</FieldLabel>
             <Input
               data-testid="new-vendor-service-areas"
-              className={["h-10 bg-white in-[.lichen-d3]:bg-card", D3_FIELD].join(' ')}
+              className={["h-10 bg-white in-[.lichen-d3]:bg-card lichen:bg-card", D3_FIELD].join(' ')}
               placeholder="Downtown, Beltline"
               value={form.serviceAreas}
               onChange={(event) => update({ serviceAreas: event.target.value })}
@@ -315,13 +318,13 @@ export default function VendorFormDialog({
         <fieldset className="space-y-2" aria-describedby={errors.operatingHours ? 'vendor-hours-error' : undefined}>
           <legend className="mb-2">
             <FieldLabel className="in-[.lichen-d3]:text-meta">
-              Hours of operation <span className="text-rose-500 in-[.lichen-d3]:text-alert-text">*</span>
+              Hours of operation <span className="text-rose-500 in-[.lichen-d3]:text-alert-text lichen:text-alert-text">*</span>
             </FieldLabel>
           </legend>
           <div
             role="radiogroup"
             data-testid="vendor-hours-preset"
-            className={`grid grid-cols-3 gap-2 rounded-xl in-[.lichen-d3]:rounded-lg ${errors.operatingHours ? 'ring-1 ring-rose-300 ring-offset-2' : ''}`}
+            className={`grid grid-cols-3 gap-2 rounded-xl in-[.lichen-d3]:rounded-lg  lichen:rounded-lg ${errors.operatingHours ? 'ring-1 ring-rose-300 ring-offset-2' : ''}`}
           >
             {PRESET_OPTIONS.map((option) => {
               const active = form.hoursPreset === option.id;
@@ -333,32 +336,32 @@ export default function VendorFormDialog({
                   aria-checked={active}
                   data-testid={`vendor-hours-${option.id}`}
                   onClick={() => update({ hoursPreset: option.id }, 'operatingHours')}
-                  className={`rounded-xl border px-3 py-2.5 text-left transition in-[.lichen-d3]:rounded-lg ${
+                  className={`rounded-xl border px-3 py-2.5 text-left transition in-[.lichen-d3]:rounded-lg  lichen:rounded-lg ${
                     active
-                      ? "border-[#137fec] bg-[#137fec]/5 shadow-sm in-[.lichen-d3]:border-control-border in-[.lichen-d3]:bg-lichen-tint in-[.lichen-d3]:shadow-none"
-                      : "border-slate-200 bg-white hover:border-slate-300 in-[.lichen-d3]:border-border in-[.lichen-d3]:bg-card in-[.lichen-d3]:hover:border-control-border"
+                      ? "border-[#137fec] bg-[#137fec]/5 shadow-sm in-[.lichen-d3]:border-control-border in-[.lichen-d3]:bg-lichen-tint in-[.lichen-d3]:shadow-none lichen:border-lichen-line lichen:bg-chip lichen:shadow-lichen-card"
+                      : "border-slate-200 bg-white hover:border-slate-300 in-[.lichen-d3]:border-border in-[.lichen-d3]:bg-card in-[.lichen-d3]:hover:border-control-border lichen:border-hairline lichen:bg-card lichen:hover:border-hairline"
                   }`}
                 >
-                  <div className={`text-sm font-semibold ${active ? "text-[#137fec] in-[.lichen-d3]:text-lichen-text" : "text-slate-800 in-[.lichen-d3]:text-ink"}`}>
+                  <div className={`text-sm font-semibold ${active ? "text-[#137fec] in-[.lichen-d3]:text-lichen-text lichen:text-lichen-text" : "text-slate-800 in-[.lichen-d3]:text-ink lichen:text-ink"}`}>
                     {option.label}
                   </div>
-                  <div className="text-[11px] text-slate-500 in-[.lichen-d3]:text-meta">{option.hint}</div>
+                  <div className="text-[11px] text-slate-500 in-[.lichen-d3]:text-meta lichen:text-xs lichen:text-meta">{option.hint}</div>
                 </button>
               );
             })}
           </div>
           {form.hoursPreset === 'custom' ? (
-            <div className="divide-y divide-slate-100 rounded-xl border border-slate-200 bg-white in-[.lichen-d3]:divide-hairline in-[.lichen-d3]:rounded-lg in-[.lichen-d3]:border-border in-[.lichen-d3]:bg-card" data-testid="vendor-hours-days">
+            <div className="divide-y divide-slate-100 rounded-xl border border-slate-200 bg-white in-[.lichen-d3]:divide-hairline in-[.lichen-d3]:rounded-lg in-[.lichen-d3]:border-border in-[.lichen-d3]:bg-card lichen:divide-hairline lichen:rounded-lg lichen:border-hairline lichen:bg-card" data-testid="vendor-hours-days">
               {WEEK_ORDER.map((day) => {
                 const row = form.days[day];
                 return (
                   <div key={day} className="flex items-center gap-3 px-3 py-2">
-                    <label className="flex w-20 shrink-0 items-center gap-2 text-sm text-slate-700 in-[.lichen-d3]:text-ink">
+                    <label className="flex w-20 shrink-0 items-center gap-2 text-sm text-slate-700 in-[.lichen-d3]:text-ink lichen:text-ink">
                       <input
                         type="checkbox"
                         checked={row.enabled}
                         onChange={(event) => setDay(day, { enabled: event.target.checked })}
-                        className="h-4 w-4 rounded border-slate-300 accent-[#137fec] in-[.lichen-d3]:border-control-border in-[.lichen-d3]:accent-lichen-text"
+                        className="h-4 w-4 rounded border-slate-300 accent-[#137fec] in-[.lichen-d3]:border-control-border in-[.lichen-d3]:accent-lichen-text lichen:border-hairline"
                         aria-label={`Works on ${DAY_LABELS[day]}`}
                       />
                       {DAY_LABELS[day]}
@@ -370,19 +373,19 @@ export default function VendorFormDialog({
                           value={row.open}
                           onChange={(event) => setDay(day, { open: event.target.value })}
                           aria-label={`${DAY_LABELS[day]} opens`}
-                          className={["h-8 rounded-md border border-slate-200 px-2 text-slate-800 in-[.lichen-d3]:border-border in-[.lichen-d3]:text-ink", D3_FIELD].join(' ')}
+                          className={["h-8 rounded-md border border-slate-200 px-2 text-slate-800 in-[.lichen-d3]:border-border in-[.lichen-d3]:text-ink lichen:border-hairline lichen:text-ink", D3_FIELD].join(' ')}
                         />
-                        <span className="text-slate-400 in-[.lichen-d3]:text-meta">to</span>
+                        <span className="text-slate-400 in-[.lichen-d3]:text-meta lichen:text-meta">to</span>
                         <input
                           type="time"
                           value={row.close}
                           onChange={(event) => setDay(day, { close: event.target.value })}
                           aria-label={`${DAY_LABELS[day]} closes`}
-                          className={["h-8 rounded-md border border-slate-200 px-2 text-slate-800 in-[.lichen-d3]:border-border in-[.lichen-d3]:text-ink", D3_FIELD].join(' ')}
+                          className={["h-8 rounded-md border border-slate-200 px-2 text-slate-800 in-[.lichen-d3]:border-border in-[.lichen-d3]:text-ink lichen:border-hairline lichen:text-ink", D3_FIELD].join(' ')}
                         />
                       </div>
                     ) : (
-                      <span className="text-xs text-slate-400 in-[.lichen-d3]:text-meta">Closed</span>
+                      <span className="text-xs text-slate-400 in-[.lichen-d3]:text-meta lichen:text-meta">Closed</span>
                     )}
                   </div>
                 );
@@ -396,7 +399,7 @@ export default function VendorFormDialog({
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <FieldLabel className="in-[.lichen-d3]:text-meta">Specialties</FieldLabel>
-            <span className="text-[11px] text-slate-400 in-[.lichen-d3]:text-meta">Select all that apply</span>
+            <span className="text-[11px] text-slate-400 in-[.lichen-d3]:text-meta lichen:text-xs lichen:text-meta">Select all that apply</span>
           </div>
           <div className="flex flex-wrap gap-2" data-testid="new-vendor-specialties">
             {SPECIALTY_OPTIONS.map((specialty) => {
@@ -409,8 +412,8 @@ export default function VendorFormDialog({
                   onClick={() => togglePreset(specialty)}
                   className={`inline-flex items-center gap-1 rounded-full border px-3 py-1.5 text-xs font-medium transition ${
                     active
-                      ? "border-transparent bg-[#137fec] text-white shadow-sm shadow-[#137fec]/25 in-[.lichen-d3]:bg-primary in-[.lichen-d3]:shadow-none in-[.lichen-d3]:text-primary-foreground"
-                      : "border-slate-200 bg-white text-slate-600 hover:border-[#137fec]/40 hover:text-[#137fec] in-[.lichen-d3]:border-border in-[.lichen-d3]:bg-card in-[.lichen-d3]:text-meta in-[.lichen-d3]:hover:border-control-border in-[.lichen-d3]:hover:text-lichen-text"
+                      ? "border-transparent bg-[#137fec] text-white shadow-sm shadow-[#137fec]/25 in-[.lichen-d3]:bg-primary in-[.lichen-d3]:shadow-none in-[.lichen-d3]:text-primary-foreground lichen:bg-primary lichen:shadow-lichen-card lichen:text-primary-foreground"
+                      : "border-slate-200 bg-white text-slate-600 hover:border-[#137fec]/40 hover:text-[#137fec] in-[.lichen-d3]:border-border in-[.lichen-d3]:bg-card in-[.lichen-d3]:text-meta in-[.lichen-d3]:hover:border-control-border in-[.lichen-d3]:hover:text-lichen-text lichen:border-hairline lichen:bg-card lichen:text-meta lichen:hover:border-lichen-line lichen:hover:text-lichen-text"
                   }`}
                 >
                   {active ? <Check className="h-3 w-3" /> : null}
@@ -421,7 +424,7 @@ export default function VendorFormDialog({
             {form.customSpecialties.map((specialty) => (
               <span
                 key={specialty}
-                className="inline-flex items-center gap-1 rounded-full border border-dashed border-[#137fec]/50 bg-[#137fec]/5 py-1.5 pl-3 pr-1.5 text-xs font-medium text-[#137fec] in-[.lichen-d3]:border-control-border in-[.lichen-d3]:bg-lichen-tint in-[.lichen-d3]:text-lichen-text"
+                className="inline-flex items-center gap-1 rounded-full border border-dashed border-[#137fec]/50 bg-[#137fec]/5 py-1.5 pl-3 pr-1.5 text-xs font-medium text-[#137fec] in-[.lichen-d3]:border-control-border in-[.lichen-d3]:bg-lichen-tint in-[.lichen-d3]:text-lichen-text lichen:border-lichen-line lichen:bg-chip lichen:text-lichen-text"
               >
                 {specialty}
                 <button
@@ -434,7 +437,7 @@ export default function VendorFormDialog({
                     }));
                     setErrors((prev) => ({ ...prev, customSpecialties: undefined }));
                   }}
-                  className="rounded-full p-0.5 hover:bg-[#137fec]/10 in-[.lichen-d3]:hover:bg-lichen-tint"
+                  className="rounded-full p-0.5 hover:bg-[#137fec]/10 in-[.lichen-d3]:hover:bg-lichen-tint lichen:hover:bg-chip"
                 >
                   <X className="h-3 w-3" />
                 </button>
@@ -444,7 +447,7 @@ export default function VendorFormDialog({
           <div className="flex gap-2">
             <Input
               data-testid="new-vendor-custom-specialty"
-              className={[`h-9 bg-white text-sm in-[.lichen-d3]:bg-card ${errors.customSpecialties ? invalidFieldClass : ''}`, D3_FIELD].join(' ')}
+              className={[`h-9 bg-white text-sm in-[.lichen-d3]:bg-card  lichen:bg-card ${errors.customSpecialties ? invalidFieldClass : ''}`, D3_FIELD].join(' ')}
               placeholder="Other specialty, e.g. Backflow testing"
               value={customDraft}
               maxLength={MAX_CUSTOM_LENGTH + 10}
@@ -477,22 +480,22 @@ export default function VendorFormDialog({
           aria-checked={form.emergencyAvailable}
           data-testid="new-vendor-emergency"
           onClick={() => setForm((prev) => ({ ...prev, emergencyAvailable: !prev.emergencyAvailable }))}
-          className="flex w-full items-center justify-between gap-4 rounded-xl border border-slate-100 bg-white px-4 py-3 text-left transition hover:border-[#137fec]/30 hover:bg-slate-50/60 in-[.lichen-d3]:rounded-lg in-[.lichen-d3]:border-hairline in-[.lichen-d3]:bg-card in-[.lichen-d3]:hover:bg-well in-[.lichen-d3]:hover:border-control-border"
+          className="flex w-full items-center justify-between gap-4 rounded-xl border border-slate-100 bg-white px-4 py-3 text-left transition hover:border-[#137fec]/30 hover:bg-slate-50/60 in-[.lichen-d3]:rounded-lg in-[.lichen-d3]:border-hairline in-[.lichen-d3]:bg-card in-[.lichen-d3]:hover:bg-well in-[.lichen-d3]:hover:border-control-border lichen:rounded-lg lichen:border-hairline lichen:bg-card lichen:hover:border-lichen-line lichen:hover:bg-well"
         >
           <span>
-            <span className="flex items-center gap-2 text-sm font-medium text-slate-800 in-[.lichen-d3]:text-ink">
-              <Siren className="h-4 w-4 text-rose-500 in-[.lichen-d3]:text-alert-text" />
+            <span className="flex items-center gap-2 text-sm font-medium text-slate-800 in-[.lichen-d3]:text-ink lichen:text-ink">
+              <Siren className="h-4 w-4 text-rose-500 in-[.lichen-d3]:text-alert-text lichen:text-alert-text" />
               Emergency ready
             </span>
-            <span className="mt-0.5 block text-xs text-slate-500 in-[.lichen-d3]:text-meta">Takes urgent, after-hours calls.</span>
+            <span className="mt-0.5 block text-xs text-slate-500 in-[.lichen-d3]:text-meta lichen:text-meta">Takes urgent, after-hours calls.</span>
           </span>
           <span
             className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition in-[.lichen-d3]:h-[24px] in-[.lichen-d3]:w-[44px] ${
-              form.emergencyAvailable ? "bg-[#137fec] in-[.lichen-d3]:bg-lichen-text" : 'bg-slate-200 in-[.lichen-d3]:bg-control-border'
+              form.emergencyAvailable ? "bg-[#137fec] in-[.lichen-d3]:bg-lichen-text lichen:bg-primary lichen:text-primary-foreground" : "bg-slate-200 in-[.lichen-d3]:bg-control-border lichen:bg-chip"
             }`}
           >
             <span
-              className={`inline-block h-5 w-5 transform rounded-full bg-white shadow transition in-[.lichen-d3]:bg-card in-[.lichen-d3]:h-[20px] in-[.lichen-d3]:w-[20px] ${
+              className={`inline-block h-5 w-5 transform rounded-full bg-white shadow transition in-[.lichen-d3]:bg-card in-[.lichen-d3]:h-[20px] in-[.lichen-d3]:w-[20px]  lichen:bg-card lichen:shadow-lichen-card ${
                 form.emergencyAvailable ? 'translate-x-[22px]' : 'translate-x-0.5 in-[.lichen-d3]:translate-x-[2px]'
               }`}
             />
@@ -505,24 +508,24 @@ export default function VendorFormDialog({
           aria-checked={form.trusted}
           data-testid="new-vendor-trusted"
           onClick={() => setForm((prev) => ({ ...prev, trusted: !prev.trusted }))}
-          className="flex w-full items-center justify-between gap-4 rounded-xl border border-slate-100 bg-white px-4 py-3 text-left transition hover:border-[#137fec]/30 hover:bg-slate-50/60 in-[.lichen-d3]:rounded-lg in-[.lichen-d3]:border-hairline in-[.lichen-d3]:bg-card in-[.lichen-d3]:hover:bg-well in-[.lichen-d3]:hover:border-control-border"
+          className="flex w-full items-center justify-between gap-4 rounded-xl border border-slate-100 bg-white px-4 py-3 text-left transition hover:border-[#137fec]/30 hover:bg-slate-50/60 in-[.lichen-d3]:rounded-lg in-[.lichen-d3]:border-hairline in-[.lichen-d3]:bg-card in-[.lichen-d3]:hover:bg-well in-[.lichen-d3]:hover:border-control-border lichen:rounded-lg lichen:border-hairline lichen:bg-card lichen:hover:border-lichen-line lichen:hover:bg-well"
         >
           <span>
-            <span className="flex items-center gap-2 text-sm font-medium text-slate-800 in-[.lichen-d3]:text-ink">
-              <ShieldCheck className="h-4 w-4 text-emerald-600 in-[.lichen-d3]:text-mist-text" />
+            <span className="flex items-center gap-2 text-sm font-medium text-slate-800 in-[.lichen-d3]:text-ink lichen:text-ink">
+              <ShieldCheck className="h-4 w-4 text-emerald-600 in-[.lichen-d3]:text-mist-text lichen:text-mist-text" />
               Trusted vendor
             </span>
-            <span className="mt-0.5 block text-xs text-slate-500 in-[.lichen-d3]:text-meta">
+            <span className="mt-0.5 block text-xs text-slate-500 in-[.lichen-d3]:text-meta lichen:text-meta">
               Skip the approval step before Artrelo contacts them about a job.
             </span>
           </span>
           <span
             className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition in-[.lichen-d3]:h-[24px] in-[.lichen-d3]:w-[44px] ${
-              form.trusted ? "bg-emerald-500 in-[.lichen-d3]:bg-mist-text" : 'bg-slate-200 in-[.lichen-d3]:bg-control-border'
+              form.trusted ? "bg-emerald-500 in-[.lichen-d3]:bg-mist-text lichen:bg-mist-tint" : "bg-slate-200 in-[.lichen-d3]:bg-control-border lichen:bg-chip"
             }`}
           >
             <span
-              className={`inline-block h-5 w-5 transform rounded-full bg-white shadow transition in-[.lichen-d3]:bg-card in-[.lichen-d3]:h-[20px] in-[.lichen-d3]:w-[20px] ${
+              className={`inline-block h-5 w-5 transform rounded-full bg-white shadow transition in-[.lichen-d3]:bg-card in-[.lichen-d3]:h-[20px] in-[.lichen-d3]:w-[20px]  lichen:bg-card lichen:shadow-lichen-card ${
                 form.trusted ? 'translate-x-[22px]' : 'translate-x-0.5 in-[.lichen-d3]:translate-x-[2px]'
               }`}
             />
@@ -533,7 +536,7 @@ export default function VendorFormDialog({
           data-testid="create-vendor-btn"
           disabled={busy}
           onClick={() => void submit()}
-          className="w-full bg-[#137fec] hover:bg-[#137fec]/90 in-[.lichen-d3]:bg-primary in-[.lichen-d3]:hover:bg-primary/90 in-[.lichen-d3]:text-primary-foreground"
+          className="w-full bg-[#137fec] hover:bg-[#137fec]/90 in-[.lichen-d3]:bg-primary in-[.lichen-d3]:hover:bg-primary/90 in-[.lichen-d3]:text-primary-foreground lichen:bg-primary lichen:hover:bg-chip lichen:text-primary-foreground"
         >
           {busy ? (
             <Loader2 className="mr-1 h-4 w-4 animate-spin" />

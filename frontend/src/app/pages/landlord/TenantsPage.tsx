@@ -1,3 +1,4 @@
+import { REMAINDER_PORTAL } from '../../components/landlord/remainderPresentation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
@@ -64,11 +65,11 @@ const shortDate = (iso?: string) =>
  * unit, and completing a move-out makes them inactive.
  */
 function tenantStatus(tenant: TenantItem): { label: string; className: string; dot: string } {
-  if (tenant.status === 'inactive') return { label: 'Moved out', className: 'bg-slate-100 text-slate-600', dot: 'bg-slate-400' };
+  if (tenant.status === 'inactive') return { label: 'Moved out', className: "bg-slate-100 text-slate-600 lichen:bg-chip lichen:text-meta", dot: 'bg-slate-400' };
   if (tenant.moveOut?.status === 'requested') {
-    return { label: 'Move-out requested', className: 'bg-amber-50 text-amber-700', dot: 'bg-amber-500' };
+    return { label: 'Move-out requested', className: "bg-amber-50 text-amber-700 lichen:bg-lichen-tint lichen:text-lichen-text", dot: "bg-amber-500 lichen:bg-lichen-tint" };
   }
-  return { label: 'Active', className: 'bg-emerald-50 text-emerald-700', dot: 'bg-emerald-500' };
+  return { label: 'Active', className: "bg-emerald-50 text-emerald-700 lichen:bg-mist-tint lichen:text-mist-text", dot: "bg-emerald-500 lichen:bg-mist-tint" };
 }
 
 const unitOf = (tenant: TenantItem) => (typeof tenant.unit === 'object' && tenant.unit ? tenant.unit : null);
@@ -249,14 +250,14 @@ export default function TenantsPage() {
   const codePageData = paginate(codes, codePage, CODES_PER_PAGE);
 
   return (
-    <PageContainer>
+    <PageContainer className="lichen-remainder min-w-0 [overflow-wrap:anywhere]">
       <PageHeader
         title="Tenants & Invites"
         description="Manage residents and share onboarding invite codes."
         actions={
           <Button
             data-testid="open-generate-code"
-            className="h-auto min-h-10 shrink whitespace-normal bg-[#137fec] px-4 hover:bg-[#137fec]/90"
+            className="h-auto min-h-10 shrink whitespace-normal bg-[#137fec] px-4 hover:bg-[#137fec]/90 lichen:bg-primary lichen:hover:bg-chip lichen:text-primary-foreground"
             onClick={openInvite}
           >
             <KeyRound className="mr-1.5 h-4 w-4" />
@@ -266,8 +267,8 @@ export default function TenantsPage() {
       />
 
       <StatGrid className="mb-6">
-        <StatCard icon={Users} tone="blue" label="Current tenants" value={counts.current} sub="Living in one of your units" />
-        <StatCard
+        <StatCard wrap entrance={false} icon={Users} tone="blue" label="Current tenants" value={counts.current} sub="Living in one of your units" />
+        <StatCard wrap entrance={false}
           icon={Building2}
           tone="blue"
           label="Occupied units"
@@ -275,7 +276,7 @@ export default function TenantsPage() {
           sub="With at least one tenant"
           delay={60}
         />
-        <StatCard
+        <StatCard wrap entrance={false}
           icon={Ticket}
           tone="blue"
           label="Pending invites"
@@ -283,7 +284,7 @@ export default function TenantsPage() {
           sub="Codes not used yet"
           delay={120}
         />
-        <StatCard
+        <StatCard wrap entrance={false}
           icon={UserMinus}
           tone={counts.moveOuts ? 'amber' : 'blue'}
           label="Move-outs requested"
@@ -294,12 +295,12 @@ export default function TenantsPage() {
       </StatGrid>
 
       <div className="space-y-6">
-        <SectionCard
+        <SectionCard entrance={false}
           icon={Users}
           title="Current tenants"
           description="People onboarded across your portfolio."
           action={
-            <span className="rounded-full bg-[#137fec]/10 px-3 py-1 text-xs font-semibold text-[#137fec]">
+            <span className="rounded-full bg-[#137fec]/10 px-3 py-1 text-xs font-semibold text-[#137fec] lichen:bg-chip lichen:text-lichen-text">
               {tenants.length} tenant{tenants.length === 1 ? '' : 's'}
             </span>
           }
@@ -315,10 +316,10 @@ export default function TenantsPage() {
             <div className="space-y-4">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                 <div className="relative flex-1">
-                  <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                  <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400 lichen:text-meta" />
                   <Input
                     data-testid="tenant-search"
-                    className="h-10 border-slate-200 bg-white pl-9 shadow-sm focus-visible:border-[#137fec] focus-visible:ring-[#137fec]/15"
+                    className="h-10 border-slate-200 bg-white pl-9 shadow-sm focus-visible:border-[#137fec] focus-visible:ring-[#137fec]/15 lichen:border-hairline lichen:bg-card lichen:shadow-lichen-card lichen:focus-visible:border-lichen-line"
                     placeholder="Search by name or email..."
                     value={search}
                     onChange={(event) => setSearch(event.target.value)}
@@ -339,14 +340,14 @@ export default function TenantsPage() {
               </div>
 
               {visibleTenants.length === 0 ? (
-                <div className="rounded-xl border border-dashed border-slate-200 bg-slate-50/60 px-4 py-8 text-center text-sm text-slate-400">
+                <div className="rounded-xl border border-dashed border-slate-200 bg-slate-50/60 px-4 py-8 text-center text-sm text-slate-400 lichen:rounded-lg lichen:border-hairline lichen:bg-well lichen:text-meta">
                   No tenants match “{search}”.
                 </div>
               ) : (
                 <>
-                  <div className="overflow-x-auto rounded-xl border border-slate-100">
+                  <div className="overflow-x-auto rounded-xl border border-slate-100 lichen:rounded-lg lichen:border-hairline">
                     <table className="w-full min-w-[40rem] text-left text-sm">
-                      <thead className="bg-slate-50/80 text-xs font-semibold text-slate-500">
+                      <thead className="bg-slate-50/80 text-xs font-semibold text-slate-500 lichen:bg-well lichen:text-meta">
                         <tr>
                           <th className="px-4 py-2.5 font-semibold">Tenant</th>
                           <th className="px-4 py-2.5 font-semibold">Property</th>
@@ -355,45 +356,45 @@ export default function TenantsPage() {
                           <th className="px-4 py-2.5 text-right font-semibold">Actions</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-slate-100">
+                      <tbody className="divide-y divide-slate-100 lichen:divide-hairline">
                         {tenantPageData.rows.map((tenant) => {
                           const unit = unitOf(tenant);
                           const propertyName = unit?.propertyId ? propertyNames.get(unit.propertyId) : undefined;
                           const status = tenantStatus(tenant);
                           const canMoveOut = tenant.status !== 'inactive' && Boolean(tenant.unit);
                           return (
-                            <tr key={tenant._id} data-testid={`tenant-row-${tenant._id}`} className="transition hover:bg-slate-50/60">
+                            <tr key={tenant._id} data-testid={`tenant-row-${tenant._id}`} className="transition hover:bg-slate-50/60 lichen:hover:bg-well">
                               <td className="px-4 py-3">
                                 <div className="flex items-center gap-3">
-                                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#137fec] to-[#a855f7] text-xs font-bold text-white">
+                                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-chip text-xs font-semibold text-ink">
                                     {initials(tenant.firstName, tenant.lastName)}
                                   </div>
                                   <div className="min-w-0">
-                                    <div className="truncate font-medium text-slate-900">
+                                    <div className="truncate font-medium text-slate-900 lichen:whitespace-normal lichen:overflow-visible lichen:text-clip lichen:[overflow-wrap:anywhere] lichen:text-ink">
                                       {tenant.firstName} {tenant.lastName}
                                     </div>
-                                    <div className="truncate text-xs text-slate-500">{tenant.email}</div>
+                                    <div className="truncate text-xs text-slate-500 lichen:whitespace-normal lichen:overflow-visible lichen:text-clip lichen:[overflow-wrap:anywhere] lichen:text-meta">{tenant.email}</div>
                                   </div>
                                 </div>
                               </td>
                               <td className="px-4 py-3">
                                 {propertyName && tenant.status !== 'inactive' ? (
-                                  <span className="flex items-center gap-2 text-slate-700">
-                                    <Building2 className="h-4 w-4 shrink-0 text-slate-400" />
-                                    <span className="truncate">{propertyName}</span>
+                                  <span className="flex items-center gap-2 text-slate-700 lichen:text-ink">
+                                    <Building2 className="h-4 w-4 shrink-0 text-slate-400 lichen:text-meta" />
+                                    <span className="truncate lichen:whitespace-normal lichen:overflow-visible lichen:text-clip lichen:[overflow-wrap:anywhere]">{propertyName}</span>
                                   </span>
                                 ) : (
-                                  <span className="text-slate-400">—</span>
+                                  <span className="text-slate-400 lichen:text-meta">—</span>
                                 )}
                               </td>
-                              <td className="px-4 py-3 text-slate-700">
+                              <td className="px-4 py-3 text-slate-700 lichen:text-ink">
                                 {unit?.unitNumber && tenant.status !== 'inactive' ? (
                                   <span className="flex items-center gap-1.5">
-                                    <DoorOpen className="h-3.5 w-3.5 text-slate-400" />
+                                    <DoorOpen className="h-3.5 w-3.5 text-slate-400 lichen:text-meta" />
                                     Unit {unit.unitNumber}
                                   </span>
                                 ) : (
-                                  <span className="text-slate-400">—</span>
+                                  <span className="text-slate-400 lichen:text-meta">—</span>
                                 )}
                               </td>
                               <td className="px-4 py-3">
@@ -413,7 +414,7 @@ export default function TenantsPage() {
                                     data-testid={`move-out-tenant-${tenant._id}`}
                                     variant="ghost"
                                     size="sm"
-                                    className="h-8 gap-1.5 text-xs text-slate-500 hover:bg-amber-50 hover:text-amber-700"
+                                    className="h-8 gap-1.5 text-xs text-slate-500 hover:bg-amber-50 hover:text-amber-700 lichen:text-meta lichen:hover:bg-lichen-tint lichen:hover:text-lichen-text"
                                     aria-label={`Move out ${tenant.firstName} ${tenant.lastName}`}
                                     onClick={() => setTenantToMoveOut(tenant)}
                                   >
@@ -428,7 +429,7 @@ export default function TenantsPage() {
                       </tbody>
                     </table>
                   </div>
-                  <TablePagination
+                  <TablePagination presentation
                     page={tenantPageData.page}
                     totalPages={tenantPageData.totalPages}
                     total={tenantPageData.total}
@@ -444,7 +445,7 @@ export default function TenantsPage() {
           )}
         </SectionCard>
 
-        <SectionCard
+        <SectionCard entrance={false}
           icon={Ticket}
           iconColor="#a855f7"
           title="Invite codes"
@@ -452,7 +453,7 @@ export default function TenantsPage() {
           delay={70}
           action={
             codes.length ? (
-              <span className="rounded-full bg-[#137fec]/10 px-3 py-1 text-xs font-semibold text-[#137fec]">
+              <span className="rounded-full bg-[#137fec]/10 px-3 py-1 text-xs font-semibold text-[#137fec] lichen:bg-chip lichen:text-lichen-text">
                 {codes.length} code{codes.length === 1 ? '' : 's'}
               </span>
             ) : undefined
@@ -467,9 +468,9 @@ export default function TenantsPage() {
             />
           ) : (
             <div className="space-y-4">
-              <div className="overflow-x-auto rounded-xl border border-slate-100">
+              <div className="overflow-x-auto rounded-xl border border-slate-100 lichen:rounded-lg lichen:border-hairline">
                 <table className="w-full min-w-[38rem] text-left text-sm">
-                  <thead className="bg-slate-50/80 text-xs font-semibold text-slate-500">
+                  <thead className="bg-slate-50/80 text-xs font-semibold text-slate-500 lichen:bg-well lichen:text-meta">
                     <tr>
                       <th className="px-4 py-2.5 font-semibold">Code</th>
                       <th className="px-4 py-2.5 font-semibold">Assigned to</th>
@@ -478,30 +479,30 @@ export default function TenantsPage() {
                       <th className="px-4 py-2.5 text-right font-semibold">Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-100">
+                  <tbody className="divide-y divide-slate-100 lichen:divide-hairline">
                     {codePageData.rows.map((code) => {
                       const property = typeof code.propertyId === 'object' ? code.propertyId?.name : '';
                       const unitNumber = typeof code.unitId === 'object' ? code.unitId?.unitNumber : '';
                       return (
-                        <tr key={code._id} data-testid={`code-row-${code._id}`} className="transition hover:bg-slate-50/60">
-                          <td className="px-4 py-3 font-mono text-sm font-bold tracking-wider text-slate-900">{code.code}</td>
-                          <td className="px-4 py-3 text-slate-700">
+                        <tr key={code._id} data-testid={`code-row-${code._id}`} className="transition hover:bg-slate-50/60 lichen:hover:bg-well">
+                          <td className="px-4 py-3 font-mono text-sm font-bold tracking-wider text-slate-900 lichen:tracking-normal lichen:text-ink">{code.code}</td>
+                          <td className="px-4 py-3 text-slate-700 lichen:text-ink">
                             {[property, unitNumber ? `Unit ${unitNumber}` : ''].filter(Boolean).join(' – ') || '—'}
                           </td>
-                          <td className="whitespace-nowrap px-4 py-3 text-slate-500">{shortDate(code.createdAt)}</td>
-                          <td className="whitespace-nowrap px-4 py-3 text-slate-500">{shortDate(code.expiresAt)}</td>
+                          <td className="whitespace-nowrap px-4 py-3 text-slate-500 lichen:text-meta">{shortDate(code.createdAt)}</td>
+                          <td className="whitespace-nowrap px-4 py-3 text-slate-500 lichen:text-meta">{shortDate(code.expiresAt)}</td>
                           <td className="px-4 py-3">
                             <div className="flex items-center justify-end gap-1">
                               <Button
                                 data-testid={`copy-code-${code._id}`}
                                 variant="outline"
                                 size="sm"
-                                className="h-8 gap-1.5 border-slate-200 text-xs text-slate-600"
+                                className="h-8 gap-1.5 border-slate-200 text-xs text-slate-600 lichen:border-hairline lichen:text-meta"
                                 aria-label={copiedId === code._id ? 'Copied' : `Copy code ${code.code}`}
                                 onClick={() => copyCode(code._id, code.code)}
                               >
                                 {copiedId === code._id ? (
-                                  <Check className="h-3.5 w-3.5 text-emerald-600" />
+                                  <Check className="h-3.5 w-3.5 text-emerald-600 lichen:text-mist-text" />
                                 ) : (
                                   <Copy className="h-3.5 w-3.5" />
                                 )}
@@ -512,16 +513,16 @@ export default function TenantsPage() {
                                   <button
                                     type="button"
                                     aria-label={`More actions for code ${code.code}`}
-                                    className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition hover:bg-slate-100 hover:text-slate-700"
+                                    className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition hover:bg-slate-100 hover:text-slate-700 lichen:rounded-lg lichen:text-meta lichen:hover:bg-chip lichen:hover:text-ink"
                                   >
                                     <MoreHorizontal className="h-4 w-4" />
                                   </button>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end">
+                                <DropdownMenuContent align="end" className={REMAINDER_PORTAL}>
                                   <DropdownMenuItem
                                     data-testid={`delete-code-${code._id}`}
                                     onSelect={() => setCodeToDelete(code)}
-                                    className="text-rose-600 focus:text-rose-700"
+                                    className="text-rose-600 focus:text-rose-700 lichen:text-alert-text lichen:focus:text-alert-text"
                                   >
                                     <Trash2 className="h-4 w-4" />
                                     Delete code
@@ -536,7 +537,7 @@ export default function TenantsPage() {
                   </tbody>
                 </table>
               </div>
-              <TablePagination
+              <TablePagination presentation
                 page={codePageData.page}
                 totalPages={codePageData.totalPages}
                 total={codePageData.total}
@@ -551,7 +552,7 @@ export default function TenantsPage() {
         </SectionCard>
       </div>
 
-      <FormDialog
+      <FormDialog presentation
         open={inviteOpen}
         onOpenChange={setInviteOpen}
         icon={UserPlus}
@@ -560,31 +561,31 @@ export default function TenantsPage() {
       >
         {generatedCode ? (
           <div className="space-y-4 text-center" data-testid="invite-code-result">
-            <CheckCircle2 className="mx-auto h-8 w-8 text-emerald-500" />
+            <CheckCircle2 className="mx-auto h-8 w-8 text-emerald-500 lichen:text-mist-text" />
             <div>
-              <div className="text-sm text-slate-500">
+              <div className="text-sm text-slate-500 lichen:text-meta">
                 Code for {selectedProperty?.name}
                 {selectedUnit ? ` · Unit ${selectedUnit.unitNumber}` : ''}
               </div>
-              <div className="mt-2 inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 font-mono text-xl font-bold tracking-[0.2em] text-slate-900">
+              <div className="mt-2 inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 font-mono text-xl font-bold tracking-[0.2em] text-slate-900 lichen:rounded-lg lichen:border-hairline lichen:bg-well lichen:tracking-normal lichen:text-ink">
                 {generatedCode}
                 <button
                   type="button"
                   data-testid="invite-code-copy"
                   onClick={() => copyCode('generated', generatedCode)}
                   aria-label={copiedId === 'generated' ? 'Copied' : 'Copy code'}
-                  className="rounded-md p-1 text-slate-400 transition hover:bg-white hover:text-[#137fec]"
+                  className="rounded-md p-1 text-slate-400 transition hover:bg-white hover:text-[#137fec] lichen:text-meta lichen:hover:bg-card lichen:hover:text-lichen-text"
                 >
-                  {copiedId === 'generated' ? <Check className="h-4 w-4 text-emerald-600" /> : <Copy className="h-4 w-4" />}
+                  {copiedId === 'generated' ? <Check className="h-4 w-4 text-emerald-600 lichen:text-mist-text" /> : <Copy className="h-4 w-4" />}
                 </button>
               </div>
-              <div className="mt-2 text-xs text-slate-500">Valid for 7 days, for one sign-up.</div>
+              <div className="mt-2 text-xs text-slate-500 lichen:text-meta">Valid for 7 days, for one sign-up.</div>
             </div>
             <div className="flex gap-2">
               <Button variant="outline" className="flex-1" onClick={openInvite}>
                 Generate another
               </Button>
-              <Button className="flex-1 bg-[#137fec] hover:bg-[#137fec]/90" onClick={() => setInviteOpen(false)}>
+              <Button className="flex-1 bg-[#137fec] hover:bg-[#137fec]/90 lichen:bg-primary lichen:hover:bg-chip lichen:text-primary-foreground" onClick={() => setInviteOpen(false)}>
                 Done
               </Button>
             </div>
@@ -595,7 +596,7 @@ export default function TenantsPage() {
                 select -- so it is read before the control it is about. */}
             <label className="block space-y-1.5">
               <FieldLabel>
-                Property <span className="text-rose-500">*</span>
+                Property <span className="text-rose-500 lichen:text-alert-text">*</span>
               </FieldLabel>
               <FieldError id="invite-property-error">{inviteErrors.propertyId}</FieldError>
               <select
@@ -619,7 +620,7 @@ export default function TenantsPage() {
             </label>
             <label className="block space-y-1.5">
               <FieldLabel>
-                Unit <span className="text-rose-500">*</span>
+                Unit <span className="text-rose-500 lichen:text-alert-text">*</span>
               </FieldLabel>
               <FieldError id="invite-unit-error">{inviteErrors.unitId}</FieldError>
               <select
@@ -632,7 +633,7 @@ export default function TenantsPage() {
                   setInviteForm({ ...inviteForm, unitId: event.target.value });
                   setInviteErrors((prev) => ({ ...prev, unitId: undefined }));
                 }}
-                className={`${fieldClass} disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-400 ${
+                className={`${fieldClass} disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-400  lichen:disabled:bg-well lichen:disabled:text-meta ${
                   inviteErrors.unitId ? invalidFieldClass : ''
                 }`}
               >
@@ -644,9 +645,9 @@ export default function TenantsPage() {
                 ))}
               </select>
               {selectedProperty && unitsOfSelected.length === 0 ? (
-                <p className="text-xs text-slate-500" data-testid="invite-no-units">
+                <p className="text-xs text-slate-500 lichen:text-meta" data-testid="invite-no-units">
                   {selectedProperty.name} has no units yet.{' '}
-                  <Link to="/dashboard/properties" className="font-medium text-[#137fec] hover:underline">
+                  <Link to="/dashboard/properties" className="font-medium text-[#137fec] hover:underline lichen:text-lichen-text">
                     Add one in Properties
                   </Link>
                 </p>
@@ -656,7 +657,7 @@ export default function TenantsPage() {
               data-testid="generate-code-btn"
               disabled={generating}
               onClick={() => void generateCode()}
-              className="w-full bg-[#137fec] hover:bg-[#137fec]/90"
+              className="w-full bg-[#137fec] hover:bg-[#137fec]/90 lichen:bg-primary lichen:hover:bg-chip lichen:text-primary-foreground"
             >
               <KeyRound className="mr-1.5 h-4 w-4" />
               Generate Code
@@ -665,13 +666,13 @@ export default function TenantsPage() {
         )}
       </FormDialog>
 
-      <ConfirmDialog
+      <ConfirmDialog className={REMAINDER_PORTAL}
         open={Boolean(codeToDelete)}
         onOpenChange={(next) => (next ? null : setCodeToDelete(null))}
         title="Delete invite code"
         description={
           <>
-            Delete <span className="font-mono font-semibold text-slate-700">{codeToDelete?.code}</span>? Anyone
+            Delete <span className="font-mono font-semibold text-slate-700 lichen:text-ink">{codeToDelete?.code}</span>? Anyone
             holding it will no longer be able to sign up with it.
           </>
         }
@@ -679,14 +680,14 @@ export default function TenantsPage() {
         onConfirm={confirmDeleteCode}
       />
 
-      <ConfirmDialog
+      <ConfirmDialog className={REMAINDER_PORTAL}
         open={Boolean(tenantToMoveOut)}
         onOpenChange={(next) => (next ? null : setTenantToMoveOut(null))}
         title="Move out tenant"
         description={
           <>
             Unlink{' '}
-            <span className="font-semibold text-slate-700">
+            <span className="font-semibold text-slate-700 lichen:text-ink">
               {tenantToMoveOut?.firstName} {tenantToMoveOut?.lastName}
             </span>{' '}
             from{' '}

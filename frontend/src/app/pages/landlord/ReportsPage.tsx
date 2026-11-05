@@ -32,9 +32,9 @@ import {
 import DateRangePicker, { type ReportRange } from '../../components/landlord/reports/DateRangePicker';
 import { buildReportCsv, presetRange, rangeLabel, type ReportData } from '../../components/landlord/reports/reportData';
 import { topCategories } from '../../components/landlord/overview/overviewData';
-import { CHART_TOOLTIP_STYLE } from '../../components/landlord/overview/categoryVisuals';
+import { LICHEN_CHART, LICHEN_TOOLTIP } from '../../components/landlord/overview/categoryVisuals';
 import { formatMinutes } from '../../components/landlord/vendors/vendorFilters';
-import { PIE_COLORS } from '../../components/landlord/requestHelpers';
+const REPORT_COLORS = [LICHEN_CHART.lichenLine, LICHEN_CHART.mistStroke, LICHEN_CHART.closedEdge, LICHEN_CHART.mist, LICHEN_CHART.closed];
 
 const money = (value: number) => `$${Math.round(value).toLocaleString()}`;
 const compact = (value: number) => (value >= 1000 ? `$${Math.round(value / 100) / 10}K` : `$${value}`);
@@ -47,10 +47,10 @@ function delta(current: number | null, previous: number | null, upIsGood: boolea
 
 function ChartCard({ title, description, children }: { title: string; description: string; children: ReactNode }) {
   return (
-    <Card className="ll-fade-up flex min-w-0 flex-col gap-4 border border-slate-200/70 p-5 shadow-sm">
+    <Card className="flex min-w-0 flex-col gap-4 border border-slate-200/70 p-5 shadow-sm lichen:border-hairline lichen:shadow-lichen-card">
       <div>
-        <h3 className="font-semibold text-slate-900">{title}</h3>
-        <p className="text-sm text-slate-500">{description}</p>
+        <h3 className="font-semibold text-slate-900 lichen:text-ink">{title}</h3>
+        <p className="text-sm text-slate-500 lichen:text-meta">{description}</p>
       </div>
       {children}
     </Card>
@@ -127,7 +127,7 @@ export default function ReportsPage() {
   const highlightLast = report.range.unit === 'month';
 
   return (
-    <PageContainer>
+    <PageContainer className="lichen-remainder min-w-0 [overflow-wrap:anywhere]">
       <PageHeader
         title="Reports"
         description="Track maintenance performance, spend, vendor activity, and request trends."
@@ -138,7 +138,7 @@ export default function ReportsPage() {
             <Button
               onClick={exportCsv}
               data-testid="reports-export"
-              className="h-10 gap-1.5 bg-[#137fec] px-4 hover:bg-[#137fec]/90"
+              className="h-10 gap-1.5 bg-[#137fec] px-4 hover:bg-[#137fec]/90 lichen:bg-primary lichen:hover:bg-chip lichen:text-primary-foreground"
             >
               <Download className="h-4 w-4" />
               Export report
@@ -149,7 +149,7 @@ export default function ReportsPage() {
 
       <div className={`transition-opacity ${refreshing ? 'pointer-events-none opacity-60' : ''}`} aria-busy={refreshing}>
         <StatGrid className="mb-6">
-          <StatCard
+          <StatCard wrap entrance={false}
             icon={DollarSign}
             tone="blue"
             label="Total maintenance spend"
@@ -157,7 +157,7 @@ export default function ReportsPage() {
             delta={delta(t.spend, p.spend, false, ` (${money(p.spend)})`)}
             testId="reports-kpi-spend"
           />
-          <StatCard
+          <StatCard wrap entrance={false}
             icon={FileText}
             tone="blue"
             label="Completed requests"
@@ -165,7 +165,7 @@ export default function ReportsPage() {
             delta={delta(t.completed, p.completed, true, '')}
             delay={60}
           />
-          <StatCard
+          <StatCard wrap entrance={false}
             icon={Clock}
             tone="blue"
             label="Average resolution time"
@@ -182,7 +182,7 @@ export default function ReportsPage() {
             }
             delay={120}
           />
-          <StatCard
+          <StatCard wrap entrance={false}
             icon={Receipt}
             tone="blue"
             label="Avg cost per completed job"
@@ -201,19 +201,19 @@ export default function ReportsPage() {
             <div className="h-64 min-w-0">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={report.trend} margin={{ top: 24, right: 8, left: 0, bottom: 0 }}>
-                  <CartesianGrid vertical={false} stroke="#eef2f7" />
-                  <XAxis dataKey="label" tickLine={false} axisLine={false} stroke="#94a3b8" fontSize={12} interval={trendLabelEvery} />
-                  <YAxis tickLine={false} axisLine={false} stroke="#94a3b8" fontSize={11} width={48} tickFormatter={compact} />
+                  <CartesianGrid vertical={false} stroke={LICHEN_CHART.grid} />
+                  <XAxis dataKey="label" tickLine={false} axisLine={false} stroke={LICHEN_CHART.axis} fontSize={12} interval={trendLabelEvery} />
+                  <YAxis tickLine={false} axisLine={false} stroke={LICHEN_CHART.axis} fontSize={11} width={48} tickFormatter={compact} />
                   <Tooltip
-                    contentStyle={CHART_TOOLTIP_STYLE}
-                    cursor={{ fill: 'rgba(19, 127, 236, 0.06)' }}
+                    {...LICHEN_TOOLTIP}
+                    cursor={{ fill: 'var(--color-well)' }}
                     formatter={(value) => [money(Number(value)), 'Spend']}
                   />
-                  <Bar dataKey="cost" radius={[6, 6, 0, 0]} maxBarSize={56}>
+                  <Bar isAnimationActive={false} dataKey="cost" radius={[6, 6, 0, 0]} maxBarSize={56}>
                     {report.trend.map((bucket, index) => (
                       <Cell
                         key={bucket.key}
-                        fill={highlightLast && index === report.trend.length - 1 ? '#137fec' : '#93c5fd'}
+                        fill={highlightLast && index === report.trend.length - 1 ? LICHEN_CHART.lichenLine : LICHEN_CHART.mist}
                       />
                     ))}
                     {report.range.unit === 'month' ? (
@@ -221,7 +221,7 @@ export default function ReportsPage() {
                         dataKey="cost"
                         position="top"
                         formatter={(value: unknown) => (Number(value) ? money(Number(value)) : '')}
-                        style={{ fontSize: 11, fill: '#334155', fontWeight: 600 }}
+                        style={{ fontSize: 11, fill: LICHEN_CHART.ink, fontWeight: 600 }}
                       />
                     ) : null}
                   </Bar>
@@ -231,35 +231,25 @@ export default function ReportsPage() {
           </ChartCard>
 
           <ChartCard title="Requests volume" description="Incoming versus completed requests.">
-            <div className="flex items-center gap-4 text-xs font-medium text-slate-500">
+            <div className="flex items-center gap-4 text-xs font-medium text-slate-500 lichen:text-meta">
               <span className="inline-flex items-center gap-1.5">
-                <span className="h-2 w-2 rounded-full bg-[#137fec]" />
+                <span className="h-2 w-2 rounded-full bg-[#137fec] lichen:bg-primary lichen:text-primary-foreground" />
                 Incoming
               </span>
               <span className="inline-flex items-center gap-1.5">
-                <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                <span className="h-2 w-2 rounded-full bg-emerald-500 lichen:bg-mist-text" />
                 Completed
               </span>
             </div>
             <div className="h-56 min-w-0">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={report.trend} margin={{ top: 8, right: 12, left: -18, bottom: 0 }}>
-                  <defs>
-                    <linearGradient id="rpIn" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#137fec" stopOpacity={0.18} />
-                      <stop offset="100%" stopColor="#137fec" stopOpacity={0} />
-                    </linearGradient>
-                    <linearGradient id="rpDone" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#10b981" stopOpacity={0.25} />
-                      <stop offset="100%" stopColor="#10b981" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid vertical={false} stroke="#eef2f7" />
-                  <XAxis dataKey="label" tickLine={false} axisLine={false} stroke="#94a3b8" fontSize={12} interval={trendLabelEvery} />
-                  <YAxis tickLine={false} axisLine={false} stroke="#94a3b8" fontSize={12} width={42} allowDecimals={false} />
-                  <Tooltip contentStyle={CHART_TOOLTIP_STYLE} />
-                  <Area type="monotone" dataKey="requests" name="Incoming" stroke="#137fec" strokeWidth={2.5} fill="url(#rpIn)" dot={report.trend.length <= 16 ? { r: 3.5, fill: '#137fec', strokeWidth: 0 } : false} />
-                  <Area type="monotone" dataKey="resolved" name="Completed" stroke="#10b981" strokeWidth={2.5} fill="url(#rpDone)" dot={report.trend.length <= 16 ? { r: 3.5, fill: '#10b981', strokeWidth: 0 } : false} />
+                  <CartesianGrid vertical={false} stroke={LICHEN_CHART.grid} />
+                  <XAxis dataKey="label" tickLine={false} axisLine={false} stroke={LICHEN_CHART.axis} fontSize={12} interval={trendLabelEvery} />
+                  <YAxis tickLine={false} axisLine={false} stroke={LICHEN_CHART.axis} fontSize={12} width={42} allowDecimals={false} />
+                  <Tooltip {...LICHEN_TOOLTIP} />
+                  <Area isAnimationActive={false} type="monotone" dataKey="requests" name="Incoming" stroke={LICHEN_CHART.lichenLine} strokeWidth={2.5} fill={LICHEN_CHART.lichen} fillOpacity={0.12} dot={report.trend.length <= 16 ? { r: 3.5, fill: LICHEN_CHART.lichenLine, strokeWidth: 0 } : false} />
+                  <Area isAnimationActive={false} type="monotone" dataKey="resolved" name="Completed" stroke={LICHEN_CHART.mistStroke} strokeDasharray="5 3" strokeWidth={2.5} fill={LICHEN_CHART.mist} fillOpacity={0.12} dot={report.trend.length <= 16 ? { r: 3.5, fill: LICHEN_CHART.mistStroke, strokeWidth: 0 } : false} />
                 </AreaChart>
               </ResponsiveContainer>
             </div>
@@ -276,7 +266,7 @@ export default function ReportsPage() {
                 <div className="relative h-48 w-48 shrink-0">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
-                      <Pie
+                      <Pie isAnimationActive={false}
                         data={categories}
                         dataKey="count"
                         nameKey="name"
@@ -289,26 +279,26 @@ export default function ReportsPage() {
                         stroke="none"
                       >
                         {categories.map((row, index) => (
-                          <Cell key={row.name} fill={PIE_COLORS[index % PIE_COLORS.length]} />
+                          <Cell key={row.name} fill={REPORT_COLORS[index % REPORT_COLORS.length]} />
                         ))}
                       </Pie>
-                      <Tooltip contentStyle={CHART_TOOLTIP_STYLE} />
+                      <Tooltip {...LICHEN_TOOLTIP} />
                     </PieChart>
                   </ResponsiveContainer>
                   <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
-                    <span className="text-3xl font-bold text-slate-900 tabular-nums">{categoryTotal}</span>
-                    <span className="text-xs text-slate-500">Total requests</span>
+                    <span className="text-3xl font-bold text-slate-900 tabular-nums lichen:text-ink lichen:font-mono">{categoryTotal}</span>
+                    <span className="text-xs text-slate-500 lichen:text-meta">Total requests</span>
                   </div>
                 </div>
                 <ul className="w-full flex-1 space-y-3 text-sm">
                   {categories.map((row, index) => (
                     <li key={row.name} className="flex items-center gap-2.5">
-                      <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ backgroundColor: PIE_COLORS[index % PIE_COLORS.length] }} />
-                      <span className="min-w-0 flex-1 truncate capitalize text-slate-600" title={row.name}>
+                      <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ backgroundColor: REPORT_COLORS[index % REPORT_COLORS.length] }} />
+                      <span className="min-w-0 flex-1 truncate capitalize text-slate-600 lichen:whitespace-normal lichen:overflow-visible lichen:text-clip lichen:[overflow-wrap:anywhere] lichen:text-meta" title={row.name}>
                         {row.name}
                       </span>
-                      <span className="w-8 shrink-0 text-right font-semibold text-slate-900 tabular-nums">{row.count}</span>
-                      <span className="w-10 shrink-0 text-right text-slate-400 tabular-nums">
+                      <span className="w-8 shrink-0 text-right font-semibold text-slate-900 tabular-nums lichen:text-ink lichen:font-mono">{row.count}</span>
+                      <span className="w-10 shrink-0 text-right text-slate-400 tabular-nums lichen:text-meta lichen:font-mono">
                         {Math.round((row.count / categoryTotal) * 100)}%
                       </span>
                     </li>
@@ -326,16 +316,16 @@ export default function ReportsPage() {
               <ul className="flex flex-1 flex-col justify-center gap-3.5" data-testid="reports-property-spend">
                 {report.spendByProperty.slice(0, 8).map((row) => (
                   <li key={row.propertyId} className="grid grid-cols-[minmax(0,9rem)_1fr_5rem] items-center gap-3 text-sm">
-                    <span className="truncate text-slate-600" title={row.name}>
+                    <span className="truncate text-slate-600 lichen:whitespace-normal lichen:overflow-visible lichen:text-clip lichen:[overflow-wrap:anywhere] lichen:text-meta" title={row.name}>
                       {row.name}
                     </span>
-                    <span className="h-3 overflow-hidden rounded-full bg-slate-100">
+                    <span className="h-3 overflow-hidden rounded-full bg-slate-100 lichen:bg-chip">
                       <span
-                        className="block h-full rounded-full bg-[#137fec]/80"
+                        className="block h-full rounded-full bg-lichen-icon"
                         style={{ width: propertyMax ? `${(row.spend / propertyMax) * 100}%` : '0%' }}
                       />
                     </span>
-                    <span className="text-right font-semibold text-slate-900 tabular-nums">{money(row.spend)}</span>
+                    <span className="text-right font-semibold text-slate-900 tabular-nums lichen:text-ink lichen:font-mono">{money(row.spend)}</span>
                   </li>
                 ))}
               </ul>
@@ -343,20 +333,20 @@ export default function ReportsPage() {
           </ChartCard>
         </div>
 
-        <Card className="ll-fade-up mt-6 gap-0 overflow-hidden border border-slate-200/70 p-0 shadow-sm">
+        <Card className="mt-6 gap-0 overflow-hidden border border-slate-200/70 p-0 shadow-sm lichen:border-hairline lichen:shadow-lichen-card">
           <div className="px-5 pb-3 pt-5">
-            <h3 className="font-semibold text-slate-900">Vendor performance</h3>
-            <p className="text-sm text-slate-500">Vendors by jobs completed in this period.</p>
+            <h3 className="font-semibold text-slate-900 lichen:text-ink">Vendor performance</h3>
+            <p className="text-sm text-slate-500 lichen:text-meta">Vendors by jobs completed in this period.</p>
           </div>
           {report.vendorPerformance.length === 0 ? (
             <div className="px-5 pb-5">
               <EmptyState title="No vendor completed a job in this period" />
             </div>
           ) : (
-            <div className="overflow-x-auto border-t border-slate-100">
+            <div className="overflow-x-auto border-t border-slate-100 lichen:border-hairline">
               <table className="w-full min-w-[44rem] text-left text-sm" data-testid="reports-vendor-table">
                 <thead>
-                  <tr className="border-b border-slate-100 text-xs font-semibold text-slate-500">
+                  <tr className="border-b border-slate-100 text-xs font-semibold text-slate-500 lichen:border-hairline lichen:text-meta">
                     <th className="px-5 py-3 font-semibold">Vendor</th>
                     <th className="px-3 py-3 font-semibold">Jobs completed</th>
                     <th className="px-3 py-3 font-semibold" title="The vendor's running average, across all jobs">
@@ -367,29 +357,29 @@ export default function ReportsPage() {
                     <th className="px-5 py-3 font-semibold">Tenant rating</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className="divide-y divide-slate-100 lichen:divide-hairline">
                   {report.vendorPerformance.map((vendor) => (
                     <tr key={vendor.vendorId}>
                       <td className="max-w-[16rem] px-5 py-3">
-                        <div className="truncate font-medium text-slate-900">{vendor.name}</div>
-                        {vendor.company ? <div className="truncate text-xs text-slate-500">{vendor.company}</div> : null}
+                        <div className="truncate font-medium text-slate-900 lichen:whitespace-normal lichen:overflow-visible lichen:text-clip lichen:[overflow-wrap:anywhere] lichen:text-ink">{vendor.name}</div>
+                        {vendor.company ? <div className="truncate text-xs text-slate-500 lichen:whitespace-normal lichen:overflow-visible lichen:text-clip lichen:[overflow-wrap:anywhere] lichen:text-meta">{vendor.company}</div> : null}
                       </td>
-                      <td className="px-3 py-3 text-slate-700 tabular-nums">{vendor.jobs}</td>
-                      <td className="px-3 py-3 text-slate-700 tabular-nums">{formatMinutes(vendor.avgFirstResponseMinutes)}</td>
-                      <td className="px-3 py-3 text-slate-700 tabular-nums">
+                      <td className="px-3 py-3 text-slate-700 tabular-nums lichen:text-ink lichen:font-mono">{vendor.jobs}</td>
+                      <td className="px-3 py-3 text-slate-700 tabular-nums lichen:text-ink lichen:font-mono">{formatMinutes(vendor.avgFirstResponseMinutes)}</td>
+                      <td className="px-3 py-3 text-slate-700 tabular-nums lichen:text-ink lichen:font-mono">
                         {vendor.avgResolutionDays === null ? '—' : `${vendor.avgResolutionDays} days`}
                       </td>
-                      <td className="px-3 py-3 font-semibold text-slate-900 tabular-nums">{money(vendor.spend)}</td>
+                      <td className="px-3 py-3 font-semibold text-slate-900 tabular-nums lichen:text-ink lichen:font-mono">{money(vendor.spend)}</td>
                       <td className="px-5 py-3">
                         {vendor.avgRating === null ? (
-                          <span className="text-xs text-slate-400">No ratings</span>
+                          <span className="text-xs text-slate-400 lichen:text-meta">No ratings</span>
                         ) : (
                           <span
-                            className="inline-flex items-center gap-1 font-semibold text-emerald-700"
+                            className="inline-flex items-center gap-1 font-semibold text-emerald-700 lichen:text-mist-text"
                             title={`${vendor.ratingCount} rating${vendor.ratingCount === 1 ? '' : 's'}`}
                           >
                             {vendor.avgRating.toFixed(1)}
-                            <Star className="h-3.5 w-3.5 fill-emerald-500 text-emerald-500" />
+                            <Star className="h-3.5 w-3.5 fill-mist-text text-mist-text lichen:text-mist-text" />
                           </span>
                         )}
                       </td>

@@ -1,10 +1,10 @@
 {
-  "source": "97e90073bddf0c755d93239c76806bd353983ecb",
+  "source": "e0754b577c1a2eac4ef2f66cbd7a28aa7699b8f6",
   "backendTree": "4bcf3ce5205ff9c8a56307f88b97792d4500d1b4",
-  "frontendTree": "4903140a396d67b60ab52a7419f3bf26ad90acb7",
+  "frontendTree": "732c324926c70232bed1644ee5784f679a7ff09b",
   "baseline": "adec601ba6854e47639c9dd8bf71d59b329e0edd",
-  "label": "Accepted offline recovery source; pair7 recording full-online FAILED, pair8 selected but not executed or qualified by this snapshot",
-  "history": "Normal follow-up to initial public snapshot d043ac64; private prebaseline history is not imported",
+  "label": "Accepted final landlord Lichen presentation; backend recovery unchanged; linked pair8 online recording receipt-qualified separately",
+  "history": "Normal public child of c976b05f6bce766e5a9ca26a0c1e4dce213c65b8; private history excluded",
   "sourceRows": [
     {
       "file": ".dockerignore",
@@ -3883,10 +3883,16 @@
       "sourceGitBlob": "e5d82f457a92ab9578a4a0a607601e5d76e0c461"
     },
     {
+      "file": "frontend/src/app/components/archive/ArchivedRequestRow.test.tsx",
+      "bytes": 1383,
+      "sha256": "38e57ab93d113691711f4ab7893c3c22f98ae0248517cd371f6046e6c64c8629",
+      "sourceGitBlob": "316ae30dcef3356e3db78336d4a42b1577fd30dd"
+    },
+    {
       "file": "frontend/src/app/components/archive/ArchivedRequestRow.tsx",
-      "bytes": 4041,
-      "sha256": "da7a4463fc1b8e9e27839ca0ea13fb2e7ced87390ace2ef9e4fed8fd256220f1",
-      "sourceGitBlob": "2cb27f312d85d306dfd1111368f1b95f716a39af"
+      "bytes": 4836,
+      "sha256": "78ffdd0e66793861ce7f8547ffd2f4ac34c0d41c8b8b2ef5abdd0d3d07e5e27a",
+      "sourceGitBlob": "6a1bc853280ed0f77fc27ebaf0fe020bfed9e0f9"
     },
     {
       "file": "frontend/src/app/components/archive/archiveFormat.test.ts",
@@ -4256,9 +4262,9 @@
     },
     {
       "file": "frontend/src/app/components/landlord/CreationMethodPicker.tsx",
-      "bytes": 2599,
-      "sha256": "33892214e2ec92877bd064832c9ce9d1dd9a7d7b96a22432f65b0214da27d360",
-      "sourceGitBlob": "097cd71df5b9643ab252afe2c2330d2f716c5f9e"
+      "bytes": 2824,
+      "sha256": "1b587b5e786c98c7365bbf9e6959123130d6f6c7c48b5e3b851c736ea6182771",
+      "sourceGitBlob": "a81fc3340499bcd7b817d076f950b8ec392b156d"
     },
     {
       "file": "frontend/src/app/components/landlord/DirectPayments.presentation.test.tsx",
@@ -4400,9 +4406,9 @@
     },
     {
       "file": "frontend/src/app/components/landlord/landlordUi.tsx",
-      "bytes": 10903,
-      "sha256": "2fda463ccd84106dee53407e3577cc7572f87f98429ca531c70be986a3c9e154",
-      "sourceGitBlob": "a60234c123cb0b932ba3cf598c5aad4dc928ff4c"
+      "bytes": 12717,
+      "sha256": "ef97cf04c5c6f4938b49d2c36611ee3390860316a072b1ca207984291c245bea",
+      "sourceGitBlob": "5a574c04b337b8233972aa7e4df9ba2a3306ca2d"
     },
     {
       "file": "frontend/src/app/components/landlord/notificationTarget.test.ts",
@@ -4472,27 +4478,27 @@
     },
     {
       "file": "frontend/src/app/components/landlord/properties/AddPropertiesDialog.tsx",
-      "bytes": 11684,
-      "sha256": "24bd2d11fc2ab8e1c7d5a356d476b91c13e00be3a25efae6fb1cfd6e87e38077",
-      "sourceGitBlob": "882f88a35c9af39e776879d87fad2b5ac64b1618"
+      "bytes": 12042,
+      "sha256": "7f326d29483bd4f42795bf414f31cc65baf5e87b88736f6eead208a1b23f9108",
+      "sourceGitBlob": "5609571752048d8f2e4b847342e5f3721e4dcaa3"
     },
     {
       "file": "frontend/src/app/components/landlord/properties/EditPortfolioDialog.tsx",
-      "bytes": 7599,
-      "sha256": "f041b7a9b406e452b787a25ab55e23d5b78928d308c66e98892885f4ba7dbd4a",
-      "sourceGitBlob": "2f4c3e01ffa3197720310ca9499c8d92911d4e0d"
+      "bytes": 7856,
+      "sha256": "60bfa0c96a9efac30d1524cf9b08896c1872b4f2aab37d68d0767c0fb4e0628a",
+      "sourceGitBlob": "2a70e8c7802b99f8548d188456b23a756288cdec"
     },
     {
       "file": "frontend/src/app/components/landlord/properties/PortfolioReview.tsx",
-      "bytes": 8113,
-      "sha256": "f75079c0ed8381c8b7f837398b026c1e9fa86c13c8f7496fa98b6da12208b5a0",
-      "sourceGitBlob": "eec5da024de25207958a2b10e2cca844cc6602b2"
+      "bytes": 8693,
+      "sha256": "8b7f6bfe63d19f2efe030ccc1b6a15fc2f966d349dae16213b38842f123a13de",
+      "sourceGitBlob": "803d80e95ec3037ef2e7ef83857d4633562b3495"
     },
     {
       "file": "frontend/src/app/components/landlord/properties/RetireDialog.tsx",
-      "bytes": 10941,
-      "sha256": "aff2797fb0d8f0fc232dcfb8bc23139085f45be1b77772ddef3acdc85fea01f3",
-      "sourceGitBlob": "f035e7ada7f4d62a2a715a1bb38a9c180089f8bf"
+      "bytes": 12058,
+      "sha256": "9fc96dd29b36f2609a34819f1569adfc153dc3f1b624c93003479d19a5100451",
+      "sourceGitBlob": "d017c98b816159e0fae1901d01c9456d2c428b93"
     },
     {
       "file": "frontend/src/app/components/landlord/properties/proposedPortfolio.test.ts",
@@ -4507,10 +4513,16 @@
       "sourceGitBlob": "97c37aa4698700f3b660af428ef189d4794f9047"
     },
     {
+      "file": "frontend/src/app/components/landlord/remainderPresentation.ts",
+      "bytes": 685,
+      "sha256": "580f20e9d1f5c3b3c8c32388df2dcf666ef1b443522a2bf3fb277f032303f7e3",
+      "sourceGitBlob": "83a5abad27635fc595301d861ef5a06e79061cb8"
+    },
+    {
       "file": "frontend/src/app/components/landlord/reports/DateRangePicker.tsx",
-      "bytes": 4953,
-      "sha256": "d80225fb5a61a90c6034678fd85b64c62b7931253ca0d1ca6dbdcf031acdea4e",
-      "sourceGitBlob": "0bcb727af99ca312378e29b6ccb4283b7f017232"
+      "bytes": 5366,
+      "sha256": "e1fc8ee4e76c01e0e1b954b4618220a051017f0139e3909f7397170dc65f0f3f",
+      "sourceGitBlob": "c3b6800cde7bba8ad3817f870c46eb04fec6e80b"
     },
     {
       "file": "frontend/src/app/components/landlord/reports/reportData.test.ts",
@@ -4586,27 +4598,27 @@
     },
     {
       "file": "frontend/src/app/components/landlord/units/AddUnitsDialog.tsx",
-      "bytes": 14687,
-      "sha256": "e99b1b6a0a8392a2a6754c288fb258fc88e2c8def934b830b330f34a19b92806",
-      "sourceGitBlob": "ec51c79dbc15f18431a79e9e74abb8170358dccc"
+      "bytes": 15229,
+      "sha256": "cd903b87eaf3f33a91de2938f202dbd73f2d4b27e1aa584bd44da9c65602c4e7",
+      "sourceGitBlob": "38b3c656476c285bdc80c9fb805897de5f09ab9c"
     },
     {
       "file": "frontend/src/app/components/landlord/units/UnitFileImport.tsx",
-      "bytes": 7005,
-      "sha256": "e9321d2036c3554d377ed685cbdeba52ec2fb083f2a70b92a4cab881b9dcb036",
-      "sourceGitBlob": "95263eb81030fefe43040e65a287a984b1782de8"
+      "bytes": 7705,
+      "sha256": "1a88cdb57c1bc6251cac3cf2ad24c53e370f9bde44b58621fe63ac18e2097890",
+      "sourceGitBlob": "d68d3e9beee4c1b596c77c41484abb544e30cf1a"
     },
     {
       "file": "frontend/src/app/components/landlord/units/UnitGeneratorForm.tsx",
-      "bytes": 10439,
-      "sha256": "757a9c2bcf6f38971128ccde718fcaf7af18dbf353605fc629c7832411f136d0",
-      "sourceGitBlob": "c1ad7937fd87b83030b5a4af5738f3b8bf966bba"
+      "bytes": 10951,
+      "sha256": "09b616e0d68ef0dbd6eed0786280cce9aedfa3a5a06d6284d28bfa1efc31c78b",
+      "sourceGitBlob": "f45401fe569407ca9f1f28ce72dd07e2dfa53347"
     },
     {
       "file": "frontend/src/app/components/landlord/units/UnitReviewTable.tsx",
-      "bytes": 10277,
-      "sha256": "41e1f0a43d8739eebc9f5ba7f9bfaeff8cf072fb6ed785a6026a3df9341173a4",
-      "sourceGitBlob": "284acf79d311c9d925c378ec69bf1aef2a04ee6d"
+      "bytes": 10874,
+      "sha256": "686aad4ac7414d565ef7accc29f2abf16d5e3e81611d8616b1c9039d5d05eae8",
+      "sourceGitBlob": "e451fa4e8e19256f196484a6b7e4cce301187c9e"
     },
     {
       "file": "frontend/src/app/components/landlord/units/proposedUnits.test.ts",
@@ -4652,39 +4664,39 @@
     },
     {
       "file": "frontend/src/app/components/landlord/vendors/AutoFindComingSoon.tsx",
-      "bytes": 1384,
-      "sha256": "12c78afc4dfa8d63916845316ce34a436babc507c97cddb98b4fd37711ea980c",
-      "sourceGitBlob": "e46b1b3e26ddd2b4cf7c2852fd4380958d68241c"
+      "bytes": 1546,
+      "sha256": "10e0609fb2b18a37ce975c758b1df4f8e3928c0d1585241b5f523a3f0a23d4e7",
+      "sourceGitBlob": "f1c5bc2f293bcb0b4716d954040cd77d8945f04b"
     },
     {
       "file": "frontend/src/app/components/landlord/vendors/CoverageCard.tsx",
-      "bytes": 3347,
-      "sha256": "f86afd2c4463158e5ee83dd667dfd9dacdef3a16ac16fd5902164c72be6ca98a",
-      "sourceGitBlob": "df15883155c0b93964c60ced110a8e16441c1682"
+      "bytes": 3979,
+      "sha256": "d59a9ac6ebd139411d57e84628fe5334fd00224ee0dff2a7a81010fb8a97d3e6",
+      "sourceGitBlob": "e2dda32ed814490c922216d68a1cb6c32583ff99"
     },
     {
       "file": "frontend/src/app/components/landlord/vendors/VendorCard.tsx",
-      "bytes": 10049,
-      "sha256": "36647c883021d95e87a5536055cb8a30b83e4db21f179bcefcd7552ac3cc3b7c",
-      "sourceGitBlob": "d736ad82f4bd5f13d0c77d6b9418a7c60616f7d7"
+      "bytes": 11893,
+      "sha256": "475af2e715e1ab2fefdab43a6a6f57214412eac3151afd54eff3602cb959cad5",
+      "sourceGitBlob": "8734aed1a7de5be5a2c752a26c215a0712a560a0"
     },
     {
       "file": "frontend/src/app/components/landlord/vendors/VendorFilterBar.tsx",
-      "bytes": 5708,
-      "sha256": "af89da9b782aea683b82dffb7902f4042a69216e9fd5ad2327b6b96c1aa498e1",
-      "sourceGitBlob": "61a976b1144f49a2217057f62e45b01b72e2839d"
+      "bytes": 6355,
+      "sha256": "ccadc731d94dd470cee8564c144b2d6068f2f9fa3099d992598c467629b5196d",
+      "sourceGitBlob": "322e5f83f2ec4fab8f2f0fa4c6b0a0f3c438478a"
     },
     {
       "file": "frontend/src/app/components/landlord/vendors/VendorFormDialog.tsx",
-      "bytes": 25311,
-      "sha256": "5614e542adbd15f3a725445c68cbf42d14a32306ac85d128a93eb680be462b55",
-      "sourceGitBlob": "96b8f111f55d52a261113ff46c9db5b670d93ae1"
+      "bytes": 27042,
+      "sha256": "3be7880325a8d4c379b5a216f836a4c1e3b3209975673af1f75916db6788b1fc",
+      "sourceGitBlob": "832a97736fdd0f6beac8d27d855d2c0047317326"
     },
     {
       "file": "frontend/src/app/components/landlord/vendors/VendorTable.tsx",
-      "bytes": 9310,
-      "sha256": "306318fafef5577f7edc4e46ba84d10423000572381bc3e4f98cf0ca0ce77c2c",
-      "sourceGitBlob": "d5ed6448315316d57f33598546dd3e1748e02cf4"
+      "bytes": 11101,
+      "sha256": "dbab7e12e0378701b5f0decd4813e3c9bd275ce4de609854413fbea168562a5d",
+      "sourceGitBlob": "8641711df1272232da985b2e9524739a9ab1222f"
     },
     {
       "file": "frontend/src/app/components/landlord/vendors/vendorFilters.ts",
@@ -5762,15 +5774,15 @@
     },
     {
       "file": "frontend/src/app/layouts/LandlordLayout.iris.test.tsx",
-      "bytes": 5354,
-      "sha256": "02bdf7a42c30ddc72548542da685a36fb0dc7392c510e8231e90d43028e3d1a8",
-      "sourceGitBlob": "55a7072938a5d38079a2d0c50baaf228f268c925"
+      "bytes": 5558,
+      "sha256": "6c1bb42e2763fc145b31ec4750f18c10c888d76815a97f033c665f94f23b7af3",
+      "sourceGitBlob": "80c44803484bcaa22f052a0f49448d78ceb97881"
     },
     {
       "file": "frontend/src/app/layouts/LandlordLayout.scope.test.tsx",
-      "bytes": 3090,
-      "sha256": "c19262fa7fbae9f84faebbfc9a78d3dd5dad7aacd30821b6b8f8aba98b764c60",
-      "sourceGitBlob": "9d0618cb3d327b20ff515a97e5366a299dffa6c6"
+      "bytes": 3258,
+      "sha256": "0eeec2238f32b0c949a464a3579aadc9c57200d132b08538db5c6333900bd962",
+      "sourceGitBlob": "aacecc1d70b290eae9a32083278925da8655c2df"
     },
     {
       "file": "frontend/src/app/layouts/LandlordLayout.tsx",
@@ -5888,15 +5900,15 @@
     },
     {
       "file": "frontend/src/app/lib/lichenRoutes.test.ts",
-      "bytes": 2154,
-      "sha256": "8ad195bb3b4bd296353903ab39caa4b64f8692f90253af41a65bf74cb5394585",
-      "sourceGitBlob": "fcde99d09f0cc6c28946335f06e6a16f8b6475c4"
+      "bytes": 2588,
+      "sha256": "884aba386eae7479924cb8e459db082a9b6ac60e74e0c8fb72ded2724b077864",
+      "sourceGitBlob": "8ac3ab8b16b6701f3772a13062a3caf71642b00a"
     },
     {
       "file": "frontend/src/app/lib/lichenRoutes.ts",
-      "bytes": 1480,
-      "sha256": "b63efcb57789744d71b5dadb22f61996fe57b7ecaf7a6a64830d95d2d0d1830a",
-      "sourceGitBlob": "91fc43121c0397ea729ca97c5d7b30b15cdf3aa4"
+      "bytes": 1608,
+      "sha256": "042990b9948ea574dbd8ddd1204a8bdc4b3e664616ad5576e5f878bcff85fe14",
+      "sourceGitBlob": "d68b44cf8a8bba1e93b53a2665b57e0744fe13a5"
     },
     {
       "file": "frontend/src/app/lib/lichenTenantRoutes.test.ts",
@@ -6038,9 +6050,9 @@
     },
     {
       "file": "frontend/src/app/pages/landlord/BillingPage.tsx",
-      "bytes": 11037,
-      "sha256": "f23740f4fec334c77f560180688675a49d3808d782c65efb6137e29b0c7c8562",
-      "sourceGitBlob": "097f0fa2b2acce3c9f82b2d2a36b1d770d001eb5"
+      "bytes": 12036,
+      "sha256": "dae6ab4c2f896095817e17a0da502eb37373b16894901129646d37bcf23d838a",
+      "sourceGitBlob": "8e73690f9578694c4a77059396956ca1c5f4f97e"
     },
     {
       "file": "frontend/src/app/pages/landlord/DecisionsNeededPage.tsx",
@@ -6074,21 +6086,21 @@
     },
     {
       "file": "frontend/src/app/pages/landlord/PropertiesPage.tsx",
-      "bytes": 16078,
-      "sha256": "6f697469daa8c26ef9ff2f606ef9e78f7dac9c0b244281321d57b165f06ff620",
-      "sourceGitBlob": "c28d75d61484792ee833ae9224e1e8124d1f5e86"
+      "bytes": 18207,
+      "sha256": "147b6a01f209c2a8155019a1fcd8660b4a64556f6830853564914d8965a60e02",
+      "sourceGitBlob": "545ee473014876340ef21adce0755814d2a19a12"
     },
     {
       "file": "frontend/src/app/pages/landlord/PropertyHistoryPage.tsx",
-      "bytes": 7281,
-      "sha256": "8afecccae6a50f8d7dac71619407ed3e606c60c6eaaf313f063188555744aea5",
-      "sourceGitBlob": "a08c7d927c9d219d43ea12807a94aab03e120572"
+      "bytes": 7756,
+      "sha256": "89a2e1990d77b6bf3e2213ea37c525abe5e8279018ef66652faef94a8105c595",
+      "sourceGitBlob": "905482ad75bdb607c97967f272a386ace846d5ac"
     },
     {
       "file": "frontend/src/app/pages/landlord/ReportsPage.tsx",
-      "bytes": 19930,
-      "sha256": "d2772a74d4c605ed2de0c2410850cea1cd24056b74ee4e14c981d5107c958f77",
-      "sourceGitBlob": "f8a67c554797fc57d54a8a58d27c21e851895746"
+      "bytes": 21035,
+      "sha256": "11ea83f6b31ce2068fe1ede6c3e10bcfa0978c02c8abb1576e675ebf79141bbe",
+      "sourceGitBlob": "ee0535ee2116a5b57ec9faf32c534b91dfb09d1c"
     },
     {
       "file": "frontend/src/app/pages/landlord/RequestsPage.tsx",
@@ -6110,15 +6122,15 @@
     },
     {
       "file": "frontend/src/app/pages/landlord/TenantsPage.tsx",
-      "bytes": 31046,
-      "sha256": "f3829eb2630a6f4136714009a42029426575cc50d8909b7470550de03becef06",
-      "sourceGitBlob": "5eec3b3442cb9a75ff4a399b8fc922f6ebb49680"
+      "bytes": 33476,
+      "sha256": "22cd46ab0f0e6665551227f9f327de5f4dde1803df91eacfc74b21cda347aa2a",
+      "sourceGitBlob": "af23a900eab6b7da72734ff849967656e05bbc3f"
     },
     {
       "file": "frontend/src/app/pages/landlord/VendorsPage.tsx",
-      "bytes": 9441,
-      "sha256": "e116486d263307c9cb43dee290a4404b78c5fb5d618901e5974f89630b409b7e",
-      "sourceGitBlob": "6dba9bc16c53c0daf009d64f56552c1da0138b1d"
+      "bytes": 10111,
+      "sha256": "eac843dec437537898c59cb2674d193104ece379a47816ceac32e7d66a7d173e",
+      "sourceGitBlob": "6100da14b5697f3c7d2f02c7d3ec83dfd56262d9"
     },
     {
       "file": "frontend/src/app/pages/landlord/WalletPage.presentation.test.tsx",
@@ -6131,6 +6143,12 @@
       "bytes": 47518,
       "sha256": "368a3749d7e318137f30fadf1cf1aa8a9c40a81c338834a962b1459ed01ac837",
       "sourceGitBlob": "d6c254582604aff8bb6213b06ecf66fe39105507"
+    },
+    {
+      "file": "frontend/src/app/pages/landlord/landlordRemainder.test.tsx",
+      "bytes": 8695,
+      "sha256": "4fad58ffca50b6c90e962d8c44535639ed73d17f3ac256c9260b2e02d378998a",
+      "sourceGitBlob": "21451f7f53fba7e47ed0d77d00155206b2d56d87"
     },
     {
       "file": "frontend/src/app/pages/landlord/paymentModeVisibility.test.tsx",
@@ -6924,5 +6942,24 @@
   "limits": [
     "Private QA/evidence/runtime/credentials excluded; exact inert synthetic note747 test dependency retained",
     "Fresh filtered checkout tests/build/runtime not executed during packaging"
-  ]
+  ],
+  "presentation": {
+    "pages": [
+      "properties",
+      "history",
+      "tenants",
+      "vendors",
+      "billing",
+      "reports"
+    ],
+    "visualScope": "Isolated mock actual page components and production CSS; no authenticated/connected/financial/native claim",
+    "fullFrontend": [
+      "Test Files  131 passed (131)",
+      "Tests  1376 passed (1376)",
+      "Duration  117.65s (transform 18.13s, setup 0ms, import 114.66s, tests 33.23s, environment 47ms)"
+    ],
+    "build": [
+      "✓ built in 45.96s"
+    ]
+  }
 }

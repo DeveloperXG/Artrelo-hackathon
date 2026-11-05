@@ -17,18 +17,16 @@ describe('isLichenLandlordPath', () => {
     for (const path of ['/portal/wallet', '/portal/schedule', '/dashboard/payments', '/dashboard/wallet/unknown', '/dashboard/schedule/unknown']) expect(isLichenLandlordPath(path), path).toBe(false);
   });
 
-  it('keeps every un-migrated landlord page in the legacy light column', () => {
+  it('activates the exact six remaining landlord patterns', () => {
+    for (const path of ['/dashboard/properties', '/dashboard/properties/', '/dashboard/properties/owned', '/dashboard/properties/owned/', '/dashboard/tenants', '/dashboard/vendors', '/dashboard/billing', '/dashboard/reports']) expect(isLichenLandlordPath(path), path).toBe(true);
+    for (const path of ['/portal/properties', '/vendor-hub', '/dashboard/properties/owned/extra', '/dashboard/tenants/extra', '/dashboard/vendors/extra', '/dashboard/billing/extra', '/dashboard/reports/extra']) expect(isLichenLandlordPath(path), path).toBe(false);
+  });
+  it('keeps unknown landlord paths outside the presentation scope', () => {
     for (const path of [
       '/dashboard/activity/extra',
       '/dashboard/requests/abc/extra',
-      '/dashboard/vendors',
       '/dashboard/wallet/extra',
       '/dashboard/schedule/extra',
-      '/dashboard/properties',
-      '/dashboard/properties/owned',
-      '/dashboard/tenants',
-      '/dashboard/billing',
-      '/dashboard/reports',
       '/dashboard/policy/extra',
       '/dashboard/guided-demo/extra',
     ]) {

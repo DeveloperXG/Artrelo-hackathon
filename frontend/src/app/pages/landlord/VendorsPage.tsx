@@ -1,3 +1,4 @@
+import { REMAINDER_PORTAL } from '../../components/landlord/remainderPresentation';
 import { useEffect, useMemo, useState } from 'react';
 import { AlertTriangle, Clock, HardHat, Plus, SearchX, Siren, Users } from 'lucide-react';
 import { toast } from 'sonner';
@@ -88,7 +89,7 @@ export default function VendorsPage() {
   }
 
   return (
-    <PageContainer>
+    <PageContainer className="lichen-remainder min-w-0 [overflow-wrap:anywhere]">
       <PageHeader
         title="Vendor Network"
         description="Build and manage your trusted maintenance vendor network."
@@ -97,7 +98,7 @@ export default function VendorsPage() {
             <AutoFindComingSoon className="hidden md:inline-flex" />
             <Button
               data-testid="open-add-vendor"
-              className="h-10 bg-[#137fec] px-4 hover:bg-[#137fec]/90"
+              className="h-10 bg-[#137fec] px-4 hover:bg-[#137fec]/90 lichen:bg-primary lichen:hover:bg-chip lichen:text-primary-foreground"
               onClick={() => setEditing(null)}
             >
               <Plus className="mr-1.5 h-4 w-4" />
@@ -108,7 +109,7 @@ export default function VendorsPage() {
       />
 
       {vendors.length === 0 ? (
-        <Card className="ll-fade-up border border-slate-200/70 p-6 shadow-sm">
+        <Card className="border border-slate-200/70 p-6 shadow-sm lichen:border-hairline lichen:shadow-lichen-card">
           <EmptyState
             testId="empty-vendors"
             icon={HardHat}
@@ -116,7 +117,7 @@ export default function VendorsPage() {
             description="Add your trusted contractors so Artrelo can route work to them."
           />
           <div className="mt-4 flex justify-center">
-            <Button className="bg-[#137fec] hover:bg-[#137fec]/90" onClick={() => setEditing(null)}>
+            <Button className="bg-[#137fec] hover:bg-[#137fec]/90 lichen:bg-primary lichen:hover:bg-chip lichen:text-primary-foreground" onClick={() => setEditing(null)}>
               <Plus className="mr-1.5 h-4 w-4" />
               Add vendor
             </Button>
@@ -125,14 +126,14 @@ export default function VendorsPage() {
       ) : (
         <>
           <StatGrid className="mb-6">
-            <StatCard
+            <StatCard wrap entrance={false}
               icon={Users}
               tone="blue"
               label="Total vendors"
               value={vendors.length}
               sub={`Across ${stats.trades} trade${stats.trades === 1 ? '' : 's'}`}
             />
-            <StatCard
+            <StatCard wrap entrance={false}
               icon={Siren}
               tone="rose"
               label="Emergency-ready"
@@ -140,7 +141,7 @@ export default function VendorsPage() {
               sub="Take emergency calls"
               delay={60}
             />
-            <StatCard
+            <StatCard wrap entrance={false}
               icon={Clock}
               tone="blue"
               label="Avg. first response"
@@ -148,7 +149,7 @@ export default function VendorsPage() {
               sub={stats.response ? 'Across vendors with a record' : 'No responses recorded yet'}
               delay={120}
             />
-            <StatCard
+            <StatCard wrap entrance={false}
               icon={AlertTriangle}
               tone={stats.missing ? 'amber' : 'slate'}
               label="Missing details"
@@ -162,7 +163,7 @@ export default function VendorsPage() {
           </StatGrid>
 
           <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_16rem] 2xl:grid-cols-[minmax(0,1fr)_20rem]">
-            <Card className="ll-fade-up min-w-0 gap-0 overflow-hidden border border-slate-200/70 p-0 shadow-sm">
+            <Card className="min-w-0 gap-0 overflow-hidden border border-slate-200/70 p-0 shadow-sm lichen:border-hairline lichen:shadow-lichen-card">
               <VendorFilterBar
                 filters={filters}
                 onChange={setFilters}
@@ -171,23 +172,23 @@ export default function VendorsPage() {
                 total={vendors.length}
               />
               {visible.length === 0 ? (
-                <div className="border-t border-slate-100 p-8 text-center" data-testid="vendors-no-match">
-                  <SearchX className="mx-auto h-6 w-6 text-slate-300" />
-                  <p className="mt-2 text-sm font-medium text-slate-700">No vendors match these filters</p>
+                <div className="border-t border-slate-100 p-8 text-center lichen:border-hairline" data-testid="vendors-no-match">
+                  <SearchX className="mx-auto h-6 w-6 text-slate-300 lichen:text-meta" />
+                  <p className="mt-2 text-sm font-medium text-slate-700 lichen:text-ink">No vendors match these filters</p>
                   <button
                     type="button"
                     onClick={() => setFilters({ ...EMPTY_FILTERS, sort: filters.sort })}
-                    className="mt-1 text-sm font-medium text-[#137fec] hover:underline"
+                    className="mt-1 text-sm font-medium text-[#137fec] hover:underline lichen:text-lichen-text"
                   >
                     Clear filters
                   </button>
                 </div>
               ) : wide ? (
-                <div className="border-t border-slate-100">
+                <div className="border-t border-slate-100 lichen:border-hairline">
                   <VendorTable vendors={paged.rows} onEdit={setEditing} onDelete={setVendorToDelete} />
                 </div>
               ) : (
-                <div className="grid gap-4 border-t border-slate-100 p-4">
+                <div className="grid gap-4 border-t border-slate-100 p-4 lichen:border-hairline">
                   {paged.rows.map((vendor, index) => (
                     <VendorCard
                       key={vendor._id}
@@ -200,8 +201,8 @@ export default function VendorsPage() {
                 </div>
               )}
               {paged.totalPages > 1 ? (
-                <div className="border-t border-slate-100 px-5 py-3">
-                  <TablePagination
+                <div className="border-t border-slate-100 px-5 py-3 lichen:border-hairline">
+                  <TablePagination presentation
                     page={paged.page}
                     totalPages={paged.totalPages}
                     total={paged.total}
@@ -226,20 +227,20 @@ export default function VendorsPage() {
         </>
       )}
 
-      <VendorFormDialog
+      <VendorFormDialog presentation
         open={editing !== undefined}
         onOpenChange={(next) => (next ? null : setEditing(undefined))}
         vendor={editing ?? null}
         onSaved={reload}
       />
 
-      <ConfirmDialog
+      <ConfirmDialog className={REMAINDER_PORTAL}
         open={Boolean(vendorToDelete)}
         onOpenChange={(next) => (next ? null : setVendorToDelete(null))}
         title="Remove vendor"
         description={
           <>
-            Remove <span className="font-semibold text-slate-700">{vendorToDelete?.name}</span> from your
+            Remove <span className="font-semibold text-slate-700 lichen:text-ink">{vendorToDelete?.name}</span> from your
             network? This can't be undone.
           </>
         }

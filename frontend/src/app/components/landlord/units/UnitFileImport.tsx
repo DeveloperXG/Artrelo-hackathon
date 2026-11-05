@@ -74,21 +74,21 @@ export default function UnitFileImport({ onParsed, mode = 'units' }: UnitFileImp
           setDragging(false);
           void handleFile(event.dataTransfer.files?.[0]);
         }}
-        className={`rounded-xl border border-dashed px-4 py-8 text-center transition ${
-          dragging ? 'border-[#137fec] bg-[#137fec]/5' : 'border-slate-200 bg-slate-50/60'
+        className={`rounded-xl border border-dashed px-4 py-8 text-center transition  lichen:rounded-lg ${
+          dragging ? "border-[#137fec] bg-[#137fec]/5 lichen:border-lichen-line lichen:bg-chip" : "border-slate-200 bg-slate-50/60 lichen:border-hairline lichen:bg-well"
         }`}
       >
-        <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-slate-100 text-slate-400">
+        <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-slate-100 text-slate-400 lichen:bg-chip lichen:text-meta">
           {busy ? (
             <Loader2 className="h-5 w-5 animate-spin" />
           ) : (
             <FileSpreadsheet className="h-5 w-5" />
           )}
         </div>
-        <p className="mt-2.5 text-sm font-medium text-slate-600">
+        <p className="mt-2.5 text-sm font-medium text-slate-600 lichen:text-meta">
           {fileName || 'Drop a CSV here'}
         </p>
-        <p className="mt-0.5 text-xs text-slate-400">
+        <p className="mt-0.5 text-xs text-slate-400 lichen:text-meta">
           {mode === 'portfolio' ? (
             <>
               Columns headed <code>property</code>, <code>address</code> and <code>unit</code>.
@@ -112,7 +112,7 @@ export default function UnitFileImport({ onParsed, mode = 'units' }: UnitFileImp
           variant="outline"
           size="sm"
           disabled={busy}
-          className="mt-3 border-slate-200"
+          className="mt-3 border-slate-200 lichen:border-hairline"
           onClick={() => inputRef.current?.click()}
         >
           <Upload className="mr-1.5 h-3.5 w-3.5" />
@@ -123,7 +123,7 @@ export default function UnitFileImport({ onParsed, mode = 'units' }: UnitFileImp
       {parsed?.error ? (
         <p
           role="alert"
-          className="rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700"
+          className="rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700 lichen:rounded-lg lichen:border-alert-line lichen:bg-alert-tint lichen:text-alert-text"
         >
           {parsed.error}
         </p>
@@ -131,8 +131,8 @@ export default function UnitFileImport({ onParsed, mode = 'units' }: UnitFileImp
 
       {parsed && !parsed.error ? (
         <div className="space-y-2">
-          <p className="rounded-lg border border-slate-200 bg-slate-50/70 px-3 py-2 text-sm text-slate-600">
-            <span className="font-semibold text-slate-900">{parsed.rows.length}</span> unit
+          <p className="rounded-lg border border-slate-200 bg-slate-50/70 px-3 py-2 text-sm text-slate-600 lichen:rounded-lg lichen:border-hairline lichen:bg-well lichen:text-meta">
+            <span className="font-semibold text-slate-900 lichen:text-ink">{parsed.rows.length}</span> unit
             {parsed.rows.length === 1 ? '' : 's'} read
             {mode === 'portfolio' && propertyCount > 0
               ? ` across ${propertyCount} propert${propertyCount === 1 ? 'y' : 'ies'}`
@@ -141,7 +141,7 @@ export default function UnitFileImport({ onParsed, mode = 'units' }: UnitFileImp
           </p>
 
           {mode === 'units' && parsed.hasPropertyColumn ? (
-            <p className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800">
+            <p className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800 lichen:rounded-lg lichen:border-lichen-line lichen:bg-lichen-tint lichen:text-lichen-text">
               This file names a property on each row. Those names will be ignored — every unit goes
               to the property selected above. To create the properties too, use{' '}
               <span className="font-semibold">Add properties → Import a portfolio</span>.
@@ -151,7 +151,7 @@ export default function UnitFileImport({ onParsed, mode = 'units' }: UnitFileImp
           {mode === 'portfolio' && !parsed.hasPropertyColumn ? (
             <p
               role="alert"
-              className="rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-xs text-rose-700"
+              className="rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-xs text-rose-700 lichen:rounded-lg lichen:border-alert-line lichen:bg-alert-tint lichen:text-alert-text"
             >
               A portfolio import needs a property name on every row. Add{' '}
               <code>Property Name</code> and <code>Address</code> columns, or add these units to a
@@ -162,7 +162,7 @@ export default function UnitFileImport({ onParsed, mode = 'units' }: UnitFileImp
           {parsed.warnings.map((warning) => (
             <p
               key={warning}
-              className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800"
+              className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800 lichen:rounded-lg lichen:border-lichen-line lichen:bg-lichen-tint lichen:text-lichen-text"
             >
               {warning}
             </p>
@@ -172,7 +172,7 @@ export default function UnitFileImport({ onParsed, mode = 'units' }: UnitFileImp
             data-testid="review-imported-units"
             disabled={parsed.rows.length === 0 || (mode === 'portfolio' && !parsed.hasPropertyColumn)}
             onClick={() => onParsed(parsed.rows.map((row) => row.unit), parsed)}
-            className="w-full bg-[#137fec] hover:bg-[#137fec]/90"
+            className="w-full bg-[#137fec] hover:bg-[#137fec]/90 lichen:bg-primary lichen:hover:bg-chip lichen:text-primary-foreground"
           >
             {mode === 'portfolio'
               ? `Review ${propertyCount} propert${propertyCount === 1 ? 'y' : 'ies'} and ${

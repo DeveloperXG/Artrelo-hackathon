@@ -99,7 +99,7 @@ export default function UnitGeneratorForm({ onGenerated }: UnitGeneratorFormProp
               className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
                 active
                   ? 'bg-slate-900 text-white'
-                  : 'border border-slate-200 bg-white text-slate-600 hover:border-slate-300'
+                  : "border border-slate-200 bg-white text-slate-600 hover:border-slate-300 lichen:border-hairline lichen:bg-card lichen:text-meta lichen:hover:border-hairline"
               }`}
             >
               {option.label}
@@ -114,7 +114,7 @@ export default function UnitGeneratorForm({ onGenerated }: UnitGeneratorFormProp
             <FieldLabel>Start</FieldLabel>
             <Input
               data-testid="range-from"
-              className="h-10 bg-white"
+              className="h-10 bg-white lichen:bg-card"
               inputMode="numeric"
               value={range.from}
               onChange={(event) => setRange({ ...range, from: event.target.value })}
@@ -124,7 +124,7 @@ export default function UnitGeneratorForm({ onGenerated }: UnitGeneratorFormProp
             <FieldLabel>End</FieldLabel>
             <Input
               data-testid="range-to"
-              className="h-10 bg-white"
+              className="h-10 bg-white lichen:bg-card"
               inputMode="numeric"
               value={range.to}
               onChange={(event) => setRange({ ...range, to: event.target.value })}
@@ -140,7 +140,7 @@ export default function UnitGeneratorForm({ onGenerated }: UnitGeneratorFormProp
               <FieldLabel>First floor</FieldLabel>
               <Input
                 data-testid="floors-from"
-                className="h-10 bg-white"
+                className="h-10 bg-white lichen:bg-card"
                 inputMode="numeric"
                 value={floors.from}
                 onChange={(event) => setFloors({ ...floors, from: event.target.value })}
@@ -150,7 +150,7 @@ export default function UnitGeneratorForm({ onGenerated }: UnitGeneratorFormProp
               <FieldLabel>Last floor</FieldLabel>
               <Input
                 data-testid="floors-to"
-                className="h-10 bg-white"
+                className="h-10 bg-white lichen:bg-card"
                 inputMode="numeric"
                 value={floors.to}
                 onChange={(event) => setFloors({ ...floors, to: event.target.value })}
@@ -162,7 +162,7 @@ export default function UnitGeneratorForm({ onGenerated }: UnitGeneratorFormProp
               <FieldLabel>Units / floor</FieldLabel>
               <Input
                 data-testid="floors-per-floor"
-                className="h-10 bg-white"
+                className="h-10 bg-white lichen:bg-card"
                 inputMode="numeric"
                 value={floors.perFloor}
                 onChange={(event) => setFloors({ ...floors, perFloor: event.target.value })}
@@ -172,7 +172,7 @@ export default function UnitGeneratorForm({ onGenerated }: UnitGeneratorFormProp
               <FieldLabel>Units start at</FieldLabel>
               <Input
                 data-testid="floors-unit-from"
-                className="h-10 bg-white"
+                className="h-10 bg-white lichen:bg-card"
                 value={floors.unitFrom}
                 onChange={(event) => setFloors({ ...floors, unitFrom: event.target.value })}
               />
@@ -181,14 +181,14 @@ export default function UnitGeneratorForm({ onGenerated }: UnitGeneratorFormProp
               <FieldLabel>Separator</FieldLabel>
               <Input
                 data-testid="floors-separator"
-                className="h-10 bg-white"
+                className="h-10 bg-white lichen:bg-card"
                 placeholder="none"
                 value={floors.separator}
                 onChange={(event) => setFloors({ ...floors, separator: event.target.value })}
               />
             </label>
           </div>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-slate-400 lichen:text-meta">
             Write the starting unit the way it should appear — <code>01</code> pads to two digits,{' '}
             <code>1</code> does not.
           </p>
@@ -202,7 +202,7 @@ export default function UnitGeneratorForm({ onGenerated }: UnitGeneratorFormProp
               <FieldLabel>Prefix</FieldLabel>
               <Input
                 data-testid="affix-prefix"
-                className="h-10 bg-white"
+                className="h-10 bg-white lichen:bg-card"
                 placeholder="e.g. A, Unit-, G"
                 value={affix.prefix}
                 onChange={(event) => setAffix({ ...affix, prefix: event.target.value })}
@@ -212,7 +212,7 @@ export default function UnitGeneratorForm({ onGenerated }: UnitGeneratorFormProp
               <FieldLabel>Suffix</FieldLabel>
               <Input
                 data-testid="affix-suffix"
-                className="h-10 bg-white"
+                className="h-10 bg-white lichen:bg-card"
                 placeholder="none"
                 value={affix.suffix}
                 onChange={(event) => setAffix({ ...affix, suffix: event.target.value })}
@@ -244,7 +244,7 @@ export default function UnitGeneratorForm({ onGenerated }: UnitGeneratorFormProp
               <FieldLabel>From</FieldLabel>
               <Input
                 data-testid="affix-from"
-                className="h-10 bg-white"
+                className="h-10 bg-white lichen:bg-card"
                 value={affix.from}
                 onChange={(event) => setAffix({ ...affix, from: event.target.value })}
               />
@@ -253,7 +253,7 @@ export default function UnitGeneratorForm({ onGenerated }: UnitGeneratorFormProp
               <FieldLabel>To</FieldLabel>
               <Input
                 data-testid="affix-to"
-                className="h-10 bg-white"
+                className="h-10 bg-white lichen:bg-card"
                 value={affix.to}
                 onChange={(event) => setAffix({ ...affix, to: event.target.value })}
               />
@@ -266,18 +266,18 @@ export default function UnitGeneratorForm({ onGenerated }: UnitGeneratorFormProp
         data-testid="generator-preview"
         role="status"
         aria-live="polite"
-        className={`rounded-xl border px-3.5 py-3 text-sm ${
+        className={`rounded-xl border px-3.5 py-3 text-sm  lichen:rounded-lg ${
           result.error
-            ? 'border-rose-200 bg-rose-50 text-rose-700'
-            : 'border-slate-200 bg-slate-50/70 text-slate-600'
+            ? "border-rose-200 bg-rose-50 text-rose-700 lichen:border-alert-line lichen:bg-alert-tint lichen:text-alert-text"
+            : "border-slate-200 bg-slate-50/70 text-slate-600 lichen:border-hairline lichen:bg-well lichen:text-meta"
         }`}
       >
         {result.error ? (
           result.error
         ) : (
           <>
-            <div className="font-mono text-slate-900">{describeSample(result.units)}</div>
-            <div className="mt-1 text-xs text-slate-500">
+            <div className="font-mono text-slate-900 lichen:text-ink">{describeSample(result.units)}</div>
+            <div className="mt-1 text-xs text-slate-500 lichen:text-meta">
               {result.units.length} unit{result.units.length === 1 ? '' : 's'}
             </div>
           </>
@@ -288,7 +288,7 @@ export default function UnitGeneratorForm({ onGenerated }: UnitGeneratorFormProp
         data-testid="review-generated-units"
         disabled={result.units.length === 0}
         onClick={() => onGenerated(result.units)}
-        className="w-full bg-[#137fec] hover:bg-[#137fec]/90"
+        className="w-full bg-[#137fec] hover:bg-[#137fec]/90 lichen:bg-primary lichen:hover:bg-chip lichen:text-primary-foreground"
       >
         Review {result.units.length} unit{result.units.length === 1 ? '' : 's'}
       </Button>

@@ -91,10 +91,10 @@ export default function PropertyHistoryPage() {
   }
   if (!property) {
     return (
-      <PageContainer>
+      <PageContainer className="lichen-remainder min-w-0 [overflow-wrap:anywhere]">
         <EmptyState icon={Building2} title="Property not found" description="It may have been deleted." />
         <div className="mt-4 text-center">
-          <Link to="/dashboard/properties" className="text-sm font-medium text-[#137fec] hover:underline">
+          <Link to="/dashboard/properties" className="text-sm font-medium text-[#137fec] hover:underline lichen:text-lichen-text">
             Back to Properties
           </Link>
         </div>
@@ -112,7 +112,7 @@ export default function PropertyHistoryPage() {
         data-testid={`history-unit-${value || 'all'}`}
         onClick={() => setUnit(value)}
         className={`rounded-full border px-3 py-1 text-xs font-medium transition ${
-          active ? 'border-transparent bg-slate-900 text-white' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
+          active ? 'border-transparent bg-slate-900 text-white' : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 lichen:border-hairline lichen:bg-card lichen:text-meta lichen:hover:border-hairline"
         }`}
       >
         {label}
@@ -121,10 +121,10 @@ export default function PropertyHistoryPage() {
   };
 
   return (
-    <PageContainer>
+    <PageContainer className="lichen-remainder min-w-0 [overflow-wrap:anywhere]">
       <Link
         to="/dashboard/properties"
-        className="mb-3 inline-flex items-center gap-1 text-sm text-slate-500 transition hover:text-slate-800"
+        className="mb-3 inline-flex items-center gap-1 text-sm text-slate-500 transition hover:text-slate-800 lichen:text-meta lichen:hover:text-ink"
       >
         <ArrowLeft className="h-4 w-4" />
         Properties
@@ -143,10 +143,10 @@ export default function PropertyHistoryPage() {
         <LandlordError title="History unavailable" message={error} onRetry={() => setAttempt((n) => n + 1)} />
       ) : loading ? (
         <div className="flex justify-center py-12">
-          <Loader2 className="h-5 w-5 animate-spin text-slate-400" />
+          <Loader2 className="h-5 w-5 animate-spin text-slate-400 lichen:text-meta" />
         </div>
       ) : rows.length === 0 ? (
-        <Card className="border border-slate-100 p-6 shadow-sm">
+        <Card className="border border-slate-100 p-6 shadow-sm lichen:border-hairline lichen:shadow-lichen-card">
           <EmptyState
             icon={Archive}
             testId="history-empty"
@@ -158,9 +158,9 @@ export default function PropertyHistoryPage() {
         <div className="space-y-6">
           {groups.map((group) => (
             <section key={group.key} data-testid={`history-group-${group.key}`}>
-              <h2 className="mb-2 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">
+              <h2 className="mb-2 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400 lichen:text-xs lichen:normal-case lichen:tracking-normal lichen:text-meta">
                 {group.label}
-                <span className="rounded-full bg-slate-100 px-1.5 py-0.5 text-[10px] tabular-nums text-slate-500">
+                <span className="rounded-full bg-slate-100 px-1.5 py-0.5 text-[10px] tabular-nums text-slate-500 lichen:bg-chip lichen:text-xs lichen:font-mono lichen:text-meta">
                   {group.rows.length}
                 </span>
               </h2>

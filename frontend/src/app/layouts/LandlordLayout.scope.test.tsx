@@ -32,7 +32,7 @@ const asideClass = (html: string) => html.match(/<aside class="([^"]*)"/)![1].sp
 
 describe('LandlordLayout scopes (Lichen light content, dark chrome)', () => {
   it('puts only the page column of a migrated route in the light scope', () => {
-    for (const path of ['/dashboard', '/dashboard/activity', '/dashboard/requests', '/dashboard/requests/owned', '/dashboard/decisions', '/dashboard/wallet', '/dashboard/schedule', '/dashboard/guided-demo']) {
+    for (const path of ['/dashboard', '/dashboard/activity', '/dashboard/requests', '/dashboard/requests/owned', '/dashboard/decisions', '/dashboard/wallet', '/dashboard/schedule', '/dashboard/guided-demo', '/dashboard/properties', '/dashboard/properties/owned', '/dashboard/tenants', '/dashboard/vendors', '/dashboard/billing', '/dashboard/reports']) {
       const html = render(path);
       expect(mainClass(html), path).toEqual(expect.arrayContaining(['lichen', 'lichen-light']));
       // The sidebar stays its own dark scope, outside the light column.
@@ -51,7 +51,7 @@ describe('LandlordLayout scopes (Lichen light content, dark chrome)', () => {
   });
 
   it('leaves an un-migrated route legacy: no light scope and no Lichen page column', () => {
-    for (const path of ['/dashboard/vendors', '/dashboard/reports', '/dashboard/billing']) {
+    for (const path of ['/dashboard/vendors/unknown', '/dashboard/reports/unknown', '/dashboard/billing/unknown']) {
       const html = render(path);
       expect(html, path).not.toContain('lichen-light');
       expect(mainClass(html), path).not.toContain('lichen');

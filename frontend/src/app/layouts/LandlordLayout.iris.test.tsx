@@ -77,7 +77,7 @@ describe('Ask Iris launcher in the landlord shell', () => {
   });
 
   it('gives the desktop launcher its own light scope on legacy pages, and nothing else', () => {
-    for (const path of ['/dashboard/reports', '/dashboard/billing']) {
+    for (const path of ['/dashboard/reports/unknown', '/dashboard/billing/unknown']) {
       const html = render(path);
       // The only light scope on a legacy page is the launcher's own subtree.
       expect((html.match(/lichen-light/g) || []).length, path).toBe(1);
@@ -88,14 +88,14 @@ describe('Ask Iris launcher in the landlord shell', () => {
   });
 
   it('uses the page scope on migrated pages and the dark bar on a phone', () => {
-    for (const path of ['/dashboard', '/dashboard/activity', '/dashboard/policy', '/dashboard/guided-demo', '/dashboard/requests', '/dashboard/requests/owned', '/dashboard/decisions', '/dashboard/wallet', '/dashboard/schedule']) {
+    for (const path of ['/dashboard', '/dashboard/activity', '/dashboard/policy', '/dashboard/guided-demo', '/dashboard/requests', '/dashboard/requests/owned', '/dashboard/decisions', '/dashboard/wallet', '/dashboard/schedule', '/dashboard/properties', '/dashboard/properties/owned', '/dashboard/tenants', '/dashboard/vendors', '/dashboard/billing', '/dashboard/reports']) {
       const lichen = render(path);
       expect((lichen.match(/lichen-light/g) || []).length, path).toBe(1); // main only
       expect(lichen, path).not.toContain('data-iris-scope');
       expect(lichen.match(/<main class="([^"]*)"/)![1].split(/\s+/), path).toContain('lichen-light');
     }
     const phone = render('/dashboard/billing', false);
-    expect(phone).not.toContain('lichen-light');
+    expect(phone.match(/<main class="([^"]*)"/)![1].split(/\s+/)).toContain('lichen-light');
     expect(phone).toMatch(/<div class="lichen border-b[^"]*lg:hidden">[\s\S]*data-testid="iris-launcher-phone"/);
     const migratedPhone = render('/dashboard/requests', false);
     expect(migratedPhone).toMatch(/<div class="lichen border-b[^"]*lg:hidden">[\s\S]*data-testid="iris-launcher-phone"/);

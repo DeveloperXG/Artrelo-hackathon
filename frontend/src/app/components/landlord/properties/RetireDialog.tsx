@@ -1,3 +1,4 @@
+import { REMAINDER_PORTAL } from '../remainderPresentation';
 import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AlertTriangle, Archive, Clock, Loader2, Send, Trash2, Users, Wrench } from 'lucide-react';
@@ -17,12 +18,12 @@ function TenantRow({ tenant }: { tenant: DeletionBlockingTenant }) {
   return (
     <li className="flex items-center justify-between gap-3 py-2.5">
       <div className="min-w-0">
-        <div className="truncate text-sm font-medium text-slate-800">{tenant.name}</div>
-        <div className="truncate text-xs text-slate-500">{tenant.unitLabel}</div>
+        <div className="truncate text-sm font-medium text-slate-800 lichen:whitespace-normal lichen:overflow-visible lichen:text-clip lichen:[overflow-wrap:anywhere] lichen:text-ink">{tenant.name}</div>
+        <div className="truncate text-xs text-slate-500 lichen:whitespace-normal lichen:overflow-visible lichen:text-clip lichen:[overflow-wrap:anywhere] lichen:text-meta">{tenant.unitLabel}</div>
       </div>
       <span
-        className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] font-medium ${
-          asked ? 'bg-amber-50 text-amber-700' : 'bg-slate-100 text-slate-600'
+        className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] font-medium  lichen:text-xs ${
+          asked ? "bg-amber-50 text-amber-700 lichen:bg-lichen-tint lichen:text-lichen-text" : "bg-slate-100 text-slate-600 lichen:bg-chip lichen:text-meta"
         }`}
       >
         {asked ? `Asked ${formatDate(tenant.moveOut?.requestedAt || null)}` : 'Not asked yet'}
@@ -120,19 +121,19 @@ export default function RetireDialog({
 
   return (
     <Dialog open={Boolean(target)} onOpenChange={(next) => (busy ? null : onOpenChange(next))}>
-      <DialogContent className="gap-0 overflow-hidden p-0 sm:max-w-md" data-testid="retire-dialog">
+      <DialogContent className={`${REMAINDER_PORTAL} gap-0 p-0 sm:max-w-md`} data-testid="retire-dialog">
         <div className="px-6 pb-5 pt-7">
           <div className="flex items-start gap-3">
             <div
-              className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${
-                check?.blocked ? 'bg-amber-50 text-amber-600' : 'bg-rose-50 text-rose-600'
+              className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl  lichen:rounded-lg ${
+                check?.blocked ? "bg-amber-50 text-amber-600 lichen:bg-lichen-tint lichen:text-lichen-text" : "bg-rose-50 text-rose-600 lichen:bg-alert-tint lichen:text-alert-text"
               }`}
             >
               {check?.action === 'archive' ? <Archive className="h-5 w-5" /> : <AlertTriangle className="h-5 w-5" />}
             </div>
             <div className="min-w-0 space-y-1">
-              <DialogTitle className="text-lg font-semibold text-slate-900">{title}</DialogTitle>
-              <DialogDescription className="text-sm leading-relaxed text-slate-500">
+              <DialogTitle className="text-lg font-semibold text-slate-900 lichen:text-ink">{title}</DialogTitle>
+              <DialogDescription className="text-sm leading-relaxed text-slate-500 lichen:text-meta">
                 {!check && !loadError ? 'Checking who and what is still linked to it…' : null}
                 {loadError}
                 {check && tenants.length > 0
@@ -158,33 +159,33 @@ export default function RetireDialog({
           </div>
 
           {!check && !loadError ? (
-            <div className="mt-5 flex justify-center text-slate-400">
+            <div className="mt-5 flex justify-center text-slate-400 lichen:text-meta">
               <Loader2 className="h-5 w-5 animate-spin" />
             </div>
           ) : null}
 
           {tenants.length > 0 ? (
-            <div className="mt-5 rounded-xl border border-slate-200">
-              <div className="flex items-center justify-between gap-2 border-b border-slate-100 px-4 py-2.5">
-                <span className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">
+            <div className="mt-5 rounded-xl border border-slate-200 lichen:rounded-lg lichen:border-hairline">
+              <div className="flex items-center justify-between gap-2 border-b border-slate-100 px-4 py-2.5 lichen:border-hairline">
+                <span className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500 lichen:text-xs lichen:normal-case lichen:tracking-normal lichen:text-meta">
                   <Users className="h-3.5 w-3.5" />
                   Tenants
                 </span>
                 {waiting > 0 ? (
-                  <span className="flex items-center gap-1 text-xs text-amber-700" data-testid="retire-waiting">
+                  <span className="flex items-center gap-1 text-xs text-amber-700 lichen:text-lichen-text" data-testid="retire-waiting">
                     <Clock className="h-3.5 w-3.5" />
                     Waiting on {waiting} of {tenants.length}
                   </span>
                 ) : null}
               </div>
-              <ul className="max-h-56 divide-y divide-slate-100 overflow-y-auto px-4">
+              <ul className="max-h-56 divide-y divide-slate-100 overflow-y-auto px-4 lichen:divide-hairline">
                 {tenants.map((tenant) => (
                   <TenantRow key={tenant._id} tenant={tenant} />
                 ))}
               </ul>
-              <p className="border-t border-slate-100 px-4 py-2.5 text-xs leading-5 text-slate-500">
+              <p className="border-t border-slate-100 px-4 py-2.5 text-xs leading-5 text-slate-500 lichen:border-hairline lichen:text-meta">
                 Each tenant confirms in their portal. If someone has already left, move them out from the{' '}
-                <Link to="/dashboard/tenants" className="font-medium text-[#137fec] hover:underline">
+                <Link to="/dashboard/tenants" className="font-medium text-[#137fec] hover:underline lichen:text-lichen-text">
                   Tenants page
                 </Link>
                 .
@@ -195,7 +196,7 @@ export default function RetireDialog({
           {openRequests > 0 && check ? (
             <Link
               to={`/dashboard/requests?propertyId=${check.propertyId}`}
-              className="mt-3 flex items-center gap-2 rounded-xl border border-amber-100 bg-amber-50 px-4 py-3 text-sm text-amber-900 transition hover:border-amber-200"
+              className="mt-3 flex items-center gap-2 rounded-xl border border-amber-100 bg-amber-50 px-4 py-3 text-sm text-amber-900 transition hover:border-amber-200 lichen:rounded-lg lichen:border-lichen-line lichen:bg-lichen-tint lichen:text-lichen-text lichen:hover:border-lichen-line"
             >
               <Wrench className="h-4 w-4 shrink-0" />
               {openRequests} open job{openRequests === 1 ? '' : 's'} {target?.kind === 'unit' ? 'in this unit' : 'at this property'}.
@@ -204,10 +205,10 @@ export default function RetireDialog({
           ) : null}
         </div>
 
-        <DialogFooter className="gap-2 border-t border-slate-100 bg-slate-50/60 px-6 py-4 sm:gap-3">
+        <DialogFooter className="gap-2 border-t border-slate-100 bg-slate-50/60 px-6 py-4 sm:gap-3 lichen:border-hairline lichen:bg-well">
           <Button
             variant="outline"
-            className="flex-1 border-slate-200 bg-white"
+            className="flex-1 border-slate-200 bg-white lichen:border-hairline lichen:bg-card"
             disabled={Boolean(busy)}
             onClick={() => onOpenChange(false)}
           >
@@ -217,7 +218,7 @@ export default function RetireDialog({
           {tenants.length > 0 ? (
             <Button
               data-testid="retire-send-notice"
-              className="flex-1 bg-[#137fec] text-white hover:bg-[#137fec]/90"
+              className="flex-1 bg-[#137fec] text-white hover:bg-[#137fec]/90 lichen:bg-primary lichen:hover:bg-chip lichen:text-primary-foreground"
               disabled={Boolean(busy)}
               onClick={() => void sendNotice()}
             >
@@ -227,7 +228,7 @@ export default function RetireDialog({
           ) : check && !check.blocked ? (
             <Button
               data-testid="retire-confirm"
-              className="flex-1 bg-rose-600 text-white hover:bg-rose-700"
+              className="flex-1 bg-rose-600 text-white hover:bg-rose-700 lichen:bg-alert-text lichen:hover:bg-alert-text/90"
               disabled={Boolean(busy)}
               onClick={() => void retire()}
             >

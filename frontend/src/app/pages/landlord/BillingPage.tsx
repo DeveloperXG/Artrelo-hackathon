@@ -62,59 +62,59 @@ export default function BillingPage() {
     } finally { setBusy(false); }
   };
   return (
-    <PageContainer>
+    <PageContainer className="lichen-remainder min-w-0 [overflow-wrap:anywhere]">
       <PageHeader title="Artrelo billing" description="Service fees for verified completed jobs, collected in one monthly bill."
         actions={<Button variant="outline" onClick={() => void load()}><RefreshCw className="mr-2 h-4 w-4" />Refresh</Button>} />
-      {error ? <p role="alert" className="mb-4 rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-900">{error}</p> : null}
+      {error ? <p role="alert" className="mb-4 rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-900 lichen:rounded-lg lichen:border-alert-line lichen:bg-alert-tint lichen:text-alert-text">{error}</p> : null}
       {!data ? <Loader2 className="h-6 w-6 animate-spin" aria-label="Loading billing" /> : <>
-        <div className="mb-6 rounded-2xl border border-slate-200 bg-white p-5">
-          <p className="font-semibold text-slate-900">Vendor payments and Artrelo fees</p>
-          <p className="mt-2 text-sm leading-6 text-slate-600">Your Artrelo fee is assessed when work is verified complete. It applies whether you pay the vendor directly or use platform payouts. Marking a vendor paid updates their payment record; it does not start or delay your Artrelo fee.</p>
-          <p className="mt-2 text-sm text-slate-600">There is no subscription or monthly minimum. We bill completed-job fees on the first of the following month. A month without chargeable jobs has no new job fees.</p>
+        <div className="mb-6 rounded-2xl border border-slate-200 bg-white p-5 lichen:rounded-lg lichen:border-hairline lichen:bg-card">
+          <p className="font-semibold text-slate-900 lichen:text-ink">Vendor payments and Artrelo fees</p>
+          <p className="mt-2 text-sm leading-6 text-slate-600 lichen:text-meta">Your Artrelo fee is assessed when work is verified complete. It applies whether you pay the vendor directly or use platform payouts. Marking a vendor paid updates their payment record; it does not start or delay your Artrelo fee.</p>
+          <p className="mt-2 text-sm text-slate-600 lichen:text-meta">There is no subscription or monthly minimum. We bill completed-job fees on the first of the following month. A month without chargeable jobs has no new job fees.</p>
         </div>
-        {data.betaActive ? <p className="mb-5 rounded-xl bg-blue-50 p-4 text-sm text-blue-900">Your beta is free until {day(data.betaEndsAt)}. No card is required during beta, and beta bookings keep their waiver when they finish later.</p> : null}
-        {!data.collectionEnabled ? <p className="mb-5 rounded-xl bg-slate-100 p-4 text-sm text-slate-700">Automatic invoice collection has not started. Your pricing acceptance and saved card do not create a charge by themselves.</p> : null}
-        {!data.readiness.allowed ? <p className="mb-5 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm leading-6 text-amber-900">{reasons[data.readiness.reason || ''] || 'Billing needs your attention.'} Existing jobs, vendor payments, account access and emergency alerts remain available.</p> : null}
-        {data.hasDisputedInvoice ? <p className="mb-5 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">A disputed invoice needs review with Artrelo support. We do not automatically charge the disputed amount again; updating your card retries other unpaid invoices.</p> : null}
+        {data.betaActive ? <p className="mb-5 rounded-xl bg-blue-50 p-4 text-sm text-blue-900 lichen:rounded-lg lichen:bg-chip lichen:text-lichen-text">Your beta is free until {day(data.betaEndsAt)}. No card is required during beta, and beta bookings keep their waiver when they finish later.</p> : null}
+        {!data.collectionEnabled ? <p className="mb-5 rounded-xl bg-slate-100 p-4 text-sm text-slate-700 lichen:rounded-lg lichen:bg-chip lichen:text-ink">Automatic invoice collection has not started. Your pricing acceptance and saved card do not create a charge by themselves.</p> : null}
+        {!data.readiness.allowed ? <p className="mb-5 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm leading-6 text-amber-900 lichen:rounded-lg lichen:border-lichen-line lichen:bg-lichen-tint lichen:text-lichen-text">{reasons[data.readiness.reason || ''] || 'Billing needs your attention.'} Existing jobs, vendor payments, account access and emergency alerts remain available.</p> : null}
+        {data.hasDisputedInvoice ? <p className="mb-5 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900 lichen:rounded-lg lichen:border-lichen-line lichen:bg-lichen-tint lichen:text-lichen-text">A disputed invoice needs review with Artrelo support. We do not automatically charge the disputed amount again; updating your card retries other unpaid invoices.</p> : null}
         <div className="mb-6 grid gap-4 md:grid-cols-2">
-          <section className="rounded-2xl border border-slate-200 bg-white p-5">
+          <section className="rounded-2xl border border-slate-200 bg-white p-5 lichen:rounded-lg lichen:border-hairline lichen:bg-card">
             <h3 className="font-semibold">Your pricing and billing card</h3>
             {data.offer ? <>
               <p className="mt-2 text-lg font-semibold">{rateLabel(data.agreement?.rate || data.offer.rate)} per verified completed job</p>
-              <p className="mt-1 text-sm text-slate-500">Plus applicable tax. Earliest paid start: {day(data.offer.effectiveAt)}, after your beta and billing authorization.</p>
-            </> : <p className="mt-2 text-sm text-slate-600">We will send your exact fee at least 30 days before paid use begins. Your existing founding-rate commitments remain in place.</p>}
-            {data.card ? <p className="mt-4 flex items-center gap-2 text-sm"><CreditCard className="h-4 w-4" />{data.card.brand} ending in {data.card.last4}</p> : <p className="mt-4 text-sm text-slate-500">No billing card saved.</p>}
+              <p className="mt-1 text-sm text-slate-500 lichen:text-meta">Plus applicable tax. Earliest paid start: {day(data.offer.effectiveAt)}, after your beta and billing authorization.</p>
+            </> : <p className="mt-2 text-sm text-slate-600 lichen:text-meta">We will send your exact fee at least 30 days before paid use begins. Your existing founding-rate commitments remain in place.</p>}
+            {data.card ? <p className="mt-4 flex items-center gap-2 text-sm"><CreditCard className="h-4 w-4" />{data.card.brand} ending in {data.card.last4}</p> : <p className="mt-4 text-sm text-slate-500 lichen:text-meta">No billing card saved.</p>}
             {data.enabled && !data.betaActive && data.offer?.noticeSentAt ? <>
-              {!data.agreement ? <label className="mt-4 flex items-start gap-2 text-sm leading-6 text-slate-700">
+              {!data.agreement ? <label className="mt-4 flex items-start gap-2 text-sm leading-6 text-slate-700 lichen:text-ink">
                 <input type="checkbox" checked={accepted} onChange={(event) => setAccepted(event.target.checked)} className="mt-1.5" />
                 <span>I accept the pricing above and authorize monthly charges to my saved card and retries of unpaid invoices, including after a card update. After 14 days unpaid, new non-emergency bookings and outreach pause.</span>
-              </label> : <p className="mt-3 text-xs text-slate-500">Pricing accepted on {day(data.agreement.acceptedAt)}. Updating your card can retry outstanding invoices.</p>}
+              </label> : <p className="mt-3 text-xs text-slate-500 lichen:text-meta">Pricing accepted on {day(data.agreement.acceptedAt)}. Updating your card can retry outstanding invoices.</p>}
               <Button className="mt-4" disabled={busy || (!data.agreement && !accepted)} onClick={() => void saveCard()}>
                 {busy ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <CreditCard className="mr-2 h-4 w-4" />}
                 {data.card ? 'Update billing card' : 'Accept pricing and save card'}
               </Button>
             </> : null}
           </section>
-          <section className="rounded-2xl border border-slate-200 bg-white p-5">
+          <section className="rounded-2xl border border-slate-200 bg-white p-5 lichen:rounded-lg lichen:border-hairline lichen:bg-card">
             <h3 className="font-semibold">Not yet invoiced</h3>
             <p className="mt-3 text-3xl font-bold">{money(data.accruedCents)}</p>
-            <p className="mt-2 text-sm text-slate-500">Approved fees waiting for a monthly invoice. Small balances below the payment minimum carry forward.</p>
-            <p className="mt-3 text-sm text-slate-600">Waived fees in this list: {money(data.waivedCents)}</p>
+            <p className="mt-2 text-sm text-slate-500 lichen:text-meta">Approved fees waiting for a monthly invoice. Small balances below the payment minimum carry forward.</p>
+            <p className="mt-3 text-sm text-slate-600 lichen:text-meta">Waived fees in this list: {money(data.waivedCents)}</p>
           </section>
         </div>
-        <section className="mb-6 rounded-2xl border border-slate-200 bg-white p-5">
+        <section className="mb-6 rounded-2xl border border-slate-200 bg-white p-5 lichen:rounded-lg lichen:border-hairline lichen:bg-card">
           <h3 className="mb-3 flex items-center gap-2 font-semibold"><FileText className="h-4 w-4" />Invoices</h3>
           {data.invoices.length ? <div className="divide-y">{data.invoices.map((invoice) => <div key={invoice.ref} className="flex flex-wrap items-center justify-between gap-3 py-3 text-sm">
-            <div><p className="font-medium">{invoice.period} · {invoice.status}</p><p className="text-slate-500">{money(invoice.status === 'creating' ? invoice.subtotalCents : invoice.totalCents)}{invoice.refundedCents > 0 ? ` · ${money(invoice.refundedCents)} refunded` : ''}</p></div>
-            <div className="flex gap-4">{invoice.hostedUrl ? <a href={invoice.hostedUrl} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-700 underline">{invoice.status === 'open' ? 'Pay or view invoice' : 'View invoice'}</a> : null}{invoice.pdfUrl ? <a href={invoice.pdfUrl} target="_blank" rel="noopener noreferrer" className="text-blue-700 underline">PDF</a> : null}</div>
-          </div>)}</div> : <p className="text-sm text-slate-500">No invoices yet.</p>}
+            <div><p className="font-medium">{invoice.period} · {invoice.status}</p><p className="text-slate-500 lichen:text-meta">{money(invoice.status === 'creating' ? invoice.subtotalCents : invoice.totalCents)}{invoice.refundedCents > 0 ? ` · ${money(invoice.refundedCents)} refunded` : ''}</p></div>
+            <div className="flex gap-4">{invoice.hostedUrl ? <a href={invoice.hostedUrl} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-700 underline lichen:text-lichen-text">{invoice.status === 'open' ? 'Pay or view invoice' : 'View invoice'}</a> : null}{invoice.pdfUrl ? <a href={invoice.pdfUrl} target="_blank" rel="noopener noreferrer" className="text-blue-700 underline lichen:text-lichen-text">PDF</a> : null}</div>
+          </div>)}</div> : <p className="text-sm text-slate-500 lichen:text-meta">No invoices yet.</p>}
         </section>
-        <section className="rounded-2xl border border-slate-200 bg-white p-5">
+        <section className="rounded-2xl border border-slate-200 bg-white p-5 lichen:rounded-lg lichen:border-hairline lichen:bg-card">
           <h3 className="mb-3 font-semibold">Completed-job fees awaiting invoicing</h3>
           {data.assessments.length ? <div className="divide-y">{data.assessments.map((fee) => <div key={fee.ref} className="flex flex-wrap justify-between gap-2 py-3 text-sm">
-            <span>{fee.source === 'legacy' ? 'Previously outstanding service fees' : `Job ${fee.jobRef}`} <span className="text-slate-500">· {day(fee.closedAt)}</span></span>
+            <span>{fee.source === 'legacy' ? 'Previously outstanding service fees' : `Job ${fee.jobRef}`} <span className="text-slate-500 lichen:text-meta">· {day(fee.closedAt)}</span></span>
             <span>{fee.waivedReason ? (waiverLabels[fee.waivedReason] || 'Fee waived') : money(fee.feeCents)}</span>
-          </div>)}</div> : <p className="text-sm text-slate-500">Verified completions will appear here.</p>}
+          </div>)}</div> : <p className="text-sm text-slate-500 lichen:text-meta">Verified completions will appear here.</p>}
         </section>
       </>}
     </PageContainer>

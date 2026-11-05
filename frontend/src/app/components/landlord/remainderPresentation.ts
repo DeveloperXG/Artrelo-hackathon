@@ -1,0 +1,3 @@
+// Explicit presentation scope for the six final landlord pages and their portals.
+// No route, role, focus, state or domain authority is provided by these classes.
+export const REMAINDER_PORTAL = 'lichen lichen-light lichen-remainder font-sans text-ink max-w-[calc(100vw-2rem)] [&_button]:whitespace-normal [&_button]:[overflow-wrap:anywhere] [&_button]:h-auto [&_button]:min-h-8 [&_:is(button,a,input,textarea,select,summary)]:focus-visible:outline-solid [&_:is(button,a,input,textarea,select,summary)]:focus-visible:outline-2 [&_:is(button,a,input,textarea,select,summary)]:focus-visible:outline-offset-2 [&_:is(button,a,input,textarea,select,summary)]:focus-visible:outline-ring';
